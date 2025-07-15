@@ -38,78 +38,303 @@
             android:visibility="gone"
             android:layout_marginTop="8dp" />
 
-        <EditText
-            android:id="@+id/editDasar"
+        <LinearLayout
+            android:id="@+id/layoutDasar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_dasar"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editTersangka"
+            <EditText
+                android:id="@+id/editDasar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_dasar" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteDasar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearDasar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTersangka"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_tersangka"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editTKP"
+            <EditText
+                android:id="@+id/editTersangka"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_tersangka" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteTersangka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearTersangka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTKP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_tkp"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editKronologi"
+            <EditText
+                android:id="@+id/editTKP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_tkp" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteTKP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearTKP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutKronologi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_kronologi"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editModus"
+            <EditText
+                android:id="@+id/editKronologi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_kronologi" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteKronologi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearKronologi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutModus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_modus"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editBarangBukti"
+            <EditText
+                android:id="@+id/editModus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_modus" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteModus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearModus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutBarangBukti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_barang_bukti"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editPasal"
+            <EditText
+                android:id="@+id/editBarangBukti"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_barang_bukti" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteBarangBukti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearBarangBukti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPasal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_pasal"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editAncaman"
+            <EditText
+                android:id="@+id/editPasal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_pasal" />
+
+            <ImageButton
+                android:id="@+id/buttonPastePasal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearPasal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAncaman"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_ancaman"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/editAncaman"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_ancaman" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteAncaman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearAncaman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
 
 
-        <EditText
-            android:id="@+id/editNotes"
+        <LinearLayout
+            android:id="@+id/layoutNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_notes"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/editNotes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_notes" />
+
+            <ImageButton
+                android:id="@+id/buttonPasteNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_paste"
+                android:contentDescription="@string/action_paste"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/buttonClearNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:contentDescription="@string/action_clear"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </LinearLayout>
 
 
         <ImageButton
