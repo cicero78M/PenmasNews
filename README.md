@@ -15,3 +15,7 @@ repository, build and run it using Android Studio with the SDK installed.
 ```
 
 Open the project in Android Studio to edit and run on a device or emulator.
+
+## Dokumentasi Desain
+
+- [Kalender Editorial & Ide](docs/editorial_calendar.md)
