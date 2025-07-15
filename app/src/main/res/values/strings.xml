@@ -7,4 +7,12 @@
     <string name="feature_workflow_approval">Workflow Approval</string>
     <string name="feature_cms_integration">Integrasi CMS &amp; Sosial Media</string>
     <string name="feature_analytics">Analitik &amp; Umpan Balik</string>
+    <string name="desc_home">Tampilan awal berisi daftar tombol menuju setiap fitur.\nMenjadi hub utama untuk berpindah ke Kalender Editorial, Penulisan Kolaboratif, Asistensi AI, Manajemen Aset, Workflow Approval, Integrasi CMS, dan Analitik.</string>
+    <string name="desc_editorial_calendar">Menampilkan daftar atau kalender berisi ide topik, penjadwalan, penugasan, dan status.\nDari halaman ini pengguna dapat membuka dokumen di Penulisan Kolaboratif atau menetapkan proses ke Workflow Approval.</string>
+    <string name="desc_collaborative_editor">Editor teks bersama dengan dukungan komentar, histori, dan track changes.\nDapat diakses dari Kalender Editorial maupun langsung dari Beranda.\nSetelah selesai, draf dikirim ke Workflow Approval.</string>
+    <string name="desc_ai_helper">Fitur opsional yang membantu peringkasan, saran judul, dan pengecekan bahasa.\nDipanggil dari dalam Penulisan Kolaboratif atau dari Beranda untuk kebutuhan terpisah.</string>
+    <string name="desc_asset_manager">Halaman pengunggahan serta katalog gambar, video, dan dokumen.\nFile yang dipilih bisa disisipkan ke artikel pada Penulisan Kolaboratif.</string>
+    <string name="desc_workflow_manager">Memuat daftar draf dengan status draft, review, hingga final.\nSetiap entri dapat dibuka kembali di Penulisan Kolaboratif jika perlu revisi.\nSetelah disetujui, konten diteruskan ke Integrasi CMS.</string>
+    <string name="desc_cms_integration">Menyediakan opsi publikasi ke situs web dan berbagai kanal sosial.\nSelesai publikasi, sistem mengarahkan pengguna untuk melihat Analitik.</string>
+    <string name="desc_analytics_dashboard">Dashboard metrik performa artikel dan umpan balik pembaca.\nRekomendasi topik baru dapat langsung ditambahkan ke Kalender Editorial.</string>
 </resources>
