@@ -44,7 +44,7 @@ class AIHelperActivity : AppCompatActivity() {
 
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
-        docButton.setOnClickListener { pickFile("application/msword", pickDoc) }
+        docButton.setOnClickListener { pickDocFile() }
         pdfButton.setOnClickListener { pickFile("application/pdf", pickPdf) }
         imageButton.setOnClickListener { pickFile("image/*", pickImage) }
 
@@ -79,6 +79,20 @@ class AIHelperActivity : AppCompatActivity() {
         startActivityForResult(intent, request)
     }
 
+    private fun pickDocFile() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "*/*"
+            putExtra(
+                Intent.EXTRA_MIME_TYPES,
+                arrayOf(
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                )
+            )
+        }
+        startActivityForResult(intent, pickDoc)
+    }
+
     private fun readFileText(uri: Uri): String {
         return try {
             contentResolver.openInputStream(uri)?.use { stream ->
@@ -97,7 +111,8 @@ class AIHelperActivity : AppCompatActivity() {
         when (requestCode) {
             pickDoc -> {
                 findViewById<TextView>(R.id.textDoc).text = name
-                val text = readFileText(uri)
+                val mime = contentResolver.getType(uri)
+                val text = if (mime == "application/msword") readFileText(uri) else ""
                 findViewById<EditText>(R.id.editInputText).setText(text)
             }
             pickPdf -> findViewById<TextView>(R.id.textPdf).text = name
