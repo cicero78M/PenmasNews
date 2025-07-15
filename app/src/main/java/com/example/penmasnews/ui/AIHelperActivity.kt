@@ -17,6 +17,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.concurrent.TimeUnit
 import org.json.JSONArray
 import org.json.JSONObject
 import androidx.appcompat.app.AppCompatActivity
@@ -183,7 +184,11 @@ class AIHelperActivity : AppCompatActivity() {
             """.trimIndent()
             Thread {
                 try {
-                    val client = OkHttpClient()
+                    val client = OkHttpClient.Builder()
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .writeTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .build()
                     val obj = JSONObject()
                     obj.put("model", "gpt-4o-mini")
                     val msgs = JSONArray()
