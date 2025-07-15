@@ -16,9 +16,11 @@
     <string name="desc_cms_integration">Menyediakan opsi publikasi ke situs web dan berbagai kanal sosial.\nSelesai publikasi, sistem mengarahkan pengguna untuk melihat Analitik.</string>
     <string name="desc_analytics_dashboard">Dashboard metrik performa artikel dan umpan balik pembaca.\nRekomendasi topik baru dapat langsung ditambahkan ke Kalender Editorial.</string>
     <!-- common form hints -->
-    <string name="hint_date">Tanggal</string>
+    <string name="hint_date">Penjadwalan: Tanggal dan waktu publikasi yang direncanakan</string>
     <string name="hint_notes">Catatan</string>
-    <string name="hint_topic">Ide atau Topik</string>
+    <string name="hint_topic">Ide Topik: Catatan singkat tentang gagasan artikel</string>
+    <string name="hint_assignee">Penugasan: Tautan ke penulis, editor, atau tim terkait</string>
+    <string name="hint_status">Status (ide, dalam penulisan, review, siap publish)</string>
     <string name="action_add">Tambah</string>
     <string name="action_save">Simpan</string>
 </resources>

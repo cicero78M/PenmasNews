@@ -24,7 +24,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val topicEdit = findViewById<EditText>(R.id.editTopic)
-        val notesEdit = findViewById<EditText>(R.id.editNotes)
+        val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
+        val statusEdit = findViewById<EditText>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
@@ -32,7 +33,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         dateEdit.setText(prefs.getString("date", ""))
         topicEdit.setText(prefs.getString("topic", ""))
-        notesEdit.setText(prefs.getString("notes", ""))
+        assigneeEdit.setText(prefs.getString("assignee", ""))
+        statusEdit.setText(prefs.getString("status", ""))
 
         val events = loadEvents(prefs).ifEmpty {
             mutableListOf(
@@ -52,8 +54,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
-                "",
-                notesEdit.text.toString()
+                assigneeEdit.text.toString(),
+                statusEdit.text.toString()
             )
             eventsList.add(event)
             saveEvents(prefs, eventsList)
@@ -61,7 +63,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
             prefs.edit()
                 .putString("date", dateEdit.text.toString())
                 .putString("topic", topicEdit.text.toString())
-                .putString("notes", notesEdit.text.toString())
+                .putString("assignee", assigneeEdit.text.toString())
+                .putString("status", statusEdit.text.toString())
                 .apply()
         }
 
@@ -69,7 +72,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
             prefs.edit()
                 .putString("date", dateEdit.text.toString())
                 .putString("topic", topicEdit.text.toString())
-                .putString("notes", notesEdit.text.toString())
+                .putString("assignee", assigneeEdit.text.toString())
+                .putString("status", statusEdit.text.toString())
                 .apply()
         }
     }

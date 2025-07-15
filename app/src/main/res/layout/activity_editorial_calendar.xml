@@ -44,10 +44,17 @@
             android:layout_marginTop="8dp" />
 
         <EditText
-            android:id="@+id/editNotes"
+            android:id="@+id/editAssignee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_notes"
+            android:hint="@string/hint_assignee"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_status"
             android:layout_marginTop="8dp" />
 
         <Button
