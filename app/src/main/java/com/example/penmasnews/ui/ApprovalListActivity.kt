@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.ApprovalStorage
-import com.example.penmasnews.ui.EditorialCalendarAdapter
+import com.example.penmasnews.ui.ApprovalListAdapter
 
 class ApprovalListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,9 @@ class ApprovalListActivity : AppCompatActivity() {
         val prefs = getSharedPreferences(ApprovalStorage.PREFS_NAME, MODE_PRIVATE)
         val events = ApprovalStorage.loadEvents(prefs)
 
-        val adapter = EditorialCalendarAdapter(events)
+        val adapter = ApprovalListAdapter(events) {
+            ApprovalStorage.saveEvents(prefs, events)
+        }
         recyclerView.adapter = adapter
     }
 }

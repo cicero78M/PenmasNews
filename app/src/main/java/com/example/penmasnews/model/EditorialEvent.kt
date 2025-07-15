@@ -7,7 +7,7 @@ data class EditorialEvent(
     val date: String,
     val topic: String,
     val assignee: String,
-    val status: String,
+    var status: String,
     val content: String = "",
     val summary: String = ""
 )

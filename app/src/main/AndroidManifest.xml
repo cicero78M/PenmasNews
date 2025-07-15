@@ -17,7 +17,6 @@
         <activity android:name=".ui.CollaborativeEditorActivity" />
         <activity android:name=".ui.AIHelperActivity" />
         <activity android:name=".ui.AssetManagerActivity" />
-        <activity android:name=".ui.WorkflowManagerActivity" />
         <activity android:name=".ui.CMSIntegrationActivity" />
         <activity android:name=".ui.AnalyticsDashboardActivity" />
         <activity android:name=".ui.ApprovalListActivity" />
