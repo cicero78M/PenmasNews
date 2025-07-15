@@ -6,10 +6,10 @@ Halaman kalender editorial berfungsi sebagai pusat perencanaan konten.
 
 Modul ini menampilkan kalender harian, mingguan, atau bulanan yang memuat:
 
-- **Ide Topik**: catatan singkat atau link riset.
-- **Penjadwalan**: tanggal dan waktu publikasi.
-- **Penugasan**: reporter/editor yang bertanggung jawab.
-- **Status**: label proses seperti _draft_, _review_, hingga _publish_.
+- **Ide Topik**: Catatan singkat tentang gagasan artikel.
+- **Penjadwalan**: Tanggal dan waktu publikasi yang direncanakan.
+- **Penugasan**: Tautan ke penulis, editor, atau tim terkait.
+- **Status**: Label (misal: ide, dalam penulisan, review, siap publish).
 
 ## Fungsi Utama
 
