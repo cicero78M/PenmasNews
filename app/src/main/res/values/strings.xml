@@ -15,4 +15,8 @@
     <string name="desc_workflow_manager">Memuat daftar draf dengan status draft, review, hingga final.\nSetiap entri dapat dibuka kembali di Penulisan Kolaboratif jika perlu revisi.\nSetelah disetujui, konten diteruskan ke Integrasi CMS.</string>
     <string name="desc_cms_integration">Menyediakan opsi publikasi ke situs web dan berbagai kanal sosial.\nSelesai publikasi, sistem mengarahkan pengguna untuk melihat Analitik.</string>
     <string name="desc_analytics_dashboard">Dashboard metrik performa artikel dan umpan balik pembaca.\nRekomendasi topik baru dapat langsung ditambahkan ke Kalender Editorial.</string>
+    <!-- common form hints -->
+    <string name="hint_date">Tanggal</string>
+    <string name="hint_notes">Catatan</string>
+    <string name="action_save">Simpan</string>
 </resources>
