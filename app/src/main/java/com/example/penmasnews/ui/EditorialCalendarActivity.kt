@@ -25,8 +25,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val statusEdit = findViewById<EditText>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
-        val clearButton = findViewById<Button>(R.id.buttonClearAll)
-        val saveButton = findViewById<Button>(R.id.buttonSave)
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
@@ -76,15 +74,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
             statusEdit.text.clear()
         }
 
-        clearButton.setOnClickListener {
-            events.clear()
-            EventStorage.saveEvents(prefs, events)
-            adapter.notifyDataSetChanged()
-        }
-
-        saveButton.setOnClickListener {
-            EventStorage.saveEvents(prefs, events)
-        }
     }
 
     private fun showDatePicker(target: EditText) {

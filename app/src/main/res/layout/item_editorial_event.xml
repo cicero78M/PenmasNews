@@ -10,37 +10,28 @@
         android:id="@+id/textDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="2dp"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/textNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="2dp"
+        android:textSize="14sp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <Button
+        android:id="@+id/buttonAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
-
-        <Button
-            android:id="@+id/buttonOpen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_open" />
-
-        <Button
-            android:id="@+id/buttonDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_clear" />
-    </LinearLayout>
+        android:layout_marginTop="4dp"
+        android:text="@string/dialog_actions" />
 
 </LinearLayout>
