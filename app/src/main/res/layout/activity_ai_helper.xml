@@ -37,6 +37,52 @@
             android:hint="@string/hint_notes"
             android:layout_marginTop="8dp" />
 
+        <EditText
+            android:id="@+id/editInputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_input_text"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/textDoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_no_file"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonChooseDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_choose_doc" />
+
+        <TextView
+            android:id="@+id/textPdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_no_file"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonChoosePdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_choose_pdf" />
+
+        <TextView
+            android:id="@+id/textImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_no_file"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonChooseImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_choose_image" />
+
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
