@@ -9,14 +9,14 @@ import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
 
 class EditorialCalendarAdapter(
-    private val items: MutableList<EditorialEvent>
+    private val items: MutableList<EditorialEvent>,
+    private val onItemClick: ((EditorialEvent) -> Unit)? = null
 ) : RecyclerView.Adapter<EditorialCalendarAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dateText: TextView = view.findViewById(R.id.textDate)
-        val topicText: TextView = view.findViewById(R.id.textTopic)
-        val assigneeText: TextView = view.findViewById(R.id.textAssignee)
-        val statusText: TextView = view.findViewById(R.id.textStatus)
+        val titleText: TextView = view.findViewById(R.id.textTitle)
+        val notesText: TextView = view.findViewById(R.id.textNotes)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,9 +28,9 @@ class EditorialCalendarAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.dateText.text = item.date
-        holder.topicText.text = item.topic
-        holder.assigneeText.text = item.assignee
-        holder.statusText.text = item.status
+        holder.titleText.text = item.topic
+        holder.notesText.text = item.assignee
+        holder.itemView.setOnClickListener { onItemClick?.invoke(item) }
     }
 
     override fun getItemCount(): Int = items.size

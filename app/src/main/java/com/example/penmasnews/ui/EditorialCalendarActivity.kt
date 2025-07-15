@@ -44,7 +44,21 @@ class EditorialCalendarActivity : AppCompatActivity() {
             )
         }
 
-        val adapter = EditorialCalendarAdapter(events)
+        val aiPrefs = getSharedPreferences("AIHelperActivity", MODE_PRIVATE)
+        val aiTitle = aiPrefs.getString("input", "") ?: ""
+        val aiNotes = aiPrefs.getString("notes", "") ?: ""
+        val aiDate = aiPrefs.getString("date", "") ?: ""
+        val aiGenerated = aiPrefs.getString("generated", "") ?: ""
+        if (aiTitle.isNotEmpty() || aiNotes.isNotEmpty()) {
+            events.add(0, EditorialEvent(aiDate, aiTitle, aiNotes, aiGenerated))
+        }
+
+        val adapter = EditorialCalendarAdapter(events) { event ->
+            val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
+            intent.putExtra("date", event.date)
+            intent.putExtra("notes", event.status)
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
 
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }

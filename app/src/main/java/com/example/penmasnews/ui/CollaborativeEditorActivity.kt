@@ -19,8 +19,18 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences(javaClass.simpleName, MODE_PRIVATE)
 
-        dateEdit.setText(prefs.getString("date", ""))
-        notesEdit.setText(prefs.getString("notes", ""))
+        val intentDate = intent.getStringExtra("date")
+        val intentNotes = intent.getStringExtra("notes")
+        if (intentDate != null) {
+            dateEdit.setText(intentDate)
+        } else {
+            dateEdit.setText(prefs.getString("date", ""))
+        }
+        if (intentNotes != null) {
+            notesEdit.setText(intentNotes)
+        } else {
+            notesEdit.setText(prefs.getString("notes", ""))
+        }
 
         dateEdit.setOnClickListener {
             showDatePicker(dateEdit)
