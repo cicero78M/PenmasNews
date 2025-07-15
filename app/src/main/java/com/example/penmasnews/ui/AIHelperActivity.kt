@@ -18,6 +18,7 @@ class AIHelperActivity : AppCompatActivity() {
     private val pickDoc = 100
     private val pickPdf = 101
     private val pickImage = 102
+    private var docUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ai_helper)
@@ -29,6 +30,7 @@ class AIHelperActivity : AppCompatActivity() {
         val pdfText = findViewById<TextView>(R.id.textPdf)
         val imageText = findViewById<TextView>(R.id.textImage)
         val docButton = findViewById<Button>(R.id.buttonChooseDoc)
+        val readDocButton = findViewById<Button>(R.id.buttonReadDoc)
         val pdfButton = findViewById<Button>(R.id.buttonChoosePdf)
         val imageButton = findViewById<Button>(R.id.buttonChooseImage)
         val saveButton = findViewById<Button>(R.id.buttonSave)
@@ -45,6 +47,12 @@ class AIHelperActivity : AppCompatActivity() {
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
         docButton.setOnClickListener { pickDocFile() }
+        readDocButton.setOnClickListener {
+            docUri?.let { uri ->
+                val text = readFileText(uri)
+                inputEdit.setText(text)
+            }
+        }
         pdfButton.setOnClickListener { pickFile("application/pdf", pickPdf) }
         imageButton.setOnClickListener { pickFile("image/*", pickImage) }
 
@@ -110,10 +118,8 @@ class AIHelperActivity : AppCompatActivity() {
         val name = uri.lastPathSegment ?: uri.toString()
         when (requestCode) {
             pickDoc -> {
+                docUri = uri
                 findViewById<TextView>(R.id.textDoc).text = name
-                val mime = contentResolver.getType(uri)
-                val text = if (mime == "application/msword") readFileText(uri) else ""
-                findViewById<EditText>(R.id.editInputText).setText(text)
             }
             pickPdf -> findViewById<TextView>(R.id.textPdf).text = name
             pickImage -> findViewById<TextView>(R.id.textImage).text = name
