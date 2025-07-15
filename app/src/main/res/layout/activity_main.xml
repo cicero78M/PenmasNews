@@ -1,15 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/helloText"
-        android:text="Penmas News"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/helloText"
+            android:text="@string/app_name"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp" />
+
+        <Button
+            android:id="@+id/buttonEditorialCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_editorial_calendar" />
+
+        <Button
+            android:id="@+id/buttonCollaborative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_collaborative_writing"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonAIHelper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_ai_assistance"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonAssetManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_asset_management"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonWorkflow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_workflow_approval"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonCMS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_cms_integration"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonAnalytics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_analytics"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>
