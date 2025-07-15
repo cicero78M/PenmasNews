@@ -43,4 +43,5 @@
     <string name="hint_suggested_title">Saran Judul Berita</string>
     <string name="hint_generated_narrative">Narasi Hasil AI</string>
     <string name="hint_generated_summary">Ringkasan Hasil AI</string>
+    <string name="action_request_approval">Minta Persetujuan</string>
 </resources>

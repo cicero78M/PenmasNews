@@ -20,6 +20,7 @@
         <activity android:name=".ui.WorkflowManagerActivity" />
         <activity android:name=".ui.CMSIntegrationActivity" />
         <activity android:name=".ui.AnalyticsDashboardActivity" />
+        <activity android:name=".ui.ApprovalListActivity" />
     </application>
 
 </manifest>

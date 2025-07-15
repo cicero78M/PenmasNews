@@ -3,7 +3,7 @@ package com.example.penmasnews.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +20,7 @@ class EditorialCalendarAdapter(
         val dateText: TextView = view.findViewById(R.id.textDate)
         val titleText: TextView = view.findViewById(R.id.textTitle)
         val notesText: TextView = view.findViewById(R.id.textNotes)
-        val actionButton: Button = view.findViewById(R.id.buttonAction)
+        val actionButton: ImageButton = view.findViewById(R.id.buttonAction)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
