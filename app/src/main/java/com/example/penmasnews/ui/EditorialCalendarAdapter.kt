@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
@@ -19,8 +20,7 @@ class EditorialCalendarAdapter(
         val dateText: TextView = view.findViewById(R.id.textDate)
         val titleText: TextView = view.findViewById(R.id.textTitle)
         val notesText: TextView = view.findViewById(R.id.textNotes)
-        val openButton: Button = view.findViewById(R.id.buttonOpen)
-        val deleteButton: Button = view.findViewById(R.id.buttonDelete)
+        val actionButton: Button = view.findViewById(R.id.buttonAction)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,11 +34,28 @@ class EditorialCalendarAdapter(
         holder.dateText.text = item.date
         holder.titleText.text = item.topic
         holder.notesText.text = item.assignee
-        holder.openButton.setOnClickListener { onOpen?.invoke(item) }
-        holder.deleteButton.setOnClickListener {
-            items.removeAt(position)
-            notifyItemRemoved(position)
-            onDelete?.invoke(position)
+
+        holder.itemView.setBackgroundResource(
+            if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd
+        )
+
+        holder.actionButton.setOnClickListener {
+            AlertDialog.Builder(holder.itemView.context)
+                .setTitle(R.string.dialog_actions)
+                .setItems(arrayOf(
+                    holder.itemView.context.getString(R.string.action_open),
+                    holder.itemView.context.getString(R.string.action_delete)
+                )) { _, which ->
+                    when (which) {
+                        0 -> onOpen?.invoke(item)
+                        1 -> {
+                            items.removeAt(position)
+                            notifyItemRemoved(position)
+                            onDelete?.invoke(position)
+                        }
+                    }
+                }
+                .show()
         }
     }
 
