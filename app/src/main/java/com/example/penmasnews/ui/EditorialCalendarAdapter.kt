@@ -9,7 +9,7 @@ import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
 
 class EditorialCalendarAdapter(
-    private val items: List<EditorialEvent>
+    private val items: MutableList<EditorialEvent>
 ) : RecyclerView.Adapter<EditorialCalendarAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,4 +34,9 @@ class EditorialCalendarAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun addItem(event: EditorialEvent) {
+        items.add(event)
+        notifyItemInserted(items.size - 1)
+    }
 }

@@ -18,5 +18,7 @@
     <!-- common form hints -->
     <string name="hint_date">Tanggal</string>
     <string name="hint_notes">Catatan</string>
+    <string name="hint_topic">Ide atau Topik</string>
+    <string name="action_add">Tambah</string>
     <string name="action_save">Simpan</string>
 </resources>
