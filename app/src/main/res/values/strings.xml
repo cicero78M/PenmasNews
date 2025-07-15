@@ -25,6 +25,7 @@
     <string name="action_save">Simpan</string>
     <string name="hint_input_text">Masukan teks</string>
     <string name="button_choose_doc">Pilih Dokumen</string>
+    <string name="button_read_doc">Baca Dokumen</string>
     <string name="button_choose_pdf">Pilih PDF</string>
     <string name="button_choose_image">Pilih Gambar</string>
     <string name="label_no_file">Belum ada file dipilih</string>
