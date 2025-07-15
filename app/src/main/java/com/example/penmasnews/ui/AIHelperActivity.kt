@@ -3,6 +3,7 @@ package com.example.penmasnews.ui
 import android.app.DatePickerDialog
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -10,6 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import java.util.Calendar
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class AIHelperActivity : AppCompatActivity() {
     private val pickDoc = 100
@@ -76,13 +79,27 @@ class AIHelperActivity : AppCompatActivity() {
         startActivityForResult(intent, request)
     }
 
+    private fun readFileText(uri: Uri): String {
+        return try {
+            contentResolver.openInputStream(uri)?.use { stream ->
+                BufferedReader(InputStreamReader(stream)).readText()
+            } ?: ""
+        } catch (_: Exception) {
+            ""
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
         val uri = data?.data ?: return
         val name = uri.lastPathSegment ?: uri.toString()
         when (requestCode) {
-            pickDoc -> findViewById<TextView>(R.id.textDoc).text = name
+            pickDoc -> {
+                findViewById<TextView>(R.id.textDoc).text = name
+                val text = readFileText(uri)
+                findViewById<EditText>(R.id.editInputText).setText(text)
+            }
             pickPdf -> findViewById<TextView>(R.id.textPdf).text = name
             pickImage -> findViewById<TextView>(R.id.textImage).text = name
         }
