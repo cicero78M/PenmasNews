@@ -44,8 +44,10 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val adapter = EditorialCalendarAdapter(events,
             onOpen = { event ->
                 val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
-                intent.putExtra("date", event.date)
-                intent.putExtra("notes", event.content)
+                intent.putExtra("title", event.topic)
+                intent.putExtra("content", event.content)
+                intent.putExtra("assignee", event.assignee)
+                intent.putExtra("status", event.status)
                 startActivity(intent)
             },
             onDelete = { index ->

@@ -126,7 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_generate"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/textGenerated"
@@ -139,6 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_save"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
