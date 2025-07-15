@@ -92,7 +92,30 @@ class AIHelperActivity : AppCompatActivity() {
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
-        val fields = listOf(
+        val layoutDasar = findViewById<android.view.View>(R.id.layoutDasar)
+        val layoutTersangka = findViewById<android.view.View>(R.id.layoutTersangka)
+        val layoutTKP = findViewById<android.view.View>(R.id.layoutTKP)
+        val layoutKronologi = findViewById<android.view.View>(R.id.layoutKronologi)
+        val layoutModus = findViewById<android.view.View>(R.id.layoutModus)
+        val layoutBarangBukti = findViewById<android.view.View>(R.id.layoutBarangBukti)
+        val layoutPasal = findViewById<android.view.View>(R.id.layoutPasal)
+        val layoutAncaman = findViewById<android.view.View>(R.id.layoutAncaman)
+        val layoutNotes = findViewById<android.view.View>(R.id.layoutNotes)
+
+        val fields = listOf<android.view.View>(
+            inputEdit,
+            layoutDasar,
+            layoutTersangka,
+            layoutTKP,
+            layoutKronologi,
+            layoutModus,
+            layoutBarangBukti,
+            layoutPasal,
+            layoutAncaman,
+            layoutNotes,
+        )
+
+        val textFields = listOf(
             inputEdit,
             dasarEdit,
             tersangkaEdit,
@@ -104,11 +127,12 @@ class AIHelperActivity : AppCompatActivity() {
             ancamanEdit,
             notesEdit,
         )
+
         fun checkReady() {
-            val ready = fields.all { it.visibility == android.view.View.VISIBLE && it.text.isNotBlank() }
+            val ready = textFields.all { it.visibility == android.view.View.VISIBLE && it.text.isNotBlank() }
             generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
         }
-        fields.forEach { field ->
+        textFields.forEach { field ->
             field.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) { checkReady() }
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -119,7 +143,7 @@ class AIHelperActivity : AppCompatActivity() {
         addColumnButton.setOnClickListener {
             if (currentIndex < fields.size) {
                 fields[currentIndex].visibility = android.view.View.VISIBLE
-                fields[currentIndex].requestFocus()
+                textFields[currentIndex].requestFocus()
                 currentIndex++
                 if (currentIndex >= fields.size) {
                     addColumnButton.visibility = android.view.View.GONE
