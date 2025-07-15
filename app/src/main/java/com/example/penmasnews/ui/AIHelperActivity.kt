@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ImageButton
+import android.text.Editable
+import android.text.TextWatcher
 import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
@@ -54,7 +56,18 @@ class AIHelperActivity : AppCompatActivity() {
             pasalEdit,
             ancamanEdit,
             notesEdit,
-            )
+        )
+        fun checkReady() {
+            val ready = fields.all { it.visibility == android.view.View.VISIBLE && it.text.isNotBlank() }
+            generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
+        }
+        fields.forEach { field ->
+            field.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) { checkReady() }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
+        }
         var currentIndex = 0
         addColumnButton.setOnClickListener {
             if (currentIndex < fields.size) {
@@ -65,7 +78,10 @@ class AIHelperActivity : AppCompatActivity() {
                     addColumnButton.visibility = android.view.View.GONE
                 }
             }
+            checkReady()
         }
+        generateButton.visibility = android.view.View.GONE
+        saveButton.visibility = android.view.View.GONE
 
         generateButton.setOnClickListener {
             val apiKey = BuildConfig.OPENAI_API_KEY.ifBlank {
@@ -79,6 +95,9 @@ class AIHelperActivity : AppCompatActivity() {
                 Anda seorang jurnalis profesional. Berdasarkan informasi di bawah
                 ini, tulislah narasi berita berbahasa Indonesia yang mengikuti
                 kaidah jurnalistik secara baik, mengalir, lues dan informatif.
+
+                Setelah narasi lengkap, berikan ringkasan singkat dengan diawali
+                label 'Ringkasan:'.
 
                 Judul: ${inputEdit.text}
                 Dasar: ${dasarEdit.text}
@@ -109,8 +128,15 @@ class AIHelperActivity : AppCompatActivity() {
                         .post(body)
                         .build()
                     val response = client.newCall(request).execute()
-                    val generated = JSONObject(response.body?.string() ?: "{}").getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content")
-                    runOnUiThread { outputText.text = generated }
+                    val generated = JSONObject(response.body?.string() ?: "{}")
+                        .getJSONArray("choices")
+                        .getJSONObject(0)
+                        .getJSONObject("message")
+                        .getString("content")
+                    runOnUiThread {
+                        outputText.text = generated
+                        saveButton.visibility = android.view.View.VISIBLE
+                    }
                 } catch (e: Exception) {
                     runOnUiThread { outputText.text = "Error: ${e.message}" }
                 }
@@ -119,12 +145,17 @@ class AIHelperActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val events = EventStorage.loadEvents(prefs)
+            val generated = outputText.text.toString()
+            val parts = generated.split("Ringkasan:")
+            val narrative = parts.getOrNull(0)?.trim() ?: ""
+            val summary = parts.getOrNull(1)?.trim() ?: ""
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 inputEdit.text.toString(),
-                notesEdit.text.toString(),
-                "AI",
-                outputText.text.toString()
+                "editor",
+                "dalam penulisan",
+                narrative,
+                summary
             )
             events.add(event)
             EventStorage.saveEvents(prefs, events)
@@ -140,6 +171,10 @@ class AIHelperActivity : AppCompatActivity() {
             ancamanEdit.text.clear()
             notesEdit.text.clear()
             outputText.text = ""
+            generateButton.visibility = android.view.View.GONE
+            saveButton.visibility = android.view.View.GONE
+            val intent = android.content.Intent(this, EditorialCalendarActivity::class.java)
+            startActivity(intent)
         }
     }
 

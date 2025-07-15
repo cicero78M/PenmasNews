@@ -16,25 +16,34 @@
             android:layout_height="wrap_content"
             android:paddingBottom="8dp" />
 
-        <TextView
-            android:text="@string/desc_collaborative_editor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <EditText
-            android:id="@+id/editDate"
+            android:id="@+id/editTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_date"
-            android:focusable="false"
-            android:clickable="true"
+            android:hint="@string/hint_input_text"
             android:layout_marginTop="16dp" />
 
         <EditText
-            android:id="@+id/editNotes"
+            android:id="@+id/editNarrative"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="@string/hint_narrative"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editAssignee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_notes"
+            android:hint="@string/hint_assignee"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_status"
             android:layout_marginTop="8dp" />
 
         <Button
