@@ -1,24 +1,14 @@
 package com.example.penmasnews.ui
 
 import android.app.DatePickerDialog
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import java.util.Calendar
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 class AIHelperActivity : AppCompatActivity() {
-    private val pickDoc = 100
-    private val pickPdf = 101
-    private val pickImage = 102
-    private var docUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ai_helper)
@@ -26,13 +16,14 @@ class AIHelperActivity : AppCompatActivity() {
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val notesEdit = findViewById<EditText>(R.id.editNotes)
         val inputEdit = findViewById<EditText>(R.id.editInputText)
-        val docText = findViewById<TextView>(R.id.textDoc)
-        val pdfText = findViewById<TextView>(R.id.textPdf)
-        val imageText = findViewById<TextView>(R.id.textImage)
-        val docButton = findViewById<Button>(R.id.buttonChooseDoc)
-        val readDocButton = findViewById<Button>(R.id.buttonReadDoc)
-        val pdfButton = findViewById<Button>(R.id.buttonChoosePdf)
-        val imageButton = findViewById<Button>(R.id.buttonChooseImage)
+        val dasarEdit = findViewById<EditText>(R.id.editDasar)
+        val tersangkaEdit = findViewById<EditText>(R.id.editTersangka)
+        val tkpEdit = findViewById<EditText>(R.id.editTKP)
+        val kronologiEdit = findViewById<EditText>(R.id.editKronologi)
+        val modusEdit = findViewById<EditText>(R.id.editModus)
+        val barangBuktiEdit = findViewById<EditText>(R.id.editBarangBukti)
+        val pasalEdit = findViewById<EditText>(R.id.editPasal)
+        val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
         val prefs = getSharedPreferences(javaClass.simpleName, MODE_PRIVATE)
@@ -40,30 +31,29 @@ class AIHelperActivity : AppCompatActivity() {
         dateEdit.setText(prefs.getString("date", ""))
         notesEdit.setText(prefs.getString("notes", ""))
         inputEdit.setText(prefs.getString("input", ""))
-        docText.text = prefs.getString("doc", getString(R.string.label_no_file))
-        pdfText.text = prefs.getString("pdf", getString(R.string.label_no_file))
-        imageText.text = prefs.getString("image", getString(R.string.label_no_file))
-
+        dasarEdit.setText(prefs.getString("dasar", ""))
+        tersangkaEdit.setText(prefs.getString("tersangka", ""))
+        tkpEdit.setText(prefs.getString("tkp", ""))
+        kronologiEdit.setText(prefs.getString("kronologi", ""))
+        modusEdit.setText(prefs.getString("modus", ""))
+        barangBuktiEdit.setText(prefs.getString("barang_bukti", ""))
+        pasalEdit.setText(prefs.getString("pasal", ""))
+        ancamanEdit.setText(prefs.getString("ancaman", ""))
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
-
-        docButton.setOnClickListener { pickDocFile() }
-        readDocButton.setOnClickListener {
-            docUri?.let { uri ->
-                val text = readFileText(uri)
-                inputEdit.setText(text)
-            }
-        }
-        pdfButton.setOnClickListener { pickFile("application/pdf", pickPdf) }
-        imageButton.setOnClickListener { pickFile("image/*", pickImage) }
 
         saveButton.setOnClickListener {
             prefs.edit()
                 .putString("date", dateEdit.text.toString())
                 .putString("notes", notesEdit.text.toString())
                 .putString("input", inputEdit.text.toString())
-                .putString("doc", docText.text.toString())
-                .putString("pdf", pdfText.text.toString())
-                .putString("image", imageText.text.toString())
+                .putString("dasar", dasarEdit.text.toString())
+                .putString("tersangka", tersangkaEdit.text.toString())
+                .putString("tkp", tkpEdit.text.toString())
+                .putString("kronologi", kronologiEdit.text.toString())
+                .putString("modus", modusEdit.text.toString())
+                .putString("barang_bukti", barangBuktiEdit.text.toString())
+                .putString("pasal", pasalEdit.text.toString())
+                .putString("ancaman", ancamanEdit.text.toString())
                 .apply()
         }
     }
@@ -82,47 +72,4 @@ class AIHelperActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun pickFile(type: String, request: Int) {
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply { this.type = type }
-        startActivityForResult(intent, request)
-    }
-
-    private fun pickDocFile() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "*/*"
-            putExtra(
-                Intent.EXTRA_MIME_TYPES,
-                arrayOf(
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                )
-            )
-        }
-        startActivityForResult(intent, pickDoc)
-    }
-
-    private fun readFileText(uri: Uri): String {
-        return try {
-            contentResolver.openInputStream(uri)?.use { stream ->
-                BufferedReader(InputStreamReader(stream)).readText()
-            } ?: ""
-        } catch (_: Exception) {
-            ""
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) return
-        val uri = data?.data ?: return
-        val name = uri.lastPathSegment ?: uri.toString()
-        when (requestCode) {
-            pickDoc -> {
-                docUri = uri
-                findViewById<TextView>(R.id.textDoc).text = name
-            }
-            pickPdf -> findViewById<TextView>(R.id.textPdf).text = name
-            pickImage -> findViewById<TextView>(R.id.textImage).text = name
-        }
-    }
 }

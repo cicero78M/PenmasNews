@@ -44,56 +44,61 @@
             android:hint="@string/hint_input_text"
             android:layout_marginTop="8dp" />
 
-        <TextView
-            android:id="@+id/textDoc"
+        <EditText
+            android:id="@+id/editDasar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_no_file"
+            android:hint="@string/hint_dasar"
             android:layout_marginTop="8dp" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/buttonChooseDoc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_choose_doc" />
-
-            <Button
-                android:id="@+id/buttonReadDoc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_read_doc" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textPdf"
+        <EditText
+            android:id="@+id/editTersangka"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_no_file"
+            android:hint="@string/hint_tersangka"
             android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/buttonChoosePdf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_choose_pdf" />
-
-        <TextView
-            android:id="@+id/textImage"
+        <EditText
+            android:id="@+id/editTKP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_no_file"
+            android:hint="@string/hint_tkp"
             android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/buttonChooseImage"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/editKronologi"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_choose_image" />
+            android:hint="@string/hint_kronologi"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editModus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_modus"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editBarangBukti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_barang_bukti"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editPasal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_pasal"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editAncaman"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_ancaman"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/buttonSave"
