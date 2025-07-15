@@ -74,12 +74,13 @@ class AIHelperActivity : AppCompatActivity() {
                 Barang Bukti: ${barangBuktiEdit.text}
                 Pasal yang dipersangkakan: ${pasalEdit.text}
                 Ancaman hukuman: ${ancamanEdit.text}
+                Catatan: ${notesEdit.text}
             """.trimIndent()
             Thread {
                 try {
                     val client = OkHttpClient()
                     val obj = JSONObject()
-                    obj.put("model", "gpt-3.5-turbo")
+                    obj.put("model", "gpt-4o")
                     val msgs = JSONArray()
                     msgs.put(JSONObject().apply {
                         put("role", "user")
