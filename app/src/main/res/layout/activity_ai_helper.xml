@@ -57,7 +57,7 @@
                 android:id="@+id/buttonPasteDasar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -65,7 +65,7 @@
                 android:id="@+id/buttonClearDasar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -90,7 +90,7 @@
                 android:id="@+id/buttonPasteTersangka"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -98,7 +98,7 @@
                 android:id="@+id/buttonClearTersangka"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -123,7 +123,7 @@
                 android:id="@+id/buttonPasteTKP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -131,7 +131,7 @@
                 android:id="@+id/buttonClearTKP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -156,7 +156,7 @@
                 android:id="@+id/buttonPasteKronologi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -164,7 +164,7 @@
                 android:id="@+id/buttonClearKronologi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -189,7 +189,7 @@
                 android:id="@+id/buttonPasteModus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -197,7 +197,7 @@
                 android:id="@+id/buttonClearModus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -222,7 +222,7 @@
                 android:id="@+id/buttonPasteBarangBukti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -230,7 +230,7 @@
                 android:id="@+id/buttonClearBarangBukti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -255,7 +255,7 @@
                 android:id="@+id/buttonPastePasal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -263,7 +263,7 @@
                 android:id="@+id/buttonClearPasal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -288,7 +288,7 @@
                 android:id="@+id/buttonPasteAncaman"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -296,7 +296,7 @@
                 android:id="@+id/buttonClearAncaman"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -322,7 +322,7 @@
                 android:id="@+id/buttonPasteNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_paste"
+                android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/action_paste"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -330,7 +330,7 @@
                 android:id="@+id/buttonClearNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="@string/action_clear"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
