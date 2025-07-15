@@ -18,6 +18,7 @@ Dokumen ini memetakan rancangan halaman pada aplikasi Penmas News beserta alur p
 ## 4. Asistensi AI
 - Fitur opsional yang membantu peringkasan, saran judul, dan pengecekan bahasa.
 - Dipanggil dari dalam **Penulisan Kolaboratif** atau dari **Beranda** untuk kebutuhan terpisah.
+- Halaman ini menyediakan kolom masukan teks serta opsi memilih file dokumen, PDF, dan gambar catatan yang akan diproses AI.
 
 ## 5. Manajemen Aset Multimedia
 - Halaman pengunggahan serta katalog gambar, video, dan dokumen.
