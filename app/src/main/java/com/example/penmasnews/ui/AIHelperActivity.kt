@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.ImageButton
 import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
@@ -34,12 +35,37 @@ class AIHelperActivity : AppCompatActivity() {
         val barangBuktiEdit = findViewById<EditText>(R.id.editBarangBukti)
         val pasalEdit = findViewById<EditText>(R.id.editPasal)
         val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
+        val addColumnButton = findViewById<ImageButton>(R.id.buttonAddColumn)
         val generateButton = findViewById<Button>(R.id.buttonGenerate)
         val outputText = findViewById<TextView>(R.id.textGenerated)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
+
+        val fields = listOf(
+            notesEdit,
+            inputEdit,
+            dasarEdit,
+            tersangkaEdit,
+            tkpEdit,
+            kronologiEdit,
+            modusEdit,
+            barangBuktiEdit,
+            pasalEdit,
+            ancamanEdit,
+        )
+        var currentIndex = 0
+        addColumnButton.setOnClickListener {
+            if (currentIndex < fields.size) {
+                fields[currentIndex].visibility = android.view.View.VISIBLE
+                fields[currentIndex].requestFocus()
+                currentIndex++
+                if (currentIndex >= fields.size) {
+                    addColumnButton.visibility = android.view.View.GONE
+                }
+            }
+        }
 
         generateButton.setOnClickListener {
             val apiKey = BuildConfig.OPENAI_API_KEY.ifBlank {

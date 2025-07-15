@@ -32,6 +32,7 @@
     <string name="hint_barang_bukti">Barang Bukti</string>
     <string name="hint_pasal">Pasal yang dipersangkakan</string>
     <string name="hint_ancaman">Ancaman Hukuman</string>
+    <string name="hint_add_next_column">Tambahkan kolom selanjutnya</string>
     <string name="action_generate">Generate Berita</string>
     <string name="action_open">Buka Editor</string>
     <string name="action_clear">Bersihkan</string>
