@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ImageButton
+import android.content.ClipboardManager
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import com.example.penmasnews.BuildConfig
@@ -37,6 +39,51 @@ class AIHelperActivity : AppCompatActivity() {
         val barangBuktiEdit = findViewById<EditText>(R.id.editBarangBukti)
         val pasalEdit = findViewById<EditText>(R.id.editPasal)
         val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
+
+        val pasteDasar = findViewById<ImageButton>(R.id.buttonPasteDasar)
+        val clearDasar = findViewById<ImageButton>(R.id.buttonClearDasar)
+        val pasteTersangka = findViewById<ImageButton>(R.id.buttonPasteTersangka)
+        val clearTersangka = findViewById<ImageButton>(R.id.buttonClearTersangka)
+        val pasteTKP = findViewById<ImageButton>(R.id.buttonPasteTKP)
+        val clearTKP = findViewById<ImageButton>(R.id.buttonClearTKP)
+        val pasteKronologi = findViewById<ImageButton>(R.id.buttonPasteKronologi)
+        val clearKronologi = findViewById<ImageButton>(R.id.buttonClearKronologi)
+        val pasteModus = findViewById<ImageButton>(R.id.buttonPasteModus)
+        val clearModus = findViewById<ImageButton>(R.id.buttonClearModus)
+        val pasteBarangBukti = findViewById<ImageButton>(R.id.buttonPasteBarangBukti)
+        val clearBarangBukti = findViewById<ImageButton>(R.id.buttonClearBarangBukti)
+        val pastePasal = findViewById<ImageButton>(R.id.buttonPastePasal)
+        val clearPasal = findViewById<ImageButton>(R.id.buttonClearPasal)
+        val pasteAncaman = findViewById<ImageButton>(R.id.buttonPasteAncaman)
+        val clearAncaman = findViewById<ImageButton>(R.id.buttonClearAncaman)
+        val pasteNotes = findViewById<ImageButton>(R.id.buttonPasteNotes)
+        val clearNotes = findViewById<ImageButton>(R.id.buttonClearNotes)
+
+        fun pasteFromClipboard(target: EditText) {
+            val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val text = cb.primaryClip?.getItemAt(0)?.coerceToText(this)
+            if (text != null) target.setText(text)
+        }
+
+        pasteDasar.setOnClickListener { pasteFromClipboard(dasarEdit) }
+        clearDasar.setOnClickListener { dasarEdit.text.clear() }
+        pasteTersangka.setOnClickListener { pasteFromClipboard(tersangkaEdit) }
+        clearTersangka.setOnClickListener { tersangkaEdit.text.clear() }
+        pasteTKP.setOnClickListener { pasteFromClipboard(tkpEdit) }
+        clearTKP.setOnClickListener { tkpEdit.text.clear() }
+        pasteKronologi.setOnClickListener { pasteFromClipboard(kronologiEdit) }
+        clearKronologi.setOnClickListener { kronologiEdit.text.clear() }
+        pasteModus.setOnClickListener { pasteFromClipboard(modusEdit) }
+        clearModus.setOnClickListener { modusEdit.text.clear() }
+        pasteBarangBukti.setOnClickListener { pasteFromClipboard(barangBuktiEdit) }
+        clearBarangBukti.setOnClickListener { barangBuktiEdit.text.clear() }
+        pastePasal.setOnClickListener { pasteFromClipboard(pasalEdit) }
+        clearPasal.setOnClickListener { pasalEdit.text.clear() }
+        pasteAncaman.setOnClickListener { pasteFromClipboard(ancamanEdit) }
+        clearAncaman.setOnClickListener { ancamanEdit.text.clear() }
+        pasteNotes.setOnClickListener { pasteFromClipboard(notesEdit) }
+        clearNotes.setOnClickListener { notesEdit.text.clear() }
+
         val addColumnButton = findViewById<ImageButton>(R.id.buttonAddColumn)
         val generateButton = findViewById<Button>(R.id.buttonGenerate)
         val outputText = findViewById<TextView>(R.id.textGenerated)
