@@ -38,4 +38,7 @@
     <string name="action_open">Buka Editor</string>
     <string name="action_paste">Tempel</string>
     <string name="action_clear">Bersihkan</string>
+    <string name="hint_suggested_title">Saran Judul Berita</string>
+    <string name="hint_generated_narrative">Narasi Hasil AI</string>
+    <string name="hint_generated_summary">Ringkasan Hasil AI</string>
 </resources>

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.ImageButton
 import android.content.ClipboardManager
 import android.content.Context
@@ -87,7 +86,10 @@ class AIHelperActivity : AppCompatActivity() {
 
         val addColumnButton = findViewById<ImageButton>(R.id.buttonAddColumn)
         val generateButton = findViewById<Button>(R.id.buttonGenerate)
-        val outputText = findViewById<TextView>(R.id.textGenerated)
+        val progressGenerate = findViewById<android.widget.ProgressBar>(R.id.progressGenerate)
+        val titleOutput = findViewById<EditText>(R.id.editSuggestedTitle)
+        val narrativeOutput = findViewById<EditText>(R.id.editGeneratedNarrative)
+        val summaryOutput = findViewById<EditText>(R.id.editGeneratedSummary)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
@@ -156,11 +158,15 @@ class AIHelperActivity : AppCompatActivity() {
         saveButton.visibility = android.view.View.GONE
 
         generateButton.setOnClickListener {
+            progressGenerate.visibility = android.view.View.VISIBLE
+            generateButton.isEnabled = false
             val apiKey = BuildConfig.OPENAI_API_KEY.ifBlank {
                 System.getenv("OPENAI_API_KEY") ?: ""
             }
             if (apiKey.isBlank()) {
-                outputText.text = "Missing API key"
+                progressGenerate.visibility = android.view.View.GONE
+                generateButton.isEnabled = true
+                narrativeOutput.setText("Missing API key")
                 return@setOnClickListener
             }
             val prompt = """
@@ -168,8 +174,9 @@ class AIHelperActivity : AppCompatActivity() {
                 ini, tulislah narasi berita berbahasa Indonesia yang mengikuti
                 kaidah jurnalistik secara baik, mengalir, lues dan informatif.
 
-                Setelah narasi lengkap, berikan ringkasan singkat dengan diawali
-                label 'Ringkasan:'.
+                Berikan saran judul berita baru dengan label 'Judul Baru:' sebelum
+                narasi. Setelah narasi lengkap, berikan ringkasan singkat dengan
+                diawali label 'Ringkasan:'.
 
                 Judul: ${inputEdit.text}
                 Dasar: ${dasarEdit.text}
@@ -209,29 +216,44 @@ class AIHelperActivity : AppCompatActivity() {
                         .getJSONObject(0)
                         .getJSONObject("message")
                         .getString("content")
+
+                    val title = generated.substringAfter("Judul Baru:").substringBefore("\n").trim()
+                    val afterTitle = generated.substringAfter("Judul Baru:")
+                    val parts = afterTitle.split("Ringkasan:")
+                    val narrative = parts.getOrNull(0)?.substringAfter("\n")?.trim() ?: ""
+                    val summary = parts.getOrNull(1)?.trim() ?: ""
+
                     runOnUiThread {
-                        outputText.text = generated
+                        progressGenerate.visibility = android.view.View.GONE
+                        generateButton.isEnabled = true
+                        titleOutput.setText(title)
+                        narrativeOutput.setText(narrative)
+                        summaryOutput.setText(summary)
+                        titleOutput.visibility = android.view.View.VISIBLE
+                        narrativeOutput.visibility = android.view.View.VISIBLE
+                        summaryOutput.visibility = android.view.View.VISIBLE
                         saveButton.visibility = android.view.View.VISIBLE
                     }
                 } catch (e: Exception) {
-                    runOnUiThread { outputText.text = "Error: ${e.message}" }
+                    runOnUiThread {
+                        progressGenerate.visibility = android.view.View.GONE
+                        generateButton.isEnabled = true
+                        narrativeOutput.setText("Error: ${e.message}")
+                        narrativeOutput.visibility = android.view.View.VISIBLE
+                    }
                 }
             }.start()
         }
 
         saveButton.setOnClickListener {
             val events = EventStorage.loadEvents(prefs)
-            val generated = outputText.text.toString()
-            val parts = generated.split("Ringkasan:")
-            val narrative = parts.getOrNull(0)?.trim() ?: ""
-            val summary = parts.getOrNull(1)?.trim() ?: ""
             val event = EditorialEvent(
                 dateEdit.text.toString(),
-                inputEdit.text.toString(),
+                titleOutput.text.toString(),
                 "editor",
                 "dalam penulisan",
-                narrative,
-                summary
+                narrativeOutput.text.toString(),
+                summaryOutput.text.toString()
             )
             events.add(event)
             EventStorage.saveEvents(prefs, events)
@@ -246,7 +268,12 @@ class AIHelperActivity : AppCompatActivity() {
             pasalEdit.text.clear()
             ancamanEdit.text.clear()
             notesEdit.text.clear()
-            outputText.text = ""
+            titleOutput.setText("")
+            narrativeOutput.setText("")
+            summaryOutput.setText("")
+            titleOutput.visibility = android.view.View.GONE
+            narrativeOutput.visibility = android.view.View.GONE
+            summaryOutput.visibility = android.view.View.GONE
             generateButton.visibility = android.view.View.GONE
             saveButton.visibility = android.view.View.GONE
             val intent = android.content.Intent(this, EditorialCalendarActivity::class.java)
