@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_notes"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -42,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_input_text"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -49,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_dasar"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -56,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_tersangka"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -63,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_tkp"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -70,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_kronologi"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -77,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_modus"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -84,6 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_barang_bukti"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -91,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_pasal"
+            android:visibility="gone"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -98,6 +107,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_ancaman"
+            android:visibility="gone"
+            android:layout_marginTop="8dp" />
+
+        <ImageButton
+            android:id="@+id/buttonAddColumn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            android:contentDescription="@string/hint_add_next_column"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginTop="8dp" />
 
         <Button
