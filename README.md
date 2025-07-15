@@ -16,11 +16,19 @@ repository, build and run it using Android Studio with the SDK installed.
 
 Open the project in Android Studio to edit and run on a device or emulator.
 
-## Fitur Import Dokumen
+## Formulir Asistensi AI
 
-Layar **Asistensi AI** menyediakan tombol *Pilih Dokumen* yang kini menerima
-file berformat `.doc` maupun `.docx`. Konten dari dokumen `.doc` akan dibaca dan
-ditampilkan ke kolom masukan teks.
+Halaman ini kini berfokus pada pencatatan data penyidikan. Selain tanggal,
+catatan, dan masukan teks, disediakan kolom untuk mengisi:
+
+- **Dasar**
+- **Tersangka**
+- **TKP dan Waktu Kejadian**
+- **Kronologi Penyelidikan dan Penyidikan**
+- **Modus Operandi**
+- **Barang Bukti**
+- **Pasal yang dipersangkakan**
+- **Ancaman Hukuman**
 
 ## Dokumentasi Desain
 
