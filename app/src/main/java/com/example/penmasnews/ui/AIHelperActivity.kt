@@ -60,7 +60,21 @@ class AIHelperActivity : AppCompatActivity() {
                 outputText.text = "Missing API key"
                 return@setOnClickListener
             }
-            val prompt = "Judul: ${inputEdit.text}\nDasar: ${dasarEdit.text}\nTersangka: ${tersangkaEdit.text}\nTKP: ${tkpEdit.text}\nKronologi: ${kronologiEdit.text}\nModus: ${modusEdit.text}\nBarang Bukti: ${barangBuktiEdit.text}\nPasal: ${pasalEdit.text}\nAncaman: ${ancamanEdit.text}"
+            val prompt = """
+                Anda seorang jurnalis profesional. Berdasarkan informasi di bawah
+                ini, tulislah narasi berita berbahasa Indonesia yang mengikuti
+                kaidah jurnalistik secara baik, mengalir, dan luwes.
+
+                Judul: ${inputEdit.text}
+                Dasar: ${dasarEdit.text}
+                Tersangka: ${tersangkaEdit.text}
+                TKP dan Waktu Kejadian: ${tkpEdit.text}
+                Kronologi Penyelidikan dan Penyidikan: ${kronologiEdit.text}
+                Modus Operandi: ${modusEdit.text}
+                Barang Bukti: ${barangBuktiEdit.text}
+                Pasal yang dipersangkakan: ${pasalEdit.text}
+                Ancaman hukuman: ${ancamanEdit.text}
+            """.trimIndent()
             Thread {
                 try {
                     val client = OkHttpClient()
