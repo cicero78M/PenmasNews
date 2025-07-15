@@ -16,6 +16,12 @@ repository, build and run it using Android Studio with the SDK installed.
 
 Open the project in Android Studio to edit and run on a device or emulator.
 
+## Fitur Import Dokumen
+
+Layar **Asistensi AI** menyediakan tombol *Pilih Dokumen* yang kini menerima
+file berformat `.doc` maupun `.docx`. Konten dari dokumen `.doc` akan dibaca dan
+ditampilkan ke kolom masukan teks.
+
 ## Dokumentasi Desain
 
 - [Kalender Editorial & Ide](docs/editorial_calendar.md)
