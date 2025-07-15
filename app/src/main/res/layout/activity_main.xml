@@ -16,6 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:text="@string/desc_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingBottom="16dp" />
 
         <Button
