@@ -20,6 +20,7 @@ class EditorialCalendarAdapter(
         val dateText: TextView = view.findViewById(R.id.textDate)
         val titleText: TextView = view.findViewById(R.id.textTitle)
         val notesText: TextView = view.findViewById(R.id.textNotes)
+        val statusText: TextView = view.findViewById(R.id.textStatus)
         val actionButton: ImageButton = view.findViewById(R.id.buttonAction)
     }
 
@@ -34,6 +35,7 @@ class EditorialCalendarAdapter(
         holder.dateText.text = item.date
         holder.titleText.text = item.topic
         holder.notesText.text = item.assignee
+        holder.statusText.text = item.status
 
         holder.itemView.setBackgroundResource(
             if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd

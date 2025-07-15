@@ -10,7 +10,7 @@ import com.example.penmasnews.ui.AssetManagerActivity
 import com.example.penmasnews.ui.CMSIntegrationActivity
 import com.example.penmasnews.ui.CollaborativeEditorActivity
 import com.example.penmasnews.ui.EditorialCalendarActivity
-import com.example.penmasnews.ui.WorkflowManagerActivity
+import com.example.penmasnews.ui.ApprovalListActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.buttonWorkflow).setOnClickListener {
-            startActivity(Intent(this, WorkflowManagerActivity::class.java))
+            startActivity(Intent(this, ApprovalListActivity::class.java))
         }
 
         findViewById<Button>(R.id.buttonCMS).setOnClickListener {
