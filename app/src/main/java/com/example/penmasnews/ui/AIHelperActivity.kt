@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.penmasnews.BuildConfig
+import com.example.penmasnews.model.EditorialEvent
+import com.example.penmasnews.model.EventStorage
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -36,20 +38,7 @@ class AIHelperActivity : AppCompatActivity() {
         val outputText = findViewById<TextView>(R.id.textGenerated)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
-        val prefs = getSharedPreferences(javaClass.simpleName, MODE_PRIVATE)
-
-        dateEdit.setText(prefs.getString("date", ""))
-        notesEdit.setText(prefs.getString("notes", ""))
-        inputEdit.setText(prefs.getString("input", ""))
-        dasarEdit.setText(prefs.getString("dasar", ""))
-        tersangkaEdit.setText(prefs.getString("tersangka", ""))
-        tkpEdit.setText(prefs.getString("tkp", ""))
-        kronologiEdit.setText(prefs.getString("kronologi", ""))
-        modusEdit.setText(prefs.getString("modus", ""))
-        barangBuktiEdit.setText(prefs.getString("barang_bukti", ""))
-        pasalEdit.setText(prefs.getString("pasal", ""))
-        ancamanEdit.setText(prefs.getString("ancaman", ""))
-        outputText.text = prefs.getString("generated", "")
+        val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
         generateButton.setOnClickListener {
@@ -103,20 +92,28 @@ class AIHelperActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            prefs.edit()
-                .putString("date", dateEdit.text.toString())
-                .putString("notes", notesEdit.text.toString())
-                .putString("input", inputEdit.text.toString())
-                .putString("dasar", dasarEdit.text.toString())
-                .putString("tersangka", tersangkaEdit.text.toString())
-                .putString("tkp", tkpEdit.text.toString())
-                .putString("kronologi", kronologiEdit.text.toString())
-                .putString("modus", modusEdit.text.toString())
-                .putString("barang_bukti", barangBuktiEdit.text.toString())
-                .putString("pasal", pasalEdit.text.toString())
-                .putString("ancaman", ancamanEdit.text.toString())
-                .putString("generated", outputText.text.toString())
-                .apply()
+            val events = EventStorage.loadEvents(prefs)
+            val event = EditorialEvent(
+                dateEdit.text.toString(),
+                inputEdit.text.toString(),
+                notesEdit.text.toString(),
+                "AI",
+                outputText.text.toString()
+            )
+            events.add(event)
+            EventStorage.saveEvents(prefs, events)
+            dateEdit.text.clear()
+            notesEdit.text.clear()
+            inputEdit.text.clear()
+            dasarEdit.text.clear()
+            tersangkaEdit.text.clear()
+            tkpEdit.text.clear()
+            kronologiEdit.text.clear()
+            modusEdit.text.clear()
+            barangBuktiEdit.text.clear()
+            pasalEdit.text.clear()
+            ancamanEdit.text.clear()
+            outputText.text = ""
         }
     }
 

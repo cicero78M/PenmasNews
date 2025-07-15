@@ -2,11 +2,9 @@ package com.example.penmasnews.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.content.SharedPreferences
 import android.widget.Button
 import android.widget.EditText
-import org.json.JSONArray
-import org.json.JSONObject
+import com.example.penmasnews.model.EventStorage
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,16 +25,12 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val statusEdit = findViewById<EditText>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
+        val clearButton = findViewById<Button>(R.id.buttonClearAll)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
-        val prefs = getSharedPreferences(javaClass.simpleName, MODE_PRIVATE)
+        val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
-        dateEdit.setText(prefs.getString("date", ""))
-        topicEdit.setText(prefs.getString("topic", ""))
-        assigneeEdit.setText(prefs.getString("assignee", ""))
-        statusEdit.setText(prefs.getString("status", ""))
-
-        val events = loadEvents(prefs).ifEmpty {
+        val events = EventStorage.loadEvents(prefs).ifEmpty {
             mutableListOf(
                 EditorialEvent("1 Jan", "Refleksi Awal Tahun", "Andi", "draft"),
                 EditorialEvent("5 Jan", "Tren Teknologi 2024", "Budi", "review"),
@@ -44,27 +38,27 @@ class EditorialCalendarActivity : AppCompatActivity() {
             )
         }
 
-        val aiPrefs = getSharedPreferences("AIHelperActivity", MODE_PRIVATE)
-        val aiTitle = aiPrefs.getString("input", "") ?: ""
-        val aiNotes = aiPrefs.getString("notes", "") ?: ""
-        val aiDate = aiPrefs.getString("date", "") ?: ""
-        val aiGenerated = aiPrefs.getString("generated", "") ?: ""
-        if (aiTitle.isNotEmpty() || aiNotes.isNotEmpty()) {
-            events.add(0, EditorialEvent(aiDate, aiTitle, aiNotes, aiGenerated))
-        }
+        // load AI-assisted drafts stored from AIHelperActivity
+        // events already include entries saved from AIHelperActivity
 
-        val adapter = EditorialCalendarAdapter(events) { event ->
-            val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
-            intent.putExtra("date", event.date)
-            intent.putExtra("notes", event.status)
-            startActivity(intent)
-        }
+        val adapter = EditorialCalendarAdapter(events,
+            onOpen = { event ->
+                val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
+                intent.putExtra("date", event.date)
+                intent.putExtra("notes", event.content)
+                startActivity(intent)
+            },
+            onDelete = { index ->
+                events.removeAt(index)
+                EventStorage.saveEvents(prefs, events)
+            }
+        )
         recyclerView.adapter = adapter
 
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
         addButton.setOnClickListener {
-            val eventsList = loadEvents(prefs)
+            val eventsList = EventStorage.loadEvents(prefs)
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
@@ -72,23 +66,22 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 statusEdit.text.toString()
             )
             eventsList.add(event)
-            saveEvents(prefs, eventsList)
+            EventStorage.saveEvents(prefs, eventsList)
             adapter.addItem(event)
-            prefs.edit()
-                .putString("date", dateEdit.text.toString())
-                .putString("topic", topicEdit.text.toString())
-                .putString("assignee", assigneeEdit.text.toString())
-                .putString("status", statusEdit.text.toString())
-                .apply()
+            dateEdit.text.clear()
+            topicEdit.text.clear()
+            assigneeEdit.text.clear()
+            statusEdit.text.clear()
+        }
+
+        clearButton.setOnClickListener {
+            events.clear()
+            EventStorage.saveEvents(prefs, events)
+            adapter.notifyDataSetChanged()
         }
 
         saveButton.setOnClickListener {
-            prefs.edit()
-                .putString("date", dateEdit.text.toString())
-                .putString("topic", topicEdit.text.toString())
-                .putString("assignee", assigneeEdit.text.toString())
-                .putString("status", statusEdit.text.toString())
-                .apply()
+            EventStorage.saveEvents(prefs, events)
         }
     }
 
@@ -106,34 +99,5 @@ class EditorialCalendarActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun loadEvents(prefs: SharedPreferences): MutableList<EditorialEvent> {
-        val json = prefs.getString("events", "[]") ?: "[]"
-        val array = JSONArray(json)
-        val list = mutableListOf<EditorialEvent>()
-        for (i in 0 until array.length()) {
-            val obj = array.getJSONObject(i)
-            list.add(
-                EditorialEvent(
-                    obj.optString("date"),
-                    obj.optString("topic"),
-                    obj.optString("assignee"),
-                    obj.optString("status")
-                )
-            )
-        }
-        return list
-    }
-
-    private fun saveEvents(prefs: SharedPreferences, events: List<EditorialEvent>) {
-        val array = JSONArray()
-        for (item in events) {
-            val obj = JSONObject()
-            obj.put("date", item.date)
-            obj.put("topic", item.topic)
-            obj.put("assignee", item.assignee)
-            obj.put("status", item.status)
-            array.put(obj)
-        }
-        prefs.edit().putString("events", array.toString()).apply()
-    }
+    // persistence handled by EventStorage
 }
