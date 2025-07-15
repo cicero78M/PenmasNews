@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Penmas News</string>
+    <string name="feature_editorial_calendar">Kalender Editorial &amp; Ide</string>
+    <string name="feature_collaborative_writing">Penulisan Kolaboratif</string>
+    <string name="feature_ai_assistance">Asistensi AI</string>
+    <string name="feature_asset_management">Manajemen Aset Multimedia</string>
+    <string name="feature_workflow_approval">Workflow Approval</string>
+    <string name="feature_cms_integration">Integrasi CMS &amp; Sosial Media</string>
+    <string name="feature_analytics">Analitik &amp; Umpan Balik</string>
 </resources>
