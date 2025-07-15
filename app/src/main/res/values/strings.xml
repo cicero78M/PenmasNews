@@ -17,7 +17,7 @@
     <string name="desc_analytics_dashboard">Dashboard metrik performa artikel dan umpan balik pembaca.\nRekomendasi topik baru dapat langsung ditambahkan ke Kalender Editorial.</string>
     <!-- common form hints -->
     <string name="hint_date">Penjadwalan: Tanggal dan waktu publikasi yang direncanakan</string>
-    <string name="hint_notes">Catatan</string>
+    <string name="hint_notes">Tambahkan Catatan</string>
     <string name="hint_topic">Ide Topik: Catatan singkat tentang gagasan artikel</string>
     <string name="hint_assignee">Penugasan: Tautan ke penulis, editor, atau tim terkait</string>
     <string name="hint_status">Status (ide, dalam penulisan, review, siap publish)</string>

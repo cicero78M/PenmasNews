@@ -44,7 +44,6 @@ class AIHelperActivity : AppCompatActivity() {
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
         val fields = listOf(
-            notesEdit,
             inputEdit,
             dasarEdit,
             tersangkaEdit,
@@ -54,7 +53,8 @@ class AIHelperActivity : AppCompatActivity() {
             barangBuktiEdit,
             pasalEdit,
             ancamanEdit,
-        )
+            notesEdit,
+            )
         var currentIndex = 0
         addColumnButton.setOnClickListener {
             if (currentIndex < fields.size) {
@@ -78,7 +78,7 @@ class AIHelperActivity : AppCompatActivity() {
             val prompt = """
                 Anda seorang jurnalis profesional. Berdasarkan informasi di bawah
                 ini, tulislah narasi berita berbahasa Indonesia yang mengikuti
-                kaidah jurnalistik secara baik, mengalir, dan luwes.
+                kaidah jurnalistik secara baik, mengalir, lues dan informatif.
 
                 Judul: ${inputEdit.text}
                 Dasar: ${dasarEdit.text}
@@ -95,7 +95,7 @@ class AIHelperActivity : AppCompatActivity() {
                 try {
                     val client = OkHttpClient()
                     val obj = JSONObject()
-                    obj.put("model", "gpt-4o")
+                    obj.put("model", "gpt-4o-mini")
                     val msgs = JSONArray()
                     msgs.put(JSONObject().apply {
                         put("role", "user")
@@ -129,7 +129,6 @@ class AIHelperActivity : AppCompatActivity() {
             events.add(event)
             EventStorage.saveEvents(prefs, events)
             dateEdit.text.clear()
-            notesEdit.text.clear()
             inputEdit.text.clear()
             dasarEdit.text.clear()
             tersangkaEdit.text.clear()
@@ -139,6 +138,7 @@ class AIHelperActivity : AppCompatActivity() {
             barangBuktiEdit.text.clear()
             pasalEdit.text.clear()
             ancamanEdit.text.clear()
+            notesEdit.text.clear()
             outputText.text = ""
         }
     }
