@@ -3,6 +3,13 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def envProps = new Properties()
+def envFile = rootProject.file('.env')
+if (envFile.exists()) {
+    envFile.withInputStream { envProps.load(it) }
+}
+def openAiKey = envProps.getProperty('OPENAI_API_KEY', '')
+
 android {
     namespace 'com.example.penmasnews'
     compileSdk 34
@@ -13,6 +20,7 @@ android {
         targetSdk 34
         versionCode 1
         versionName '1.0'
+        buildConfigField 'String', 'OPENAI_API_KEY', '"' + openAiKey + '"'
     }
 
     buildTypes {
@@ -29,6 +37,9 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {
@@ -36,4 +47,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
 }
