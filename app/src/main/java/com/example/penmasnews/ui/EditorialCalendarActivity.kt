@@ -48,8 +48,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 intent.putExtra("status", event.status)
                 startActivity(intent)
             },
-            onDelete = { index ->
-                events.removeAt(index)
+            onDelete = { _ ->
                 EventStorage.saveEvents(prefs, events)
             }
         )
