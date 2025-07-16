@@ -16,6 +16,13 @@
             android:layout_height="wrap_content"
             android:paddingBottom="8dp" />
 
+        <ImageView
+            android:id="@+id/imageCollab"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -21,7 +21,8 @@ object EventStorage {
                     obj.optString("assignee"),
                     obj.optString("status"),
                     obj.optString("content"),
-                    obj.optString("summary")
+                    obj.optString("summary"),
+                    obj.optString("imagePath")
                 )
             )
         }
@@ -38,6 +39,7 @@ object EventStorage {
             obj.put("status", item.status)
             obj.put("content", item.content)
             obj.put("summary", item.summary)
+            obj.put("imagePath", item.imagePath)
             array.put(obj)
         }
         prefs.edit().putString("events", array.toString()).apply()

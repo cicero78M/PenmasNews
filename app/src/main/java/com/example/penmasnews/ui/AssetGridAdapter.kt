@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
+import android.graphics.BitmapFactory
 
 class AssetGridAdapter(
-    private val items: List<Int>
+    private val items: List<String>
 ) : RecyclerView.Adapter<AssetGridAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -22,7 +23,12 @@ class AssetGridAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.image.setImageResource(items[position])
+        val bitmap = BitmapFactory.decodeFile(items[position])
+        if (bitmap != null) {
+            holder.image.setImageBitmap(bitmap)
+        } else {
+            holder.image.setImageResource(android.R.drawable.ic_menu_gallery)
+        }
     }
 
     override fun getItemCount(): Int = items.size
