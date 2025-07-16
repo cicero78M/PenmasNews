@@ -22,7 +22,8 @@
             android:text="@string/desc_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="16dp"
+            android:lineSpacingExtra="2dp" />
 
         <Button
             android:id="@+id/buttonEditorialCalendar"

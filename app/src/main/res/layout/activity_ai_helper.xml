@@ -19,24 +19,35 @@
         <TextView
             android:text="@string/desc_ai_helper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp" />
 
-        <EditText
-            android:id="@+id/editDate"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_date"
-            android:focusable="false"
-            android:clickable="true"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp">
 
-        <EditText
-            android:id="@+id/editInputText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_input_text"
-            android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editInputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/layoutDasar"
@@ -46,12 +57,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editDasar"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_dasar" />
+                android:hint="@string/hint_dasar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDasar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteDasar"
@@ -79,12 +95,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editTersangka"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_tersangka" />
+                android:hint="@string/hint_tersangka">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTersangka"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteTersangka"
@@ -112,12 +133,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editTKP"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_tkp" />
+                android:hint="@string/hint_tkp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTKP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteTKP"
@@ -145,12 +171,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editKronologi"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_kronologi" />
+                android:hint="@string/hint_kronologi">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editKronologi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteKronologi"
@@ -178,12 +209,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editModus"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_modus" />
+                android:hint="@string/hint_modus">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editModus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteModus"
@@ -211,12 +247,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editBarangBukti"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_barang_bukti" />
+                android:hint="@string/hint_barang_bukti">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editBarangBukti"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteBarangBukti"
@@ -244,12 +285,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editPasal"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_pasal" />
+                android:hint="@string/hint_pasal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editPasal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPastePasal"
@@ -277,12 +323,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editAncaman"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_ancaman" />
+                android:hint="@string/hint_ancaman">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editAncaman"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteAncaman"
@@ -311,12 +362,17 @@
             android:visibility="gone"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/editNotes"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/hint_notes" />
+                android:hint="@string/hint_notes">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPasteNotes"
@@ -366,31 +422,46 @@
                 android:visibility="gone" />
         </FrameLayout>
 
-        <EditText
-            android:id="@+id/editSuggestedTitle"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_suggested_title"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editGeneratedNarrative"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editSuggestedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:hint="@string/hint_generated_narrative"
-            android:gravity="top"
-            android:inputType="textMultiLine"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/editGeneratedSummary"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editGeneratedNarrative"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="top"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_generated_summary"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editGeneratedSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
