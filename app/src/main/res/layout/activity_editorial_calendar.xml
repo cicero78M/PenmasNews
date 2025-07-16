@@ -27,8 +27,7 @@
             android:id="@+id/recyclerViewCalendar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/list_border"
-            android:padding="4dp" />
+            style="@style/ListFrame" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

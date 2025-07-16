@@ -28,6 +28,7 @@ Dokumen ini memetakan rancangan halaman pada aplikasi Penmas News beserta alur p
 - Memuat daftar draf dengan status _draft_, _review_, hingga _final_.
 - Setiap entri dapat dibuka kembali di **Penulisan Kolaboratif** jika perlu revisi.
 - Setelah disetujui, konten diteruskan ke **Integrasi CMS**.
+- Tampilan daftar menggunakan bingkai yang sama dengan halaman **Integrasi CMS** agar gaya list konsisten.
 
 ## 7. Integrasi CMS & Sosial Media
 - Menyediakan opsi publikasi ke situs web dan berbagai kanal sosial.
