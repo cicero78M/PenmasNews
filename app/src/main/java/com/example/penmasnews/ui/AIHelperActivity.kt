@@ -349,13 +349,13 @@ class AIHelperActivity : AppCompatActivity() {
                         .getJSONObject("message")
                         .getString("content")
 
-                    val title = generated.substringAfter("Judul Baru:").substringBefore("\n").trim()
-                    val afterTitle = generated.substringAfter("Judul Baru:")
+                    val title = generated.substringAfter("**Judul Baru:**").substringBefore("\n").trim()
+                    val afterTitle = generated.substringAfter("**Judul Baru:**")
                     val narrative = afterTitle
-                        .substringAfter("Narasi:")
-                        .substringBefore("Ringkasan:")
+                        .substringAfter("**Narasi:**")
+                        .substringBefore("**Ringkasan:**")
                         .trim()
-                    val summary = afterTitle.substringAfter("Ringkasan:").trim()
+                    val summary = afterTitle.substringAfter("**Ringkasan:**").trim()
 
                     runOnUiThread {
                         progressGenerate.visibility = android.view.View.GONE
