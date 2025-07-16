@@ -19,10 +19,12 @@ repository, build and run it using Android Studio with the SDK installed.
 
 Open the project in Android Studio to edit and run on a device or emulator.
 
-Create a `.env` file in the project root to supply your OpenAI API key:
+Create a `.env` file in the project root to supply your API keys:
 
 ```
 OPENAI_API_KEY=sk-...
+BLOGGER_API_KEY=your-blogger-key
+BLOGGER_BLOG_ID=your-blog-id
 ```
 An example file `.env.example` is provided.
 

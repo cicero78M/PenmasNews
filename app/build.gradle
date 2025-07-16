@@ -9,6 +9,8 @@ if (envFile.exists()) {
     envFile.withInputStream { envProps.load(it) }
 }
 def openAiKey = envProps.getProperty('OPENAI_API_KEY', '')
+def bloggerKey = envProps.getProperty('BLOGGER_API_KEY', '')
+def bloggerBlogId = envProps.getProperty('BLOGGER_BLOG_ID', '')
 
 android {
     namespace 'com.example.penmasnews'
@@ -21,6 +23,8 @@ android {
         versionCode 1
         versionName '1.0'
         buildConfigField 'String', 'OPENAI_API_KEY', '"' + openAiKey + '"'
+        buildConfigField 'String', 'BLOGGER_API_KEY', '"' + bloggerKey + '"'
+        buildConfigField 'String', 'BLOGGER_BLOG_ID', '"' + bloggerBlogId + '"'
     }
 
     buildTypes {

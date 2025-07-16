@@ -32,7 +32,15 @@ Dokumen ini memetakan rancangan halaman pada aplikasi Penmas News beserta alur p
 
 ## 7. Integrasi CMS & Sosial Media
 - Menyediakan opsi publikasi ke situs web dan berbagai kanal sosial.
+- Implementasi awal menggunakan API Blogspot untuk membuat posting otomatis.
+- Kunci API dan ID blog dibaca dari berkas `.env`.
 - Selesai publikasi, sistem mengarahkan pengguna untuk melihat **Analitik**.
+
+### Skenario Penggunaan
+1. Pengguna membuka halaman Integrasi CMS setelah draf disetujui.
+2. Tekan tombol kirim pada salah satu entri untuk mempublikasikan ke Blogspot.
+3. Aplikasi mengirim judul dan konten via API Blogspot.
+4. Setelah berhasil, muncul notifikasi dan pengguna dapat lanjut ke menu **Analitik**.
 
 ## 8. Analitik & Umpan Balik
 - Dashboard metrik performa artikel dan umpan balik pembaca.
