@@ -22,20 +22,26 @@ object AuthService {
             .url(url)
             .post(obj.toString().toRequestBody(jsonType))
             .build()
-        client.newCall(request).execute().use { resp ->
-            val body = resp.body?.string()
-            if (!resp.isSuccessful || body == null) {
-                val msg = try { JSONObject(body ?: "{}").optString("message") } catch (_: Exception) { null }
-                return Result(false, message = msg)
+        return try {
+            client.newCall(request).execute().use { resp ->
+                val body = resp.body?.string()
+                if (!resp.isSuccessful || body == null) {
+                    val msg = try { JSONObject(body ?: "{}").optString("message") } catch (_: Exception) { null }
+                    return Result(false, message = msg)
+                }
+                val json = JSONObject(body)
+                Result(
+                    json.optBoolean("success"),
+                    json.optString("token"),
+                    json.optString("message", null),
+                    json.optJSONObject("user")?.optString("role")
+                        ?: json.optJSONObject("client")?.optString("role")
+                )
             }
-            val json = JSONObject(body)
-            return Result(
-                json.optBoolean("success"),
-                json.optString("token"),
-                json.optString("message", null),
-                json.optJSONObject("user")?.optString("role")
-                    ?: json.optJSONObject("client")?.optString("role")
-            )
+        } catch (e: javax.net.ssl.SSLException) {
+            Result(false, message = "TLS handshake failed: ${e.message}")
+        } catch (e: java.io.IOException) {
+            Result(false, message = e.message)
         }
     }
 
@@ -49,14 +55,20 @@ object AuthService {
             .url(url)
             .post(obj.toString().toRequestBody(jsonType))
             .build()
-        client.newCall(request).execute().use { resp ->
-            val body = resp.body?.string()
-            if (!resp.isSuccessful || body == null) {
-                val msg = try { JSONObject(body ?: "{}").optString("message") } catch (_: Exception) { null }
-                return Result(false, message = msg)
+        return try {
+            client.newCall(request).execute().use { resp ->
+                val body = resp.body?.string()
+                if (!resp.isSuccessful || body == null) {
+                    val msg = try { JSONObject(body ?: "{}").optString("message") } catch (_: Exception) { null }
+                    return Result(false, message = msg)
+                }
+                val json = JSONObject(body)
+                Result(json.optBoolean("success"), json.optString("token"), json.optString("message"))
             }
-            val json = JSONObject(body)
-            return Result(json.optBoolean("success"), json.optString("token"), json.optString("message"))
+        } catch (e: javax.net.ssl.SSLException) {
+            Result(false, message = "TLS handshake failed: ${e.message}")
+        } catch (e: java.io.IOException) {
+            Result(false, message = e.message)
         }
     }
 }
