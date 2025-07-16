@@ -198,6 +198,11 @@ class AIHelperActivity : AppCompatActivity() {
         var isPressRelease = true
         var currentIndex = 0
 
+        fun checkReady() {
+            val ready = textFields.all { it.isShown && it.text.isNotBlank() }
+            generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
+        }
+
         fun updateForType(press: Boolean) {
             isPressRelease = press
             fields = if (press) pressFields else onlineFields
@@ -221,11 +226,6 @@ class AIHelperActivity : AppCompatActivity() {
         }
 
         updateForType(true)
-
-        fun checkReady() {
-            val ready = textFields.all { it.isShown && it.text.isNotBlank() }
-            generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
-        }
         textFields.forEach { field ->
             field.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) { checkReady() }
