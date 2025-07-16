@@ -9,5 +9,6 @@ data class EditorialEvent(
     val assignee: String,
     var status: String,
     val content: String = "",
-    val summary: String = ""
+    val summary: String = "",
+    val imagePath: String = ""
 )

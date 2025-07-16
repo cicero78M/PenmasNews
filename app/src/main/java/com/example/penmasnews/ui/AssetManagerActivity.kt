@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
+import com.example.penmasnews.model.EventStorage
 
 class AssetManagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,8 +14,9 @@ class AssetManagerActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewAssets)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
-
-        val images = List(9) { android.R.drawable.ic_menu_gallery }
+        val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
+        val events = EventStorage.loadEvents(prefs)
+        val images = events.mapNotNull { if (it.imagePath.isNotBlank()) it.imagePath else null }
         val adapter = AssetGridAdapter(images)
         recyclerView.adapter = adapter
     }

@@ -7,6 +7,9 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.content.ClipboardManager
 import android.content.Context
+import android.widget.ImageView
+import android.content.Intent
+import java.io.File
 import android.text.Editable
 import android.text.TextWatcher
 import com.example.penmasnews.BuildConfig
@@ -24,6 +27,9 @@ import com.example.penmasnews.R
 import java.util.Calendar
 
 class AIHelperActivity : AppCompatActivity() {
+    private lateinit var imageView: ImageView
+    private var selectedImagePath: String? = null
+    companion object { private const val REQUEST_IMAGE = 1001 }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ai_helper)
@@ -39,6 +45,7 @@ class AIHelperActivity : AppCompatActivity() {
         val barangBuktiEdit = findViewById<EditText>(R.id.editBarangBukti)
         val pasalEdit = findViewById<EditText>(R.id.editPasal)
         val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
+        imageView = findViewById(R.id.imageAttachment)
 
         val pasteDasar = findViewById<ImageButton>(R.id.buttonPasteDasar)
         val clearDasar = findViewById<ImageButton>(R.id.buttonClearDasar)
@@ -58,6 +65,12 @@ class AIHelperActivity : AppCompatActivity() {
         val clearAncaman = findViewById<ImageButton>(R.id.buttonClearAncaman)
         val pasteNotes = findViewById<ImageButton>(R.id.buttonPasteNotes)
         val clearNotes = findViewById<ImageButton>(R.id.buttonClearNotes)
+
+        imageView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, REQUEST_IMAGE)
+        }
 
         fun pasteFromClipboard(target: EditText) {
             val cb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -253,7 +266,8 @@ class AIHelperActivity : AppCompatActivity() {
                 "editor",
                 "dalam penulisan",
                 narrativeOutput.text.toString(),
-                summaryOutput.text.toString()
+                summaryOutput.text.toString(),
+                selectedImagePath ?: ""
             )
             events.add(event)
             EventStorage.saveEvents(prefs, events)
@@ -268,6 +282,8 @@ class AIHelperActivity : AppCompatActivity() {
             pasalEdit.text.clear()
             ancamanEdit.text.clear()
             notesEdit.text.clear()
+            imageView.setImageDrawable(null)
+            selectedImagePath = null
             titleOutput.setText("")
             narrativeOutput.setText("")
             summaryOutput.setText("")
@@ -293,6 +309,21 @@ class AIHelperActivity : AppCompatActivity() {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK) {
+            val uri = data?.data ?: return
+            imageView.setImageURI(uri)
+            val fileName = "img_${System.currentTimeMillis()}.jpg"
+            contentResolver.openInputStream(uri)?.use { input ->
+                openFileOutput(fileName, MODE_PRIVATE).use { output ->
+                    input.copyTo(output)
+                }
+            }
+            selectedImagePath = File(filesDir, fileName).absolutePath
+        }
     }
 
 }
