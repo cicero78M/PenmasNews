@@ -4,6 +4,9 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.AutoCompleteTextView
+import android.widget.ArrayAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.model.ChangeLogStorage
@@ -24,9 +27,18 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val topicEdit = findViewById<EditText>(R.id.editTopic)
-        val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
-        val statusEdit = findViewById<EditText>(R.id.editStatus)
+        val assigneeEdit = findViewById<AutoCompleteTextView>(R.id.editAssignee)
+        val statusEdit = findViewById<AutoCompleteTextView>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
+
+        val assigneeList = resources.getStringArray(R.array.assignee_array)
+        val statusList = resources.getStringArray(R.array.status_array)
+        assigneeEdit.setAdapter(
+            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, assigneeList)
+        )
+        statusEdit.setAdapter(
+            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, statusList)
+        )
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
@@ -65,12 +77,23 @@ class EditorialCalendarActivity : AppCompatActivity() {
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
         addButton.setOnClickListener {
+            val assignee = assigneeEdit.text.toString()
+            val status = statusEdit.text.toString()
+            if (assignee !in assigneeList) {
+                Snackbar.make(addButton, R.string.error_invalid_assignee, Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (status !in statusList) {
+                Snackbar.make(addButton, R.string.error_invalid_status, Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val eventsList = EventStorage.loadEvents(prefs)
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
-                assigneeEdit.text.toString(),
-                statusEdit.text.toString()
+                assignee,
+                status
             )
             eventsList.add(event)
             EventStorage.saveEvents(prefs, eventsList)
