@@ -24,6 +24,8 @@ class LoginActivity : AppCompatActivity() {
             if (username == "@papiqo" && password == "12345") {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("actor", "penulis")
+                getSharedPreferences("user", MODE_PRIVATE)
+                    .edit().putString("username", username).apply()
                 startActivity(intent)
                 finish()
             } else {
