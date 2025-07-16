@@ -58,6 +58,15 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/spinnerType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/news_type_array"
+            android:prompt="@string/label_news_type"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/layoutDasar"
             android:layout_width="match_parent"
