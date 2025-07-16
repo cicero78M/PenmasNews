@@ -186,21 +186,21 @@ class AIHelperActivity : AppCompatActivity() {
             val prompt = """
 Anda seorang jurnalis profesional. Berdasarkan informasi berikut ini, buatkan narasi berita dengan struktur sebagai berikut:
 
-   * Tuliskan paragraf pembuka yang mencakup unsur 5W+1H (what, who, when, where, why, how).
-   * Jawab inti berita secara ringkas dan jelas.
+   Tuliskan paragraf pembuka yang mencakup unsur 5W+1H (what, who, when, where, why, how).
+   Jawab inti berita secara ringkas dan jelas.
 
-   * Jelaskan berita secara rinci.
-   * Susun informasi menggunakan metode piramida terbalik; mulai dengan informasi yang paling penting terlebih dahulu, diikuti detail pendukung.
+   Jelaskan berita secara rinci.
+   Susun informasi menggunakan metode piramida terbalik; mulai dengan informasi yang paling penting terlebih dahulu, diikuti detail pendukung.
 
-   * Sertakan kutipan atau pendapat dari narasumber yang relevan.
-   * Pastikan kutipan tersebut memperkuat fakta dalam berita.
+   Sertakan kutipan atau pendapat dari narasumber yang relevan.
+   Pastikan kutipan tersebut memperkuat fakta dalam berita.
 
-   * Tuliskan kalimat penutup singkat yang merangkum inti berita atau memberikan informasi tambahan yang relevan.
+   Tuliskan kalimat penutup singkat yang merangkum inti berita atau memberikan informasi tambahan yang relevan.
 
 Gunakan kalimat pendek, jelas, dan lugas. Hindari jargon atau istilah teknis yang sulit dimengerti pembaca awam. Gunakan bahasa aktif, bukan pasif. Pastikan narasi bersifat faktual, objektif, serta tersusun secara runtut dan mudah dipahami pembaca.
 
                 Berikan saran judul berita baru dengan label 'Judul Baru:' sebelum
-                narasi. Setelah narasi lengkap, berikan ringkasan singkat dengan
+                narasi. label 'Narasi:' untuk isi berita dan berikan ringkasan singkat dengan
                 diawali label 'Ringkasan:'.
 
                 Judul: ${inputEdit.text}
