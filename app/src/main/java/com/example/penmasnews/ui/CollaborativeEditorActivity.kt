@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.content.Intent
 import java.io.File
 import com.example.penmasnews.model.EditorialEvent
-import com.example.penmasnews.model.ApprovalStorage
+import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.model.ChangeLogStorage
 import com.example.penmasnews.ui.ApprovalListActivity
@@ -37,12 +37,16 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         val saveButton = findViewById<Button>(R.id.buttonSave)
         val requestButton = findViewById<Button>(R.id.buttonRequestApproval)
 
-        val prefs = getSharedPreferences(javaClass.simpleName, MODE_PRIVATE)
+        val eventIndex = intent.getIntExtra("index", -1)
+        val eventsPrefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
+        val events = EventStorage.loadEvents(eventsPrefs)
+
         val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
         val changeLogs = ChangeLogStorage.loadLogs(logPrefs)
         displayLogs(changeLogs)
 
-        imagePath = prefs.getString("imagePath", null)
+        val currentEvent = if (eventIndex in events.indices) events[eventIndex] else null
+        imagePath = currentEvent?.imagePath
         imagePath?.let { path ->
             if (path.isNotBlank()) imageView.setImageURI(android.net.Uri.fromFile(File(path)))
         }
@@ -52,25 +56,32 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_IMAGE)
         }
 
-        titleEdit.setText(intent.getStringExtra("title") ?: prefs.getString("title", ""))
-        narrativeEdit.setText(intent.getStringExtra("content") ?: prefs.getString("content", ""))
-        assigneeEdit.setText(intent.getStringExtra("assignee") ?: prefs.getString("assignee", ""))
-        statusEdit.setText(intent.getStringExtra("status") ?: prefs.getString("status", ""))
+        titleEdit.setText(currentEvent?.topic ?: "")
+        narrativeEdit.setText(currentEvent?.content ?: "")
+        assigneeEdit.setText(currentEvent?.assignee ?: "")
+        statusEdit.setText(currentEvent?.status ?: "")
 
         saveButton.setOnClickListener {
-            val oldTitle = prefs.getString("title", "")
-            val oldContent = prefs.getString("content", "")
-            val oldAssignee = prefs.getString("assignee", "")
-            val oldStatus = prefs.getString("status", "")
-            val oldImage = prefs.getString("imagePath", "")
+            val oldEvent = if (eventIndex in events.indices) events[eventIndex] else null
 
-            prefs.edit()
-                .putString("title", titleEdit.text.toString())
-                .putString("content", narrativeEdit.text.toString())
-                .putString("assignee", assigneeEdit.text.toString())
-                .putString("status", statusEdit.text.toString())
-                .putString("imagePath", imagePath ?: "")
-                .apply()
+            if (eventIndex in events.indices) {
+                events[eventIndex] = EditorialEvent(
+                    currentEvent?.date ?: "",
+                    titleEdit.text.toString(),
+                    assigneeEdit.text.toString(),
+                    statusEdit.text.toString(),
+                    narrativeEdit.text.toString(),
+                    currentEvent?.summary ?: "",
+                    imagePath ?: ""
+                )
+                EventStorage.saveEvents(eventsPrefs, events)
+            }
+
+            val oldTitle = oldEvent?.topic ?: ""
+            val oldContent = oldEvent?.content ?: ""
+            val oldAssignee = oldEvent?.assignee ?: ""
+            val oldStatus = oldEvent?.status ?: ""
+            val oldImage = oldEvent?.imagePath ?: ""
 
             val changed = mutableListOf<String>()
             if (oldTitle != titleEdit.text.toString()) changed.add("title")
@@ -89,20 +100,12 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         }
 
         requestButton.setOnClickListener {
-            val prefsApproval = getSharedPreferences(ApprovalStorage.PREFS_NAME, MODE_PRIVATE)
-            val approvals = ApprovalStorage.loadEvents(prefsApproval)
-            approvals.add(
-                EditorialEvent(
-                    "",
-                    titleEdit.text.toString(),
-                    assigneeEdit.text.toString(),
-                    statusEdit.text.toString(),
-                    narrativeEdit.text.toString(),
-                    "",
-                    imagePath ?: ""
-                )
-            )
-            ApprovalStorage.saveEvents(prefsApproval, approvals)
+            if (eventIndex in events.indices) {
+                val event = events[eventIndex]
+                event.status = statusEdit.text.toString()
+                events[eventIndex] = event
+                EventStorage.saveEvents(eventsPrefs, events)
+            }
             startActivity(Intent(this, ApprovalListActivity::class.java))
         }
     }

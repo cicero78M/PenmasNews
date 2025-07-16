@@ -38,6 +38,7 @@
     <string name="hint_add_next_column">Tambahkan kolom selanjutnya</string>
     <string name="action_generate">Generate Berita</string>
     <string name="action_open">Buka Editor</string>
+    <string name="action_ai_assist">Assistensi AI</string>
     <string name="action_paste">Tempel</string>
     <string name="action_clear">Bersihkan</string>
     <string name="dialog_actions">Tindakan</string>

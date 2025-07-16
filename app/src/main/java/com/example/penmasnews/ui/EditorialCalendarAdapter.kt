@@ -12,7 +12,8 @@ import com.example.penmasnews.model.EditorialEvent
 
 class EditorialCalendarAdapter(
     private val items: MutableList<EditorialEvent>,
-    private val onOpen: ((EditorialEvent) -> Unit)? = null,
+    private val onOpen: ((EditorialEvent, Int) -> Unit)? = null,
+    private val onAiAssist: ((EditorialEvent, Int) -> Unit)? = null,
     private val onDelete: ((Int) -> Unit)? = null,
 ) : RecyclerView.Adapter<EditorialCalendarAdapter.ViewHolder>() {
 
@@ -46,11 +47,13 @@ class EditorialCalendarAdapter(
                 .setTitle(R.string.dialog_actions)
                 .setItems(arrayOf(
                     holder.itemView.context.getString(R.string.action_open),
+                    holder.itemView.context.getString(R.string.action_ai_assist),
                     holder.itemView.context.getString(R.string.action_delete)
                 )) { _, which ->
                     when (which) {
-                        0 -> onOpen?.invoke(item)
-                        1 -> {
+                        0 -> onOpen?.invoke(item, position)
+                        1 -> onAiAssist?.invoke(item, position)
+                        2 -> {
                             items.removeAt(position)
                             notifyItemRemoved(position)
                             onDelete?.invoke(position)

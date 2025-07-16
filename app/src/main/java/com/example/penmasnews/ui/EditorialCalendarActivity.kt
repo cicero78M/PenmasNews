@@ -41,13 +41,19 @@ class EditorialCalendarActivity : AppCompatActivity() {
         // load AI-assisted drafts stored from AIHelperActivity
         // events already include entries saved from AIHelperActivity
 
-        val adapter = EditorialCalendarAdapter(events,
-            onOpen = { event ->
+        val adapter = EditorialCalendarAdapter(
+            events,
+            onOpen = { _, index ->
                 val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
+                intent.putExtra("index", index)
+                startActivity(intent)
+            },
+            onAiAssist = { event, index ->
+                val intent = android.content.Intent(this, AIHelperActivity::class.java)
+                intent.putExtra("index", index)
+                intent.putExtra("date", event.date)
                 intent.putExtra("title", event.topic)
-                intent.putExtra("content", event.content)
                 intent.putExtra("assignee", event.assignee)
-                intent.putExtra("status", event.status)
                 startActivity(intent)
             },
             onDelete = { _ ->
