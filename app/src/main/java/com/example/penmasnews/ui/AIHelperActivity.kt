@@ -244,9 +244,11 @@ Gunakan kalimat pendek, jelas, dan lugas. Hindari jargon atau istilah teknis yan
 
                     val title = generated.substringAfter("Judul Baru:").substringBefore("\n").trim()
                     val afterTitle = generated.substringAfter("Judul Baru:")
-                    val parts = afterTitle.split("Ringkasan:")
-                    val narrative = parts.getOrNull(0)?.substringAfter("\n")?.trim() ?: ""
-                    val summary = parts.getOrNull(1)?.trim() ?: ""
+                    val narrative = afterTitle
+                        .substringAfter("Narasi:")
+                        .substringBefore("Ringkasan:")
+                        .trim()
+                    val summary = afterTitle.substringAfter("Ringkasan:").trim()
 
                     runOnUiThread {
                         progressGenerate.visibility = android.view.View.GONE
