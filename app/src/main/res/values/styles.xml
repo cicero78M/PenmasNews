@@ -1,0 +1,6 @@
+<resources>
+    <style name="ListFrame">
+        <item name="android:background">@drawable/list_border</item>
+        <item name="android:padding">4dp</item>
+    </style>
+</resources>

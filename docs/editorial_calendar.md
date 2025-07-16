@@ -34,3 +34,9 @@ Modul ini menampilkan kalender harian, mingguan, atau bulanan yang memuat:
 4. **Persiapan Multimedia** – unggah aset dan lampirkan ke artikel.
 5. **Persetujuan & Publikasi** – konten diterbitkan ke CMS dan kanal sosial.
 6. **Analisis & Optimasi** – memantau performa serta rekomendasi topik lanjutan.
+
+## Tampilan ListView
+
+Daftar agenda ditampilkan menggunakan gaya bingkai yang sama seperti halaman
+**Integrasi CMS**. Setiap baris memiliki garis tepi halus dan seluruh daftar
+dilingkupi frame serupa untuk konsistensi visual.
