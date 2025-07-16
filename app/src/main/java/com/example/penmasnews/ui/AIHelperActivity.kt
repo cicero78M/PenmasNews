@@ -105,6 +105,9 @@ class AIHelperActivity : AppCompatActivity() {
         val titleOutput = findViewById<EditText>(R.id.editSuggestedTitle)
         val narrativeOutput = findViewById<EditText>(R.id.editGeneratedNarrative)
         val summaryOutput = findViewById<EditText>(R.id.editGeneratedSummary)
+        val layoutSuggestedTitle = findViewById<android.view.View>(R.id.layoutSuggestedTitle)
+        val layoutGeneratedNarrative = findViewById<android.view.View>(R.id.layoutGeneratedNarrative)
+        val layoutGeneratedSummary = findViewById<android.view.View>(R.id.layoutGeneratedSummary)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
@@ -363,9 +366,9 @@ class AIHelperActivity : AppCompatActivity() {
                         titleOutput.setText(title)
                         narrativeOutput.setText(narrative)
                         summaryOutput.setText(summary)
-                        titleOutput.visibility = android.view.View.VISIBLE
-                        narrativeOutput.visibility = android.view.View.VISIBLE
-                        summaryOutput.visibility = android.view.View.VISIBLE
+                        layoutSuggestedTitle.visibility = android.view.View.VISIBLE
+                        layoutGeneratedNarrative.visibility = android.view.View.VISIBLE
+                        layoutGeneratedSummary.visibility = android.view.View.VISIBLE
                         saveButton.visibility = android.view.View.VISIBLE
                     }
                 } catch (e: Exception) {
@@ -408,9 +411,9 @@ class AIHelperActivity : AppCompatActivity() {
             titleOutput.setText("")
             narrativeOutput.setText("")
             summaryOutput.setText("")
-            titleOutput.visibility = android.view.View.GONE
-            narrativeOutput.visibility = android.view.View.GONE
-            summaryOutput.visibility = android.view.View.GONE
+            layoutSuggestedTitle.visibility = android.view.View.GONE
+            layoutGeneratedNarrative.visibility = android.view.View.GONE
+            layoutGeneratedSummary.visibility = android.view.View.GONE
             generateButton.visibility = android.view.View.GONE
             saveButton.visibility = android.view.View.GONE
             val intent = android.content.Intent(this, EditorialCalendarActivity::class.java)
