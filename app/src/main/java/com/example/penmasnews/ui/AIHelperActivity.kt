@@ -260,24 +260,7 @@ class AIHelperActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val prompt = if (isPressRelease) """
-Anda seorang jurnalis profesional. Berdasarkan informasi berikut ini, buatkan narasi berita dengan struktur sebagai berikut:
-
-   Tuliskan paragraf pembuka yang mencakup unsur 5W+1H (what, who, when, where, why, how).
-   Jawab inti berita secara ringkas dan jelas.
-
-   Jelaskan berita secara rinci.
-   Susun informasi menggunakan metode piramida terbalik; mulai dengan informasi yang paling penting terlebih dahulu, diikuti detail pendukung.
-
-   Sertakan kutipan atau pendapat dari narasumber yang relevan.
-   Pastikan kutipan tersebut memperkuat fakta dalam berita.
-
-   Tuliskan kalimat penutup singkat yang merangkum inti berita atau memberikan informasi tambahan yang relevan.
-
-Gunakan kalimat pendek, jelas, dan lugas. Hindari jargon atau istilah teknis yang sulit dimengerti pembaca awam. Gunakan bahasa aktif, bukan pasif. Pastikan narasi bersifat faktual, objektif, serta tersusun secara runtut dan mudah dipahami pembaca.
-
-                Berikan saran judul berita baru dengan label 'Judul Baru:' sebelum
-                narasi. label 'Narasi:' untuk isi berita dan berikan ringkasan singkat dengan
-                diawali label 'Ringkasan:'.
+                Anda seorang jurnalis profesional. Berdasarkan informasi berikut ini
 
                 Judul: ${inputEdit.text}
                 Dasar: ${dasarEdit.text}
@@ -289,8 +272,35 @@ Gunakan kalimat pendek, jelas, dan lugas. Hindari jargon atau istilah teknis yan
                 Pasal yang dipersangkakan: ${pasalEdit.text}
                 Ancaman hukuman: ${ancamanEdit.text}
                 Catatan: ${notesEdit.text}
+                
+                buatkan narasi berita dengan struktur sebagai berikut:
+
+                Tuliskan paragraf pembuka yang mencakup unsur 5W+1H (what, who, when, where, why, how).
+                Jawab inti berita secara ringkas dan jelas.
+
+                Jelaskan berita secara rinci.
+                Susun informasi menggunakan metode piramida terbalik; mulai dengan informasi yang paling penting terlebih dahulu, diikuti detail pendukung.
+
+                Sertakan kutipan atau pendapat dari narasumber yang relevan, dengan kalimat wajar, tidak berlebihan.
+                Pastikan kutipan tersebut memperkuat fakta dalam berita.
+
+                Tuliskan kalimat penutup singkat yang merangkum inti berita atau memberikan informasi tambahan yang relevan.
+
+                Gunakan kalimat pendek, jelas, dan lugas. 
+                Hindari jargon atau istilah teknis yang sulit dimengerti pembaca awam. 
+                Gunakan bahasa aktif, bukan pasif. 
+                Pastikan narasi bersifat faktual, objektif, serta tersusun secara runtut dan mudah dipahami pembaca.
+
+                Berikan saran judul berita baru dengan label 'Judul Baru:' sebelum
+                narasi. label 'Narasi:' untuk isi berita dan berikan ringkasan singkat dengan
+                diawali label 'Ringkasan:'.
+
+               
             """.trimIndent() else """
-Anda seorang jurnalis profesional. Berdasarkan catatan berikut, buatkan narasi berita dengan struktur serupa. Tulis judul baru dengan label 'Judul Baru:' kemudian 'Narasi:' dan 'Ringkasan:'.
+                
+                Anda seorang jurnalis profesional. 
+                Berdasarkan catatan berikut, buatkan narasi berita dengan struktur serupa. 
+                Tulis judul baru dengan label 'Judul Baru:' kemudian 'Narasi:' dan 'Ringkasan:'.
 
                 Catatan: ${notesEdit.text}
             """.trimIndent()
