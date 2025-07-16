@@ -57,4 +57,21 @@
     <string name="action_login">Login</string>
     <string name="error_login">Login gagal</string>
     <string name="hello_actor">Halo, %1$s</string>
+
+    <string-array name="assignee_array">
+        <item>@papiqo</item>
+        <item>@penmas</item>
+        <item>Andi</item>
+        <item>Budi</item>
+        <item>Citra</item>
+    </string-array>
+    <string-array name="status_array">
+        <item>ide</item>
+        <item>dalam penulisan</item>
+        <item>review</item>
+        <item>siap publish</item>
+    </string-array>
+    <string name="error_invalid_assignee">Penugasan harus dipilih dari daftar</string>
+    <string name="error_invalid_status">Status harus dipilih dari daftar</string>
+    <string name="status_changed_review">Status diubah menjadi review</string>
 </resources>
