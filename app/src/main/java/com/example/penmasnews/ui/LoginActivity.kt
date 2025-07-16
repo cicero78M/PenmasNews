@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.MainActivity
 import com.example.penmasnews.R
+import com.example.penmasnews.network.AuthService
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,30 +18,36 @@ class LoginActivity : AppCompatActivity() {
         val editUsername = findViewById<TextInputEditText>(R.id.editUsername)
         val editPassword = findViewById<TextInputEditText>(R.id.editPassword)
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
+        val buttonSignup = findViewById<Button>(R.id.buttonSignup)
 
         buttonLogin.setOnClickListener {
             val username = editUsername.text.toString()
             val password = editPassword.text.toString()
+            Thread {
+                val result = AuthService.login(username, password)
+                runOnUiThread {
+                    if (result.success && result.token != null) {
+                        loginUser(username, result.role ?: "penulis", result.token)
+                    } else {
+                        Toast.makeText(this, result.message ?: getString(R.string.error_login), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }.start()
+        }
 
-            when {
-                username == "@papiqo" && password == "12345" -> {
-                    loginUser(username, "penulis")
-                }
-                username == "@penmas" && password == "12345" -> {
-                    loginUser(username, "editor")
-                }
-                else -> {
-                    Toast.makeText(this, R.string.error_login, Toast.LENGTH_SHORT).show()
-                }
-            }
+        buttonSignup.setOnClickListener {
+            startActivity(Intent(this, SignupActivity::class.java))
         }
     }
 
-    private fun loginUser(username: String, role: String) {
+    private fun loginUser(username: String, role: String, token: String) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("actor", role)
         getSharedPreferences("user", MODE_PRIVATE)
-            .edit().putString("username", username).apply()
+            .edit()
+            .putString("username", username)
+            .putString("token", token)
+            .apply()
         startActivity(intent)
         finish()
     }

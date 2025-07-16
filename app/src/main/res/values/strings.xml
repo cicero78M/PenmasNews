@@ -55,7 +55,10 @@
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="action_login">Login</string>
+    <string name="action_signup">Sign Up</string>
     <string name="error_login">Login gagal</string>
+    <string name="error_signup">Pendaftaran gagal</string>
+    <string name="signup_success">Pendaftaran berhasil</string>
     <string name="hello_actor">Halo, %1$s</string>
 
     <string-array name="assignee_array">
