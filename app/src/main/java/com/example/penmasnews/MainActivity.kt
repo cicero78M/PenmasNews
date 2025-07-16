@@ -3,6 +3,7 @@ package com.example.penmasnews
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.ui.AIHelperActivity
 import com.example.penmasnews.ui.AnalyticsDashboardActivity
@@ -16,6 +17,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        intent.getStringExtra("actor")?.let { role ->
+            val helloText = findViewById<TextView>(R.id.helloText)
+            helloText.text = getString(R.string.hello_actor, role)
+        }
 
         findViewById<Button>(R.id.buttonEditorialCalendar).setOnClickListener {
             startActivity(Intent(this, EditorialCalendarActivity::class.java))

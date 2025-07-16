@@ -4,6 +4,9 @@ This repository contains a minimal Android application skeleton written in Kotli
 It demonstrates the core structure for a news production workflow app. Several
 features are represented as placeholder classes.
 
+When the app starts you will be presented with a simple login screen. Use the
+credentials `@papiqo` and password `12345` to log in as the `penulis` actor.
+
 ## Building the App
 
 This project uses Gradle. Because the Android SDK isn't bundled in this
