@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import com.example.penmasnews.model.EventStorage
+import com.example.penmasnews.model.ChangeLogEntry
+import com.example.penmasnews.model.ChangeLogStorage
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +68,21 @@ class EditorialCalendarActivity : AppCompatActivity() {
             )
             eventsList.add(event)
             EventStorage.saveEvents(prefs, eventsList)
+            // log creation of new calendar event
+            val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
+            val logs = ChangeLogStorage.loadLogs(logPrefs)
+            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
+            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
+            logs.add(
+                ChangeLogEntry(
+                    user,
+                    event.status,
+                    changesDesc,
+                    System.currentTimeMillis()
+                )
+            )
+            ChangeLogStorage.saveLogs(logPrefs, logs)
             adapter.addItem(event)
             dateEdit.text.clear()
             topicEdit.text.clear()

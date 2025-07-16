@@ -15,6 +15,8 @@ import android.text.TextWatcher
 import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
+import com.example.penmasnews.model.ChangeLogEntry
+import com.example.penmasnews.model.ChangeLogStorage
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -395,6 +397,21 @@ class AIHelperActivity : AppCompatActivity() {
             )
             events.add(event)
             EventStorage.saveEvents(prefs, events)
+            // log save of AI generated content
+            val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
+            val logs = ChangeLogStorage.loadLogs(logPrefs)
+            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
+            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            val changesDesc = listOf("ai_generated", "date", "title").joinToString(", ")
+            logs.add(
+                ChangeLogEntry(
+                    user,
+                    event.status,
+                    changesDesc,
+                    System.currentTimeMillis()
+                )
+            )
+            ChangeLogStorage.saveLogs(logPrefs, logs)
             dateEdit.text.clear()
             inputEdit.text.clear()
             dasarEdit.text.clear()

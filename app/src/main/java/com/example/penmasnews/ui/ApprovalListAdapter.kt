@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
+import com.example.penmasnews.model.ChangeLogEntry
+import com.example.penmasnews.model.ChangeLogStorage
 
 class ApprovalListAdapter(
     private val items: MutableList<EditorialEvent>,
@@ -35,12 +37,40 @@ class ApprovalListAdapter(
         holder.approveButton.setOnClickListener {
             item.status = "disetujui"
             notifyItemChanged(position)
+            val context = holder.itemView.context
+            val logPrefs = context.getSharedPreferences(ChangeLogStorage.PREFS_NAME, android.content.Context.MODE_PRIVATE)
+            val logs = ChangeLogStorage.loadLogs(logPrefs)
+            val userPrefs = context.getSharedPreferences("user", android.content.Context.MODE_PRIVATE)
+            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            logs.add(
+                ChangeLogEntry(
+                    user,
+                    item.status,
+                    "workflow approve",
+                    System.currentTimeMillis()
+                )
+            )
+            ChangeLogStorage.saveLogs(logPrefs, logs)
             onStatusChanged?.invoke()
         }
 
         holder.rejectButton.setOnClickListener {
             item.status = "revisi"
             notifyItemChanged(position)
+            val context = holder.itemView.context
+            val logPrefs = context.getSharedPreferences(ChangeLogStorage.PREFS_NAME, android.content.Context.MODE_PRIVATE)
+            val logs = ChangeLogStorage.loadLogs(logPrefs)
+            val userPrefs = context.getSharedPreferences("user", android.content.Context.MODE_PRIVATE)
+            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            logs.add(
+                ChangeLogEntry(
+                    user,
+                    item.status,
+                    "workflow reject",
+                    System.currentTimeMillis()
+                )
+            )
+            ChangeLogStorage.saveLogs(logPrefs, logs)
             onStatusChanged?.invoke()
         }
     }
