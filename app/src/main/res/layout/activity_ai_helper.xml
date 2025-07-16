@@ -441,6 +441,7 @@
         </FrameLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSuggestedTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_suggested_title"
@@ -454,6 +455,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutGeneratedNarrative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_generated_narrative"
@@ -469,6 +471,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutGeneratedSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_generated_summary"
