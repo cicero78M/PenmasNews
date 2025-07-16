@@ -5,7 +5,8 @@ It demonstrates the core structure for a news production workflow app. Several
 features are represented as placeholder classes.
 
 When the app starts you will be presented with a simple login screen. Use the
-credentials `@papiqo` and password `12345` to log in as the `penulis` actor.
+credentials `@papiqo` with password `12345` to log in as the `penulis` actor or
+`@penmas` with the same password to log in as the `editor` actor.
 
 ## Building the App
 

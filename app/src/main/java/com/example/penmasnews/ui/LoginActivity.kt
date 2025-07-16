@@ -21,16 +21,27 @@ class LoginActivity : AppCompatActivity() {
         buttonLogin.setOnClickListener {
             val username = editUsername.text.toString()
             val password = editPassword.text.toString()
-            if (username == "@papiqo" && password == "12345") {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("actor", "penulis")
-                getSharedPreferences("user", MODE_PRIVATE)
-                    .edit().putString("username", username).apply()
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, R.string.error_login, Toast.LENGTH_SHORT).show()
+
+            when {
+                username == "@papiqo" && password == "12345" -> {
+                    loginUser(username, "penulis")
+                }
+                username == "@penmas" && password == "12345" -> {
+                    loginUser(username, "editor")
+                }
+                else -> {
+                    Toast.makeText(this, R.string.error_login, Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    private fun loginUser(username: String, role: String) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("actor", role)
+        getSharedPreferences("user", MODE_PRIVATE)
+            .edit().putString("username", username).apply()
+        startActivity(intent)
+        finish()
     }
 }
