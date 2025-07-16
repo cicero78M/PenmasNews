@@ -3,7 +3,7 @@ package com.example.penmasnews.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
+import com.google.android.material.textfield.TextInputEditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.MainActivity
@@ -14,8 +14,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val editUsername = findViewById<EditText>(R.id.editUsername)
-        val editPassword = findViewById<EditText>(R.id.editPassword)
+        val editUsername = findViewById<TextInputEditText>(R.id.editUsername)
+        val editPassword = findViewById<TextInputEditText>(R.id.editPassword)
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
 
         buttonLogin.setOnClickListener {
