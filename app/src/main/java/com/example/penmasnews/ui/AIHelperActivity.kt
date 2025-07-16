@@ -46,6 +46,7 @@ class AIHelperActivity : AppCompatActivity() {
         val barangBuktiEdit = findViewById<EditText>(R.id.editBarangBukti)
         val pasalEdit = findViewById<EditText>(R.id.editPasal)
         val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
+        val typeSpinner = findViewById<android.widget.Spinner>(R.id.spinnerType)
         imageView = findViewById(R.id.imageAttachment)
 
         val pasteDasar = findViewById<ImageButton>(R.id.buttonPasteDasar)
@@ -119,8 +120,9 @@ class AIHelperActivity : AppCompatActivity() {
         val layoutAncaman = findViewById<android.view.View>(R.id.layoutAncaman)
         val layoutNotes = findViewById<android.view.View>(R.id.layoutNotes)
 
-        val fields = listOf<android.view.View>(
+        val allViews = listOf(
             layoutInput,
+            typeSpinner,
             layoutDasar,
             layoutTersangka,
             layoutTKP,
@@ -132,7 +134,21 @@ class AIHelperActivity : AppCompatActivity() {
             layoutNotes,
         )
 
-        val textFields = listOf(
+        val pressFields = listOf(
+            layoutInput,
+            typeSpinner,
+            layoutDasar,
+            layoutTersangka,
+            layoutTKP,
+            layoutKronologi,
+            layoutModus,
+            layoutBarangBukti,
+            layoutPasal,
+            layoutAncaman,
+            layoutNotes,
+        )
+
+        val pressText = listOf(
             inputEdit,
             dasarEdit,
             tersangkaEdit,
@@ -145,6 +161,67 @@ class AIHelperActivity : AppCompatActivity() {
             notesEdit,
         )
 
+        val pressFocus = listOf<android.view.View>(
+            inputEdit,
+            typeSpinner,
+            dasarEdit,
+            tersangkaEdit,
+            tkpEdit,
+            kronologiEdit,
+            modusEdit,
+            barangBuktiEdit,
+            pasalEdit,
+            ancamanEdit,
+            notesEdit,
+        )
+
+        val onlineFields = listOf(
+            layoutInput,
+            typeSpinner,
+            layoutNotes,
+        )
+
+        val onlineText = listOf(
+            inputEdit,
+            notesEdit,
+        )
+
+        val onlineFocus = listOf<android.view.View>(
+            inputEdit,
+            typeSpinner,
+            notesEdit,
+        )
+
+        var fields = pressFields
+        var textFields = pressText
+        var focusFields = pressFocus
+        var isPressRelease = true
+        var currentIndex = 0
+
+        fun updateForType(press: Boolean) {
+            isPressRelease = press
+            fields = if (press) pressFields else onlineFields
+            textFields = if (press) pressText else onlineText
+            focusFields = if (press) pressFocus else onlineFocus
+            allViews.forEach { view ->
+                if (view !in listOf(layoutInput, typeSpinner)) {
+                    view.visibility = android.view.View.GONE
+                }
+            }
+            currentIndex = listOf(layoutInput, typeSpinner).count { it.isShown }
+            addColumnButton.visibility = if (currentIndex < fields.size) android.view.View.VISIBLE else android.view.View.GONE
+            checkReady()
+        }
+
+        typeSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+                updateForType(position == 0)
+            }
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+        }
+
+        updateForType(true)
+
         fun checkReady() {
             val ready = textFields.all { it.isShown && it.text.isNotBlank() }
             generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
@@ -156,11 +233,10 @@ class AIHelperActivity : AppCompatActivity() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
         }
-        var currentIndex = 0
         addColumnButton.setOnClickListener {
             if (currentIndex < fields.size) {
                 fields[currentIndex].visibility = android.view.View.VISIBLE
-                textFields[currentIndex].requestFocus()
+                focusFields[currentIndex].requestFocus()
                 currentIndex++
                 if (currentIndex >= fields.size) {
                     addColumnButton.visibility = android.view.View.GONE
@@ -183,7 +259,7 @@ class AIHelperActivity : AppCompatActivity() {
                 narrativeOutput.setText("Missing API key")
                 return@setOnClickListener
             }
-            val prompt = """
+            val prompt = if (isPressRelease) """
 Anda seorang jurnalis profesional. Berdasarkan informasi berikut ini, buatkan narasi berita dengan struktur sebagai berikut:
 
    Tuliskan paragraf pembuka yang mencakup unsur 5W+1H (what, who, when, where, why, how).
@@ -212,6 +288,10 @@ Gunakan kalimat pendek, jelas, dan lugas. Hindari jargon atau istilah teknis yan
                 Barang Bukti: ${barangBuktiEdit.text}
                 Pasal yang dipersangkakan: ${pasalEdit.text}
                 Ancaman hukuman: ${ancamanEdit.text}
+                Catatan: ${notesEdit.text}
+            """.trimIndent() else """
+Anda seorang jurnalis profesional. Berdasarkan catatan berikut, buatkan narasi berita dengan struktur serupa. Tulis judul baru dengan label 'Judul Baru:' kemudian 'Narasi:' dan 'Ringkasan:'.
+
                 Catatan: ${notesEdit.text}
             """.trimIndent()
             Thread {
