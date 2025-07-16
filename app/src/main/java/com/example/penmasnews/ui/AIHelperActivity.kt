@@ -37,6 +37,7 @@ class AIHelperActivity : AppCompatActivity() {
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val notesEdit = findViewById<EditText>(R.id.editNotes)
         val inputEdit = findViewById<EditText>(R.id.editInputText)
+        val layoutInput = findViewById<android.view.View>(R.id.layoutInputText)
         val dasarEdit = findViewById<EditText>(R.id.editDasar)
         val tersangkaEdit = findViewById<EditText>(R.id.editTersangka)
         val tkpEdit = findViewById<EditText>(R.id.editTKP)
@@ -119,7 +120,7 @@ class AIHelperActivity : AppCompatActivity() {
         val layoutNotes = findViewById<android.view.View>(R.id.layoutNotes)
 
         val fields = listOf<android.view.View>(
-            inputEdit,
+            layoutInput,
             layoutDasar,
             layoutTersangka,
             layoutTKP,
@@ -145,7 +146,7 @@ class AIHelperActivity : AppCompatActivity() {
         )
 
         fun checkReady() {
-            val ready = textFields.all { it.visibility == android.view.View.VISIBLE && it.text.isNotBlank() }
+            val ready = textFields.all { it.isShown && it.text.isNotBlank() }
             generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
         }
         textFields.forEach { field ->
