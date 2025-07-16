@@ -70,6 +70,12 @@ class AIHelperActivity : AppCompatActivity() {
         val pasteNotes = findViewById<ImageButton>(R.id.buttonPasteNotes)
         val clearNotes = findViewById<ImageButton>(R.id.buttonClearNotes)
 
+        val index = intent.getIntExtra("index", -1)
+        val extrasDate = intent.getStringExtra("date")
+        val extrasTitle = intent.getStringExtra("title")
+        extrasDate?.let { dateEdit.setText(it) }
+        extrasTitle?.let { inputEdit.setText(it) }
+
         imageView.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
@@ -395,7 +401,11 @@ class AIHelperActivity : AppCompatActivity() {
                 summaryOutput.text.toString(),
                 selectedImagePath ?: ""
             )
-            events.add(event)
+            if (index >= 0 && index < events.size) {
+                events[index] = event
+            } else {
+                events.add(event)
+            }
             EventStorage.saveEvents(prefs, events)
             // log save of AI generated content
             val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
