@@ -11,7 +11,13 @@ object AuthService {
     private val client = OkHttpClient()
     private val jsonType = "application/json; charset=utf-8".toMediaType()
 
-    data class Result(val success: Boolean, val token: String? = null, val message: String? = null, val role: String? = null)
+    data class Result(
+        val success: Boolean,
+        val token: String? = null,
+        val message: String? = null,
+        val role: String? = null,
+        val raw: String? = null
+    )
 
     fun login(username: String, password: String): Result {
         val url = BuildConfig.BACKEND_BASE_URL.trimEnd('/') + "/auth/penmas-login"
@@ -27,7 +33,7 @@ object AuthService {
                 val body = resp.body?.string()
                 if (!resp.isSuccessful || body == null) {
                     val msg = try { JSONObject(body ?: "{}").optString("message") } catch (_: Exception) { null }
-                    return Result(false, message = msg)
+                    return Result(false, message = msg, raw = body)
                 }
                 val json = JSONObject(body)
                 Result(
@@ -35,7 +41,8 @@ object AuthService {
                     json.optString("token"),
                     json.optString("message", null),
                     json.optJSONObject("user")?.optString("role")
-                        ?: json.optJSONObject("client")?.optString("role")
+                        ?: json.optJSONObject("client")?.optString("role"),
+                    raw = body
                 )
             }
         } catch (e: javax.net.ssl.SSLException) {
@@ -60,10 +67,15 @@ object AuthService {
                 val body = resp.body?.string()
                 if (!resp.isSuccessful || body == null) {
                     val msg = try { JSONObject(body ?: "{}").optString("message") } catch (_: Exception) { null }
-                    return Result(false, message = msg)
+                    return Result(false, message = msg, raw = body)
                 }
                 val json = JSONObject(body)
-                Result(json.optBoolean("success"), json.optString("token"), json.optString("message"))
+                Result(
+                    json.optBoolean("success"),
+                    json.optString("token"),
+                    json.optString("message"),
+                    raw = body
+                )
             }
         } catch (e: javax.net.ssl.SSLException) {
             Result(false, message = "TLS handshake failed: ${e.message}")

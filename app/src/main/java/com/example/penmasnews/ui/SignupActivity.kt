@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import com.example.penmasnews.network.AuthService
+import android.content.ClipboardManager
+import android.content.ClipData
+import android.content.Context
 
 class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +30,10 @@ class SignupActivity : AppCompatActivity() {
                         Toast.makeText(this, R.string.signup_success, Toast.LENGTH_SHORT).show()
                         finish()
                     } else {
-                        Toast.makeText(this, result.message ?: getString(R.string.error_signup), Toast.LENGTH_SHORT).show()
+                        val msg = result.raw ?: result.message ?: getString(R.string.error_signup)
+                        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText("signup_error", msg))
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                     }
                 }
             }.start()
