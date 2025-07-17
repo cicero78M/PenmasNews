@@ -42,7 +42,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
-        val events = EventStorage.loadEvents(prefs).ifEmpty {
+        val events = EventStorage.loadEvents(this).ifEmpty {
             mutableListOf(
                 EditorialEvent("1 Jan", "Refleksi Awal Tahun", "Andi", "draft"),
                 EditorialEvent("5 Jan", "Tren Teknologi 2024", "Budi", "review"),
@@ -69,7 +69,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 startActivity(intent)
             },
             onDelete = { _ ->
-                EventStorage.saveEvents(prefs, events)
+                EventStorage.saveEvents(this, events)
             }
         )
         recyclerView.adapter = adapter
@@ -88,7 +88,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val eventsList = EventStorage.loadEvents(prefs)
+            val eventsList = EventStorage.loadEvents(this)
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
@@ -96,7 +96,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 status
             )
             eventsList.add(event)
-            EventStorage.saveEvents(prefs, eventsList)
+            EventStorage.saveEvents(this, eventsList)
             // log creation of new calendar event
             val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)
