@@ -16,6 +16,7 @@ object AuthService {
         val token: String? = null,
         val message: String? = null,
         val role: String? = null,
+        val userId: String? = null,
         val raw: String? = null
     )
 
@@ -42,6 +43,8 @@ object AuthService {
                     json.optString("message", null),
                     json.optJSONObject("user")?.optString("role")
                         ?: json.optJSONObject("client")?.optString("role"),
+                    json.optJSONObject("user")?.optString("user_id")
+                        ?: json.optJSONObject("client")?.optString("client_id"),
                     raw = body
                 )
             }
@@ -52,12 +55,11 @@ object AuthService {
         }
     }
 
-    fun signup(username: String, password: String, token: String, role: String): Result {
+    fun signup(username: String, password: String, role: String): Result {
         val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/auth/penmas-register"
         val obj = JSONObject()
         obj.put("username", username)
         obj.put("password", password)
-        obj.put("token", token)
         obj.put("role", role)
         val request = Request.Builder()
             .url(url)
@@ -73,8 +75,8 @@ object AuthService {
                 val json = JSONObject(body)
                 Result(
                     json.optBoolean("success"),
-                    json.optString("token"),
-                    json.optString("message"),
+                    message = json.optString("message", null),
+                    userId = json.optString("user_id", null),
                     raw = body
                 )
             }
