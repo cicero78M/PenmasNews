@@ -38,10 +38,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
-        val events = EventStorage.loadEvents(this)
-
-        // load AI-assisted drafts stored from AIHelperActivity
-        // events already include entries saved from AIHelperActivity
+        // load events on a background thread to avoid NetworkOnMainThreadException
+        val events = mutableListOf<EditorialEvent>()
 
         val adapter = EditorialCalendarAdapter(
             events,
@@ -60,11 +58,20 @@ class EditorialCalendarActivity : AppCompatActivity() {
             },
             onDelete = { item, _ ->
                 if (item.id != 0) {
-                    EventStorage.deleteEvent(this, item.id)
+                    Thread { EventStorage.deleteEvent(this, item.id) }.start()
                 }
             }
         )
         recyclerView.adapter = adapter
+
+        // Fetch events asynchronously
+        Thread {
+            val loaded = EventStorage.loadEvents(this)
+            runOnUiThread {
+                events.addAll(loaded)
+                adapter.notifyDataSetChanged()
+            }
+        }.start()
 
         dateEdit.setOnClickListener { showDatePicker(dateEdit) }
 
@@ -82,30 +89,34 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 assignee,
                 status
             )
-            val created = EventStorage.addEvent(this, event)
-            if (created != null) {
-                events.add(created)
-                adapter.addItem(created)
-            }
-            // log creation of new calendar event
-            val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
-            val logs = ChangeLogStorage.loadLogs(logPrefs)
-            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
-            val user = userPrefs.getString("username", "unknown") ?: "unknown"
-            val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
-            logs.add(
-                ChangeLogEntry(
-                    user,
-                    event.status,
-                    changesDesc,
-                    System.currentTimeMillis()
-                )
-            )
-            ChangeLogStorage.saveLogs(logPrefs, logs)
-            dateEdit.text.clear()
-            topicEdit.text.clear()
-            assigneeEdit.text.clear()
-            statusEdit.text.clear()
+            Thread {
+                val created = EventStorage.addEvent(this, event)
+                runOnUiThread {
+                    if (created != null) {
+                        events.add(created)
+                        adapter.addItem(created)
+                    }
+                    // log creation of new calendar event
+                    val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
+                    val logs = ChangeLogStorage.loadLogs(logPrefs)
+                    val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
+                    val user = userPrefs.getString("username", "unknown") ?: "unknown"
+                    val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
+                    logs.add(
+                        ChangeLogEntry(
+                            user,
+                            event.status,
+                            changesDesc,
+                            System.currentTimeMillis()
+                        )
+                    )
+                    ChangeLogStorage.saveLogs(logPrefs, logs)
+                    dateEdit.text.clear()
+                    topicEdit.text.clear()
+                    assigneeEdit.text.clear()
+                    statusEdit.text.clear()
+                }
+            }.start()
         }
 
     }
