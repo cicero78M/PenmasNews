@@ -30,10 +30,11 @@ class SignupActivity : AppCompatActivity() {
                         Toast.makeText(this, R.string.signup_success, Toast.LENGTH_SHORT).show()
                         finish()
                     } else {
-                        val msg = result.message ?: getString(R.string.error_signup)
+                        val msg = result.raw ?: result.message ?: getString(R.string.error_signup)
                         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         clipboard.setPrimaryClip(ClipData.newPlainText("signup_error", msg))
-                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+
                     }
                 }
             }.start()
