@@ -109,7 +109,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
                     // log creation of new calendar event
                     val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
                     val logs = ChangeLogStorage.loadLogs(logPrefs)
-                    val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
                     val user = userPrefs.getString("username", "unknown") ?: "unknown"
                     val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
                     logs.add(
