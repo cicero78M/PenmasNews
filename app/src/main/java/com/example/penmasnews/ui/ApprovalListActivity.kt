@@ -18,8 +18,8 @@ class ApprovalListActivity : AppCompatActivity() {
 
         val events = EventStorage.loadEvents(this)
 
-        val adapter = ApprovalListAdapter(events) {
-            EventStorage.saveEvents(this, events)
+        val adapter = ApprovalListAdapter(events) { event ->
+            EventStorage.updateEvent(this, event)
         }
         recyclerView.adapter = adapter
     }

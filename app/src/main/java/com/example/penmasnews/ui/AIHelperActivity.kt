@@ -392,7 +392,7 @@ class AIHelperActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val events = EventStorage.loadEvents(this)
-            val event = EditorialEvent(
+            var event = EditorialEvent(
                 dateEdit.text.toString(),
                 titleOutput.text.toString(),
                 "editor",
@@ -402,11 +402,17 @@ class AIHelperActivity : AppCompatActivity() {
                 selectedImagePath ?: ""
             )
             if (index >= 0 && index < events.size) {
-                events[index] = event
+                event = event.copy(id = events[index].id)
+                if (EventStorage.updateEvent(this, event)) {
+                    events[index] = event
+                }
             } else {
-                events.add(event)
+                val created = EventStorage.addEvent(this, event)
+                if (created != null) {
+                    event = created
+                    events.add(created)
+                }
             }
-            EventStorage.saveEvents(this, events)
             // log save of AI generated content
             val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)

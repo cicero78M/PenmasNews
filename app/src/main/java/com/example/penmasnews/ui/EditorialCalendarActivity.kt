@@ -58,8 +58,10 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 intent.putExtra("assignee", event.assignee)
                 startActivity(intent)
             },
-            onDelete = { _ ->
-                EventStorage.saveEvents(this, events)
+            onDelete = { item, _ ->
+                if (item.id != 0) {
+                    EventStorage.deleteEvent(this, item.id)
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -74,15 +76,17 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val eventsList = EventStorage.loadEvents(this)
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
                 assignee,
                 status
             )
-            eventsList.add(event)
-            EventStorage.saveEvents(this, eventsList)
+            val created = EventStorage.addEvent(this, event)
+            if (created != null) {
+                events.add(created)
+                adapter.addItem(created)
+            }
             // log creation of new calendar event
             val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)
@@ -98,7 +102,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 )
             )
             ChangeLogStorage.saveLogs(logPrefs, logs)
-            adapter.addItem(event)
             dateEdit.text.clear()
             topicEdit.text.clear()
             assigneeEdit.text.clear()
