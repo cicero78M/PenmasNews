@@ -428,7 +428,6 @@ class AIHelperActivity : AppCompatActivity() {
             // log save of AI generated content
             val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)
-            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
             val user = userPrefs.getString("username", "unknown") ?: "unknown"
             val changesDesc = listOf("ai_generated", "date", "title").joinToString(", ")
             logs.add(
