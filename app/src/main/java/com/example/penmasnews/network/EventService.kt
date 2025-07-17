@@ -37,7 +37,10 @@ object EventService {
                             obj.optString("content"),
                             obj.optString("summary"),
                             obj.optString("image_path"),
-                            obj.optInt("event_id")
+                            obj.optInt("event_id"),
+                            obj.optString("created_at"),
+                            obj.optString("updated_at"),
+                            obj.optString("username")
                         )
                     )
                 }
@@ -76,7 +79,10 @@ object EventService {
                     json.optString("content"),
                     json.optString("summary"),
                     json.optString("image_path"),
-                    json.optInt("event_id")
+                    json.optInt("event_id"),
+                    json.optString("created_at"),
+                    json.optString("updated_at"),
+                    json.optString("username")
                 )
             }
         } catch (_: Exception) {

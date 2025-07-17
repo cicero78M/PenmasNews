@@ -27,6 +27,7 @@ import org.json.JSONObject
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import java.util.Calendar
+import java.time.LocalDateTime
 
 class AIHelperActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
@@ -392,6 +393,8 @@ class AIHelperActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val events = EventStorage.loadEvents(this)
+            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
+            val creator = userPrefs.getString("username", "") ?: ""
             var event = EditorialEvent(
                 dateEdit.text.toString(),
                 titleOutput.text.toString(),
@@ -399,10 +402,19 @@ class AIHelperActivity : AppCompatActivity() {
                 "dalam penulisan",
                 narrativeOutput.text.toString(),
                 summaryOutput.text.toString(),
-                selectedImagePath ?: ""
+                selectedImagePath ?: "",
+                0,
+                LocalDateTime.now().toString(),
+                LocalDateTime.now().toString(),
+                creator
             )
             if (index >= 0 && index < events.size) {
-                event = event.copy(id = events[index].id)
+                event = event.copy(
+                    id = events[index].id,
+                    createdAt = events[index].createdAt,
+                    updatedAt = LocalDateTime.now().toString(),
+                    username = events[index].username
+                )
                 if (EventStorage.updateEvent(this, event)) {
                     events[index] = event
                 }

@@ -20,6 +20,7 @@ import com.example.penmasnews.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.time.LocalDateTime
 
 class CollaborativeEditorActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
@@ -92,7 +93,10 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     narrativeEdit.text.toString(),
                     currentEvent?.summary ?: "",
                     imagePath ?: "",
-                    events[eventIndex].id
+                    events[eventIndex].id,
+                    currentEvent?.createdAt ?: "",
+                    LocalDateTime.now().toString(),
+                    currentEvent?.username ?: ""
                 )
                 if (EventStorage.updateEvent(this, updated)) {
                     events[eventIndex] = updated
