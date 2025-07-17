@@ -20,7 +20,7 @@ object AuthService {
     )
 
     fun login(username: String, password: String): Result {
-        val url = BuildConfig.BACKEND_BASE_URL.trimEnd('/') + "/auth/penmas-login"
+        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/auth/penmas-login"
         val obj = JSONObject()
         obj.put("username", username)
         obj.put("password", password)
@@ -53,7 +53,7 @@ object AuthService {
     }
 
     fun signup(username: String, password: String, role: String): Result {
-        val url = BuildConfig.BACKEND_BASE_URL.trimEnd('/') + "/auth/penmas-register"
+        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/auth/penmas-register"
         val obj = JSONObject()
         obj.put("username", username)
         obj.put("password", password)
