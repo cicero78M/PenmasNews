@@ -393,8 +393,8 @@ class AIHelperActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val events = EventStorage.loadEvents(this)
-            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
-            val creator = userPrefs.getString("username", "") ?: ""
+            val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
+            val creator = authPrefs.getString("username", "") ?: ""
             var event = EditorialEvent(
                 dateEdit.text.toString(),
                 titleOutput.text.toString(),
@@ -428,7 +428,7 @@ class AIHelperActivity : AppCompatActivity() {
             // log save of AI generated content
             val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)
-            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            val user = authPrefs.getString("username", "unknown") ?: "unknown"
             val changesDesc = listOf("ai_generated", "date", "title").joinToString(", ")
             logs.add(
                 ChangeLogEntry(
