@@ -11,7 +11,7 @@ if (envFile.exists()) {
 def openAiKey = envProps.getProperty('OPENAI_API_KEY', '')
 def bloggerKey = envProps.getProperty('BLOGGER_API_KEY', '')
 def bloggerBlogId = envProps.getProperty('BLOGGER_BLOG_ID', '')
-def backendBaseUrl = envProps.getProperty('BACKEND_BASE_URL', '')
+def apiBaseUrl = envProps.getProperty('API_BASE_URL', '') ?: envProps.getProperty('BACKEND_BASE_URL', '')
 
 android {
     namespace 'com.example.penmasnews'
@@ -26,7 +26,9 @@ android {
         buildConfigField 'String', 'OPENAI_API_KEY', '"' + openAiKey + '"'
         buildConfigField 'String', 'BLOGGER_API_KEY', '"' + bloggerKey + '"'
         buildConfigField 'String', 'BLOGGER_BLOG_ID', '"' + bloggerBlogId + '"'
-        buildConfigField 'String', 'BACKEND_BASE_URL', '"' + backendBaseUrl + '"'
+        buildConfigField 'String', 'API_BASE_URL', '"' + apiBaseUrl + '"'
+        // keep old name for compatibility
+        buildConfigField 'String', 'BACKEND_BASE_URL', '"' + apiBaseUrl + '"'
     }
 
     buildTypes {
