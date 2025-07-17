@@ -47,7 +47,7 @@ class ApprovalListAdapter(
                     user,
                     item.status,
                     "workflow approve",
-                    System.currentTimeMillis()
+                    System.currentTimeMillis() / 1000L
                 )
             )
             ChangeLogStorage.saveLogs(logPrefs, logs)
@@ -67,7 +67,7 @@ class ApprovalListAdapter(
                     user,
                     item.status,
                     "workflow reject",
-                    System.currentTimeMillis()
+                    System.currentTimeMillis() / 1000L
                 )
             )
             ChangeLogStorage.saveLogs(logPrefs, logs)

@@ -115,7 +115,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val changesDesc = if (changed.isEmpty()) "no change" else changed.joinToString(", ")
             val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
             val user = userPrefs.getString("username", "unknown") ?: "unknown"
-            val entry = ChangeLogEntry(user, statusEdit.text.toString(), changesDesc, System.currentTimeMillis())
+            val entry = ChangeLogEntry(user, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
             changeLogs.add(entry)
             ChangeLogStorage.saveLogs(logPrefs, changeLogs)
             displayLogs(changeLogs)
@@ -153,8 +153,10 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
     private fun displayLogs(logs: List<ChangeLogEntry>) {
         val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        df.timeZone = java.util.TimeZone.getTimeZone("Asia/Jakarta")
         logText.text = logs.joinToString("\n") {
-            "${df.format(Date(it.timestamp))} - ${it.user} - ${it.status} - ${it.changes}"
+            val date = Date(it.timestamp * 1000)
+            "${df.format(date)} - ${it.user} - ${it.status} - ${it.changes}"
         }
     }
 }
