@@ -34,6 +34,7 @@ class SignupActivity : AppCompatActivity() {
                         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         clipboard.setPrimaryClip(ClipData.newPlainText("signup_error", msg))
                         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+
                     }
                 }
             }.start()
