@@ -27,28 +27,18 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val topicEdit = findViewById<EditText>(R.id.editTopic)
-        val assigneeEdit = findViewById<AutoCompleteTextView>(R.id.editAssignee)
+        val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val statusEdit = findViewById<AutoCompleteTextView>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
 
-        val assigneeList = resources.getStringArray(R.array.assignee_array)
         val statusList = resources.getStringArray(R.array.status_array)
-        assigneeEdit.setAdapter(
-            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, assigneeList)
-        )
         statusEdit.setAdapter(
             ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, statusList)
         )
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
-        val events = EventStorage.loadEvents(this).ifEmpty {
-            mutableListOf(
-                EditorialEvent("1 Jan", "Refleksi Awal Tahun", "Andi", "draft"),
-                EditorialEvent("5 Jan", "Tren Teknologi 2024", "Budi", "review"),
-                EditorialEvent("10 Jan", "Wawancara Tokoh", "Citra", "publish")
-            )
-        }
+        val events = EventStorage.loadEvents(this)
 
         // load AI-assisted drafts stored from AIHelperActivity
         // events already include entries saved from AIHelperActivity
@@ -79,10 +69,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
             val status = statusEdit.text.toString()
-            if (assignee !in assigneeList) {
-                Snackbar.make(addButton, R.string.error_invalid_assignee, Snackbar.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
             if (status !in statusList) {
                 Snackbar.make(addButton, R.string.error_invalid_status, Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
