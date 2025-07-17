@@ -14,7 +14,7 @@ class EditorialCalendarAdapter(
     private val items: MutableList<EditorialEvent>,
     private val onOpen: ((EditorialEvent, Int) -> Unit)? = null,
     private val onAiAssist: ((EditorialEvent, Int) -> Unit)? = null,
-    private val onDelete: ((Int) -> Unit)? = null,
+    private val onDelete: ((EditorialEvent, Int) -> Unit)? = null,
 ) : RecyclerView.Adapter<EditorialCalendarAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -54,9 +54,9 @@ class EditorialCalendarAdapter(
                         0 -> onOpen?.invoke(item, position)
                         1 -> onAiAssist?.invoke(item, position)
                         2 -> {
-                            items.removeAt(position)
+                            val removed = items.removeAt(position)
                             notifyItemRemoved(position)
-                            onDelete?.invoke(position)
+                            onDelete?.invoke(removed, position)
                         }
                     }
                 }

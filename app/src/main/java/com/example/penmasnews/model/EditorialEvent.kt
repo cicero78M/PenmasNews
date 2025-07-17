@@ -10,5 +10,6 @@ data class EditorialEvent(
     var status: String,
     val content: String = "",
     val summary: String = "",
-    val imagePath: String = ""
+    val imagePath: String = "",
+    val id: Int = 0
 )

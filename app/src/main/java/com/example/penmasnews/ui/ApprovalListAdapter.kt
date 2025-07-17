@@ -13,7 +13,7 @@ import com.example.penmasnews.model.ChangeLogStorage
 
 class ApprovalListAdapter(
     private val items: MutableList<EditorialEvent>,
-    private val onStatusChanged: (() -> Unit)? = null,
+    private val onStatusChanged: ((EditorialEvent) -> Unit)? = null,
 ) : RecyclerView.Adapter<ApprovalListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -51,7 +51,7 @@ class ApprovalListAdapter(
                 )
             )
             ChangeLogStorage.saveLogs(logPrefs, logs)
-            onStatusChanged?.invoke()
+            onStatusChanged?.invoke(item)
         }
 
         holder.rejectButton.setOnClickListener {
@@ -71,7 +71,7 @@ class ApprovalListAdapter(
                 )
             )
             ChangeLogStorage.saveLogs(logPrefs, logs)
-            onStatusChanged?.invoke()
+            onStatusChanged?.invoke(item)
         }
     }
 

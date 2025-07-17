@@ -84,16 +84,19 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val oldEvent = if (eventIndex in events.indices) events[eventIndex] else null
 
             if (eventIndex in events.indices) {
-                events[eventIndex] = EditorialEvent(
+                val updated = EditorialEvent(
                     currentEvent?.date ?: "",
                     titleEdit.text.toString(),
                     assignee,
                     statusEdit.text.toString(),
                     narrativeEdit.text.toString(),
                     currentEvent?.summary ?: "",
-                    imagePath ?: ""
+                    imagePath ?: "",
+                    events[eventIndex].id
                 )
-                EventStorage.saveEvents(this, events)
+                if (EventStorage.updateEvent(this, updated)) {
+                    events[eventIndex] = updated
+                }
             }
 
             val oldTitle = oldEvent?.topic ?: ""
@@ -123,9 +126,10 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             statusEdit.setText(newStatus)
             if (eventIndex in events.indices) {
                 val event = events[eventIndex]
-                event.status = newStatus
-                events[eventIndex] = event
-                EventStorage.saveEvents(this, events)
+                val updated = event.copy(status = newStatus)
+                if (EventStorage.updateEvent(this, updated)) {
+                    events[eventIndex] = updated
+                }
             }
             Snackbar.make(requestButton, R.string.status_changed_review, Snackbar.LENGTH_SHORT).show()
             startActivity(Intent(this, ApprovalListActivity::class.java))

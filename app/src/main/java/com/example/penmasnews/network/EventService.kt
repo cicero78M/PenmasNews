@@ -21,9 +21,10 @@ object EventService {
             .build()
         return try {
             client.newCall(request).execute().use { resp ->
-                val body = resp.body?.string()
-                if (!resp.isSuccessful || body == null) return emptyList()
-                val array = JSONArray(body)
+                val body = resp.body?.string() ?: return emptyList()
+                if (!resp.isSuccessful) return emptyList()
+                val root = JSONObject(body)
+                val array = root.optJSONArray("data") ?: JSONArray()
                 val list = mutableListOf<EditorialEvent>()
                 for (i in 0 until array.length()) {
                     val obj = array.getJSONObject(i)
@@ -35,7 +36,8 @@ object EventService {
                             obj.optString("status"),
                             obj.optString("content"),
                             obj.optString("summary"),
-                            obj.optString("image_path")
+                            obj.optString("image_path"),
+                            obj.optInt("event_id")
                         )
                     )
                 }
@@ -46,7 +48,7 @@ object EventService {
         }
     }
 
-    fun createEvent(token: String, event: EditorialEvent): Boolean {
+    fun createEvent(token: String, event: EditorialEvent): EditorialEvent? {
         val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events"
         val obj = JSONObject()
         obj.put("event_date", event.date)
@@ -59,6 +61,56 @@ object EventService {
         val request = Request.Builder()
             .url(url)
             .post(obj.toString().toRequestBody(jsonType))
+            .header("Authorization", "Bearer $token")
+            .build()
+        return try {
+            client.newCall(request).execute().use { resp ->
+                val body = resp.body?.string() ?: return null
+                if (!resp.isSuccessful) return null
+                val json = JSONObject(body).optJSONObject("data") ?: return null
+                EditorialEvent(
+                    json.optString("event_date"),
+                    json.optString("topic"),
+                    json.optString("assignee"),
+                    json.optString("status"),
+                    json.optString("content"),
+                    json.optString("summary"),
+                    json.optString("image_path"),
+                    json.optInt("event_id")
+                )
+            }
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    fun updateEvent(token: String, id: Int, event: EditorialEvent): Boolean {
+        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events/$id"
+        val obj = JSONObject()
+        obj.put("event_date", event.date)
+        obj.put("topic", event.topic)
+        obj.put("assignee", event.assignee)
+        obj.put("status", event.status)
+        obj.put("content", event.content)
+        obj.put("summary", event.summary)
+        obj.put("image_path", event.imagePath)
+        val request = Request.Builder()
+            .url(url)
+            .put(obj.toString().toRequestBody(jsonType))
+            .header("Authorization", "Bearer $token")
+            .build()
+        return try {
+            client.newCall(request).execute().use { it.isSuccessful }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    fun deleteEvent(token: String, id: Int): Boolean {
+        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events/$id"
+        val request = Request.Builder()
+            .url(url)
+            .delete()
             .header("Authorization", "Bearer $token")
             .build()
         return try {
