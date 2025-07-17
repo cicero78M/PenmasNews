@@ -18,13 +18,15 @@ class SignupActivity : AppCompatActivity() {
 
         val editUsername = findViewById<TextInputEditText>(R.id.editSignupUsername)
         val editPassword = findViewById<TextInputEditText>(R.id.editSignupPassword)
+        val editToken = findViewById<TextInputEditText>(R.id.editSignupToken)
         val buttonSignup = findViewById<Button>(R.id.buttonSignupSubmit)
 
         buttonSignup.setOnClickListener {
             val username = editUsername.text.toString()
             val password = editPassword.text.toString()
+            val token = editToken.text.toString()
             Thread {
-                val result = AuthService.signup(username, password, "penulis")
+                val result = AuthService.signup(username, password, token, "penulis")
                 runOnUiThread {
                     if (result.success) {
                         Toast.makeText(this, R.string.signup_success, Toast.LENGTH_SHORT).show()

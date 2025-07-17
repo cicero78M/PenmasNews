@@ -52,11 +52,12 @@ object AuthService {
         }
     }
 
-    fun signup(username: String, password: String, role: String): Result {
+    fun signup(username: String, password: String, token: String, role: String): Result {
         val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/auth/penmas-register"
         val obj = JSONObject()
         obj.put("username", username)
         obj.put("password", password)
+        obj.put("token", token)
         obj.put("role", role)
         val request = Request.Builder()
             .url(url)
