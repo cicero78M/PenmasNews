@@ -44,9 +44,9 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val adapter = EditorialCalendarAdapter(
             events,
-            onOpen = { _, index ->
+            onOpen = { item, _ ->
                 val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
-                intent.putExtra("index", index)
+                intent.putExtra("event", item)
                 startActivity(intent)
             },
             onAiAssist = { event, index ->
@@ -69,6 +69,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
         Thread {
             val loaded = EventStorage.loadEvents(this)
             runOnUiThread {
+                events.clear()
                 events.addAll(loaded)
                 adapter.notifyDataSetChanged()
             }
@@ -84,8 +85,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
-            val creator = userPrefs.getString("username", "") ?: ""
+            val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
+            val creator = authPrefs.getString("username", "") ?: ""
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
@@ -101,15 +102,15 @@ class EditorialCalendarActivity : AppCompatActivity() {
             )
             Thread {
                 val created = EventStorage.addEvent(this, event)
+                val loaded = EventStorage.loadEvents(this)
                 runOnUiThread {
-                    if (created != null) {
-                        events.add(created)
-                        adapter.addItem(created)
-                    }
+                    events.clear()
+                    events.addAll(loaded)
+                    adapter.notifyDataSetChanged()
                     // log creation of new calendar event
                     val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
                     val logs = ChangeLogStorage.loadLogs(logPrefs)
-                    val user = userPrefs.getString("username", "unknown") ?: "unknown"
+                    val user = authPrefs.getString("username", "unknown") ?: "unknown"
                     val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
                     logs.add(
                         ChangeLogEntry(

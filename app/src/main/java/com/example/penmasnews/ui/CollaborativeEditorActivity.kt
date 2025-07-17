@@ -52,15 +52,16 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         statusEdit.isEnabled = false
         statusEdit.isFocusable = false
 
-        val eventIndex = intent.getIntExtra("index", -1)
+        val passedEvent = intent.getSerializableExtra("event") as? EditorialEvent
         val eventsPrefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
         val events = EventStorage.loadEvents(this)
+        val eventIndex = passedEvent?.let { evt -> events.indexOfFirst { it.id == evt.id } } ?: intent.getIntExtra("index", -1)
 
         val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
         val changeLogs = ChangeLogStorage.loadLogs(logPrefs)
         displayLogs(changeLogs)
 
-        val currentEvent = if (eventIndex in events.indices) events[eventIndex] else null
+        val currentEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent
         imagePath = currentEvent?.imagePath
         imagePath?.let { path ->
             if (path.isNotBlank()) imageView.setImageURI(android.net.Uri.fromFile(File(path)))
@@ -117,8 +118,8 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             if (oldImage != (imagePath ?: "")) changed.add("image")
 
             val changesDesc = if (changed.isEmpty()) "no change" else changed.joinToString(", ")
-            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
-            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
+            val user = authPrefs.getString("username", "unknown") ?: "unknown"
             val entry = ChangeLogEntry(user, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
             changeLogs.add(entry)
             ChangeLogStorage.saveLogs(logPrefs, changeLogs)

@@ -40,8 +40,8 @@ class ApprovalListAdapter(
             val context = holder.itemView.context
             val logPrefs = context.getSharedPreferences(ChangeLogStorage.PREFS_NAME, android.content.Context.MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)
-            val userPrefs = context.getSharedPreferences("user", android.content.Context.MODE_PRIVATE)
-            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
+            val user = authPrefs.getString("username", "unknown") ?: "unknown"
             logs.add(
                 ChangeLogEntry(
                     user,
@@ -60,8 +60,8 @@ class ApprovalListAdapter(
             val context = holder.itemView.context
             val logPrefs = context.getSharedPreferences(ChangeLogStorage.PREFS_NAME, android.content.Context.MODE_PRIVATE)
             val logs = ChangeLogStorage.loadLogs(logPrefs)
-            val userPrefs = context.getSharedPreferences("user", android.content.Context.MODE_PRIVATE)
-            val user = userPrefs.getString("username", "unknown") ?: "unknown"
+            val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
+            val user = authPrefs.getString("username", "unknown") ?: "unknown"
             logs.add(
                 ChangeLogEntry(
                     user,

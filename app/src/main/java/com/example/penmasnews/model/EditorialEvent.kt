@@ -3,6 +3,8 @@ package com.example.penmasnews.model
 /**
  * Data class representing a single item in the editorial calendar.
  */
+import java.io.Serializable
+
 data class EditorialEvent(
     val date: String,
     val topic: String,
@@ -15,4 +17,4 @@ data class EditorialEvent(
     val createdAt: String = "",
     val updatedAt: String = "",
     val username: String = ""
-)
+) : Serializable
