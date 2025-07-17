@@ -17,8 +17,7 @@ class CMSIntegrationActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewCms)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
-        val events = EventStorage.loadEvents(prefs).filter { it.status == "disetujui" }
+        val events = EventStorage.loadEvents(this).filter { it.status == "disetujui" }
 
         val cms = CMSIntegration()
         val adapter = CmsIntegrationAdapter(events) { event ->

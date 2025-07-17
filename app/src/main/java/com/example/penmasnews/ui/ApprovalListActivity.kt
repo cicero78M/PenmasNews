@@ -16,11 +16,10 @@ class ApprovalListActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewApproval)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
-        val events = EventStorage.loadEvents(prefs)
+        val events = EventStorage.loadEvents(this)
 
         val adapter = ApprovalListAdapter(events) {
-            EventStorage.saveEvents(prefs, events)
+            EventStorage.saveEvents(this, events)
         }
         recyclerView.adapter = adapter
     }

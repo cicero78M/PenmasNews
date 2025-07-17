@@ -53,7 +53,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
         val eventIndex = intent.getIntExtra("index", -1)
         val eventsPrefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
-        val events = EventStorage.loadEvents(eventsPrefs)
+        val events = EventStorage.loadEvents(this)
 
         val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
         val changeLogs = ChangeLogStorage.loadLogs(logPrefs)
@@ -93,7 +93,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     currentEvent?.summary ?: "",
                     imagePath ?: ""
                 )
-                EventStorage.saveEvents(eventsPrefs, events)
+                EventStorage.saveEvents(this, events)
             }
 
             val oldTitle = oldEvent?.topic ?: ""
@@ -125,7 +125,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                 val event = events[eventIndex]
                 event.status = newStatus
                 events[eventIndex] = event
-                EventStorage.saveEvents(eventsPrefs, events)
+                EventStorage.saveEvents(this, events)
             }
             Snackbar.make(requestButton, R.string.status_changed_review, Snackbar.LENGTH_SHORT).show()
             startActivity(Intent(this, ApprovalListActivity::class.java))

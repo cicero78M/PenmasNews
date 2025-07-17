@@ -14,8 +14,7 @@ class AssetManagerActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewAssets)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
-        val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
-        val events = EventStorage.loadEvents(prefs)
+        val events = EventStorage.loadEvents(this)
         val images = events.mapNotNull { if (it.imagePath.isNotBlank()) it.imagePath else null }
         val adapter = AssetGridAdapter(images)
         recyclerView.adapter = adapter
