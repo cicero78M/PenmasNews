@@ -27,7 +27,12 @@ class LoginActivity : AppCompatActivity() {
                 val result = AuthService.login(username, password)
                 runOnUiThread {
                     if (result.success && result.token != null) {
-                        loginUser(username, result.role ?: "penulis", result.token)
+                        loginUser(
+                            username,
+                            result.role ?: "penulis",
+                            result.token,
+                            result.userId ?: ""
+                        )
                     } else {
                         Toast.makeText(this, result.message ?: getString(R.string.error_login), Toast.LENGTH_SHORT).show()
                     }
@@ -40,13 +45,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginUser(username: String, role: String, token: String) {
+    private fun loginUser(username: String, role: String, token: String, userId: String) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("actor", role)
-        getSharedPreferences("user", MODE_PRIVATE)
+        getSharedPreferences("auth", MODE_PRIVATE)
             .edit()
             .putString("username", username)
             .putString("token", token)
+            .putString("userId", userId)
+            .putString("role", role)
             .apply()
         startActivity(intent)
         finish()

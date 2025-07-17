@@ -86,4 +86,15 @@ object AuthService {
             Result(false, message = e.message)
         }
     }
+
+    fun validateToken(token: String, userId: String): Boolean {
+        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/users/$userId"
+        val request = Request.Builder()
+            .url(url)
+            .header("Authorization", "Bearer $token")
+            .build()
+        return try {
+            client.newCall(request).execute().use { it.isSuccessful }
+        } catch (_: Exception) { false }
+    }
 }
