@@ -8,6 +8,10 @@ When the app starts you will be presented with a simple login screen. Use the
 credentials `@papiqo` with password `12345` to log in as the `penulis` actor or
 `@penmas` with the same password to log in as the `editor` actor.
 
+To register a new account, you must also provide a registration token obtained
+from the backend service. Without this token the server will return an error
+message like `token required`.
+
 ## Building the App
 
 This project uses Gradle. Because the Android SDK isn't bundled in this
