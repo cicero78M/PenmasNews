@@ -424,7 +424,7 @@ class AIHelperActivity : AppCompatActivity() {
                     user,
                     event.status,
                     changesDesc,
-                    System.currentTimeMillis()
+                    System.currentTimeMillis() / 1000L
                 )
             )
             ChangeLogStorage.saveLogs(logPrefs, logs)

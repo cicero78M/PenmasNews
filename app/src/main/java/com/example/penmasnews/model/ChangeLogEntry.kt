@@ -5,5 +5,6 @@ data class ChangeLogEntry(
     val user: String,
     val status: String,
     val changes: String,
+    /** Unix timestamp (seconds since epoch) */
     val timestamp: Long
 )
