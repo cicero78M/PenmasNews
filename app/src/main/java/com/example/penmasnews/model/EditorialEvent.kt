@@ -11,5 +11,8 @@ data class EditorialEvent(
     val content: String = "",
     val summary: String = "",
     val imagePath: String = "",
-    val id: Int = 0
+    val id: Int = 0,
+    val createdAt: String = "",
+    val updatedAt: String = "",
+    val username: String = ""
 )

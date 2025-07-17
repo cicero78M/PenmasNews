@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
 import java.util.Calendar
+import java.time.LocalDateTime
 
 class EditorialCalendarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,11 +84,20 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val userPrefs = getSharedPreferences("user", MODE_PRIVATE)
+            val creator = userPrefs.getString("username", "") ?: ""
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicEdit.text.toString(),
                 assignee,
-                status
+                status,
+                "",
+                "",
+                "",
+                0,
+                LocalDateTime.now().toString(),
+                LocalDateTime.now().toString(),
+                creator
             )
             Thread {
                 val created = EventStorage.addEvent(this, event)
