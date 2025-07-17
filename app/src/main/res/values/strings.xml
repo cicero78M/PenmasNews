@@ -54,13 +54,18 @@
     </string-array>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
-    <string name="hint_signup_token">Token</string>
     <string name="action_login">Login</string>
     <string name="action_signup">Sign Up</string>
     <string name="error_login">Login gagal</string>
     <string name="error_signup">Pendaftaran gagal</string>
     <string name="signup_success">Pendaftaran berhasil</string>
     <string name="hello_actor">Halo, %1$s</string>
+
+    <string name="label_role">Role</string>
+    <string-array name="role_array">
+        <item>penulis</item>
+        <item>editor</item>
+    </string-array>
 
     <string-array name="assignee_array">
         <item>@papiqo</item>

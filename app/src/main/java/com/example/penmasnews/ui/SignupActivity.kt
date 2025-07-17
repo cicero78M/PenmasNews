@@ -3,6 +3,7 @@ package com.example.penmasnews.ui
 import android.os.Bundle
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
@@ -18,15 +19,15 @@ class SignupActivity : AppCompatActivity() {
 
         val editUsername = findViewById<TextInputEditText>(R.id.editSignupUsername)
         val editPassword = findViewById<TextInputEditText>(R.id.editSignupPassword)
-        val editToken = findViewById<TextInputEditText>(R.id.editSignupToken)
+        val spinnerRole = findViewById<Spinner>(R.id.spinnerSignupRole)
         val buttonSignup = findViewById<Button>(R.id.buttonSignupSubmit)
 
         buttonSignup.setOnClickListener {
             val username = editUsername.text.toString()
             val password = editPassword.text.toString()
-            val token = editToken.text.toString()
+            val role = spinnerRole.selectedItem.toString()
             Thread {
-                val result = AuthService.signup(username, password, token, "penulis")
+                val result = AuthService.signup(username, password, role)
                 runOnUiThread {
                     if (result.success) {
                         Toast.makeText(this, R.string.signup_success, Toast.LENGTH_SHORT).show()
