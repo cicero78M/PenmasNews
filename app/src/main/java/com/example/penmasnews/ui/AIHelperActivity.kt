@@ -459,7 +459,8 @@ class AIHelperActivity : AppCompatActivity() {
         DatePickerDialog(
             this,
             { _, year, month, day ->
-                val result = String.format("%02d-%02d-%04d", day, month + 1, year)
+                // Format as YYYY-MM-DD for backend compatibility
+                val result = String.format("%04d-%02d-%02d", year, month + 1, day)
                 target.setText(result)
             },
             cal.get(Calendar.YEAR),
