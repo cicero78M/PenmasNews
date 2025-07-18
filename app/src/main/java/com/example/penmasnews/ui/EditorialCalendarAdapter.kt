@@ -23,9 +23,10 @@ class EditorialCalendarAdapter(
         val titleText: TextView = view.findViewById(R.id.textTitle)
         val notesText: TextView = view.findViewById(R.id.textNotes)
         val statusText: TextView = view.findViewById(R.id.textStatus)
+        val createdByText: TextView = view.findViewById(R.id.textUser)
         val createdText: TextView = view.findViewById(R.id.textCreated)
+        val updatedByText: TextView = view.findViewById(R.id.textUpdatedBy)
         val updatedText: TextView = view.findViewById(R.id.textUpdated)
-        val userText: TextView = view.findViewById(R.id.textUser)
         val actionButton: ImageButton = view.findViewById(R.id.buttonAction)
     }
 
@@ -37,13 +38,14 @@ class EditorialCalendarAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.dateText.text = "Penjadwalan : ${item.date}"
+        holder.dateText.text = "Penjadwalan : ${DateUtils.formatDayDate(item.date)}"
         holder.titleText.text = "Topik : ${item.topic}"
-        holder.notesText.text = "Penugasan: ${item.assignee}"
-        holder.statusText.text = "Status : ${item.status}"
-        holder.createdText.text = "Created_at : ${DateUtils.formatDateTime(item.createdAt)}"
-        holder.updatedText.text = "Last_update : ${DateUtils.formatDateTime(item.lastUpdate)}"
-        holder.userText.text = item.username
+        holder.notesText.text = "Penugasan : ${item.assignee}"
+        holder.statusText.text = "Status: ${item.status}"
+        holder.createdByText.text = "Created by : ${item.username}"
+        holder.createdText.text = "Created at : ${DateUtils.formatDateTime(item.createdAt)}"
+        holder.updatedByText.text = "Updated by : ${item.updatedBy}"
+        holder.updatedText.text = "Last Updated : ${DateUtils.formatDateTime(item.lastUpdate)}"
 
         holder.itemView.setBackgroundResource(
             if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd
