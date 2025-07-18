@@ -35,43 +35,49 @@ class ApprovalListAdapter(
         holder.statusText.text = item.status
 
         holder.approveButton.setOnClickListener {
-            item.status = "approved"
-            item.lastUpdate = com.example.penmasnews.util.DateUtils.now()
-            notifyItemChanged(position)
             val context = holder.itemView.context
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            item.updatedBy = user
+            val updatedItem = item.copy(
+                status = "approved",
+                lastUpdate = com.example.penmasnews.util.DateUtils.now(),
+                updatedBy = user
+            )
+            items[position] = updatedItem
+            notifyItemChanged(position)
             ChangeLogDatabase.addLog(
                 context,
                 ChangeLogEntry(
                     user,
-                    item.status,
+                    updatedItem.status,
                     "workflow approve",
                     System.currentTimeMillis() / 1000L
                 )
             )
-            onStatusChanged?.invoke(item)
+            onStatusChanged?.invoke(updatedItem)
         }
 
         holder.rejectButton.setOnClickListener {
-            item.status = "rejected"
-            item.lastUpdate = com.example.penmasnews.util.DateUtils.now()
-            notifyItemChanged(position)
             val context = holder.itemView.context
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            item.updatedBy = user
+            val updatedItem = item.copy(
+                status = "rejected",
+                lastUpdate = com.example.penmasnews.util.DateUtils.now(),
+                updatedBy = user
+            )
+            items[position] = updatedItem
+            notifyItemChanged(position)
             ChangeLogDatabase.addLog(
                 context,
                 ChangeLogEntry(
                     user,
-                    item.status,
+                    updatedItem.status,
                     "workflow reject",
                     System.currentTimeMillis() / 1000L
                 )
             )
-            onStatusChanged?.invoke(item)
+            onStatusChanged?.invoke(updatedItem)
         }
     }
 
