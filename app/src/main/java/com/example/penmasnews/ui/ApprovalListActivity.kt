@@ -19,7 +19,8 @@ class ApprovalListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val items = mutableListOf<ApprovalItem>()
-        val adapter = ApprovalListAdapter(items) { item, action ->
+        lateinit var adapter: ApprovalListAdapter
+        adapter = ApprovalListAdapter(items) { item, action ->
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
             val token = authPrefs.getString("token", null)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
