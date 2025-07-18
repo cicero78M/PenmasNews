@@ -44,12 +44,6 @@
             android:text="@string/feature_workflow_approval"
             android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/buttonCMS"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/feature_cms_integration"
-            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/buttonAnalytics"

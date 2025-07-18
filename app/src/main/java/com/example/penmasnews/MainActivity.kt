@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.ui.AnalyticsDashboardActivity
 import com.example.penmasnews.ui.AssetManagerActivity
-import com.example.penmasnews.ui.CMSIntegrationActivity
 import com.example.penmasnews.ui.EditorialCalendarActivity
 import com.example.penmasnews.ui.ApprovalListActivity
 import com.example.penmasnews.ui.LogDataActivity
@@ -26,17 +25,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, EditorialCalendarActivity::class.java))
         }
 
-
         findViewById<Button>(R.id.buttonAssetManager).setOnClickListener {
             startActivity(Intent(this, AssetManagerActivity::class.java))
         }
 
         findViewById<Button>(R.id.buttonWorkflow).setOnClickListener {
             startActivity(Intent(this, ApprovalListActivity::class.java))
-        }
-
-        findViewById<Button>(R.id.buttonCMS).setOnClickListener {
-            startActivity(Intent(this, CMSIntegrationActivity::class.java))
         }
 
         findViewById<Button>(R.id.buttonAnalytics).setOnClickListener {

@@ -15,6 +15,6 @@ Dokumen ini merinci rancangan halaman analitik pada aplikasi **Penmas News**. Tu
 2. **Topik Tren** – daftar singkat kata kunci atau artikel populer yang tengah dibicarakan.
 
 ## Alur Singkat
-1. Setelah publikasi melalui modul **Integrasi CMS**, pengguna membuka halaman Analitik.
+1. Setelah publikasi lewat **Kalender Editorial**, pengguna membuka halaman Analitik.
 2. Sistem menampilkan statistik terbaru dan daftar topik tren.
 3. Rekomendasi topik yang dirasa relevan bisa langsung dimasukkan ke **Kalender Editorial** untuk direncanakan lebih lanjut.
