@@ -2,11 +2,9 @@ package com.example.penmasnews.ui
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.AutoCompleteTextView
-import android.widget.ArrayAdapter
+import android.widget.EditText
 import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import java.io.File
@@ -34,23 +32,13 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
         val titleEdit = findViewById<EditText>(R.id.editTitle)
         val narrativeEdit = findViewById<EditText>(R.id.editNarrative)
-        val assigneeEdit = findViewById<AutoCompleteTextView>(R.id.editAssignee)
-        val statusEdit = findViewById<AutoCompleteTextView>(R.id.editStatus)
+        val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
+        val statusEdit = findViewById<EditText>(R.id.editStatus)
         imageView = findViewById(R.id.imageCollab)
         logText = findViewById(R.id.textLogs)
         val saveButton = findViewById<Button>(R.id.buttonSave)
         val requestButton = findViewById<Button>(R.id.buttonRequestApproval)
 
-        val assigneeList = resources.getStringArray(R.array.assignee_array)
-        val statusList = resources.getStringArray(R.array.status_array)
-        assigneeEdit.setAdapter(
-            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, assigneeList)
-        )
-        statusEdit.setAdapter(
-            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, statusList)
-        )
-        statusEdit.isEnabled = false
-        statusEdit.isFocusable = false
 
         val passedEvent = intent.getSerializableExtra("event") as? EditorialEvent
         val eventsPrefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
@@ -78,10 +66,6 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
-            if (assignee !in assigneeList) {
-                Snackbar.make(saveButton, R.string.error_invalid_assignee, Snackbar.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
             val oldEvent = if (eventIndex in events.indices) events[eventIndex] else null
 
             if (eventIndex in events.indices) {
