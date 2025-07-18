@@ -15,6 +15,7 @@ data class EditorialEvent(
     val imagePath: String = "",
     val id: Int = 0,
     val createdAt: String = "",
-    val updatedAt: String = "",
-    val username: String = ""
+    val lastUpdate: String = "",
+    val username: String = "",
+    val updatedBy: String = ""
 ) : Serializable

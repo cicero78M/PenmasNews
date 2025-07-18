@@ -41,7 +41,7 @@ class EditorialCalendarAdapter(
         holder.notesText.text = "Penugasan: ${item.assignee}"
         holder.statusText.text = "Status : ${item.status}"
         holder.createdText.text = "Created_at : ${item.createdAt}"
-        holder.updatedText.text = "Updated_at : ${item.updatedAt}"
+        holder.updatedText.text = "Last_update : ${item.lastUpdate}"
         holder.userText.text = item.username
 
         holder.itemView.setBackgroundResource(

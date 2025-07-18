@@ -406,14 +406,16 @@ class AIHelperActivity : AppCompatActivity() {
                 0,
                 DateUtils.now(),
                 DateUtils.now(),
+                creator,
                 creator
             )
             if (index >= 0 && index < events.size) {
                 event = event.copy(
                     id = events[index].id,
                     createdAt = events[index].createdAt,
-                    updatedAt = DateUtils.now(),
-                    username = events[index].username
+                    lastUpdate = DateUtils.now(),
+                    username = events[index].username,
+                    updatedBy = events[index].updatedBy
                 )
                 if (EventStorage.updateEvent(this, event)) {
                     events[index] = event
