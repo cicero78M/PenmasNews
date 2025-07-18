@@ -2,6 +2,7 @@ package com.example.penmasnews.network
 
 import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.ChangeLogEntry
+import com.example.penmasnews.network.UserService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -29,9 +30,15 @@ object LogService {
                 for (i in 0 until array.length()) {
                     val obj = array.getJSONObject(i)
                     val epoch = runCatching { Instant.parse(obj.optString("logged_at")).epochSecond }.getOrDefault(0L)
+                    val username = if (obj.has("username") && obj.optString("username").isNotEmpty()) {
+                        obj.optString("username")
+                    } else {
+                        val uid = obj.optString("user_id")
+                        UserService.fetchUsername(token, uid) ?: uid
+                    }
                     list.add(
                         ChangeLogEntry(
-                            obj.optString("username"),
+                            username,
                             obj.optString("status"),
                             obj.optString("changes"),
                             epoch

@@ -36,10 +36,12 @@ class ApprovalListAdapter(
 
         holder.approveButton.setOnClickListener {
             item.status = "approved"
+            item.lastUpdate = com.example.penmasnews.util.DateUtils.now()
             notifyItemChanged(position)
             val context = holder.itemView.context
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
+            item.updatedBy = user
             ChangeLogDatabase.addLog(
                 context,
                 ChangeLogEntry(
@@ -54,10 +56,12 @@ class ApprovalListAdapter(
 
         holder.rejectButton.setOnClickListener {
             item.status = "rejected"
+            item.lastUpdate = com.example.penmasnews.util.DateUtils.now()
             notifyItemChanged(position)
             val context = holder.itemView.context
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
+            item.updatedBy = user
             ChangeLogDatabase.addLog(
                 context,
                 ChangeLogEntry(

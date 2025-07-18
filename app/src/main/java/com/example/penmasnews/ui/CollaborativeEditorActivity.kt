@@ -67,7 +67,18 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         val currentEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent
         imagePath = currentEvent?.imagePath
         imagePath?.let { path ->
-            if (path.isNotBlank()) imageView.setImageURI(android.net.Uri.fromFile(File(path)))
+            if (path.isNotBlank()) {
+                if (path.startsWith("http")) {
+                    Thread {
+                        try {
+                            val bmp = android.graphics.BitmapFactory.decodeStream(java.net.URL(path).openStream())
+                            runOnUiThread { imageView.setImageBitmap(bmp) }
+                        } catch (_: Exception) { }
+                    }.start()
+                } else {
+                    imageView.setImageURI(android.net.Uri.fromFile(File(path)))
+                }
+            }
         }
         imageView.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -136,7 +147,11 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val newStatus = "meminta persetujuan"
             if (eventIndex in events.indices || (passedEvent?.id ?: 0) != 0) {
                 val baseEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent!!
-                val updated = baseEvent.copy(status = newStatus)
+                val updated = baseEvent.copy(
+                    status = newStatus,
+                    lastUpdate = DateUtils.now(),
+                    updatedBy = getSharedPreferences("auth", MODE_PRIVATE).getString("username", baseEvent.updatedBy)
+                )
                 Thread {
                     val success = EventStorage.updateEvent(this, updated)
                     if (success && eventIndex in events.indices) {
