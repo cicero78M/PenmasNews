@@ -27,6 +27,7 @@
     <string name="hint_assignee">Penugasan: Tautan ke penulis, editor, atau tim terkait</string>
     <string name="hint_status">Status (ide, dalam penulisan, review, siap publish)</string>
     <string name="action_add">Tambah</string>
+    <string name="action_view_debug_log">Lihat Debug Log</string>
     <string name="action_save">Simpan</string>
     <string name="action_update">Update</string>
     <string name="label_change_log">Log Perubahan</string>

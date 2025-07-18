@@ -33,6 +33,8 @@ BLOGGER_CLIENT_ID=your-client-id
 ```
 An example file `.env.example` is provided.
 
+If OAuth login fails after choosing an account, ensure `BLOGGER_CLIENT_ID` matches the OAuth 2.0 client configured for your Android package and SHA1. You can inspect runtime logs by tapping **Lihat Debug Log** on the Editorial Calendar screen.
+
 ## Formulir Asistensi AI
 
 Halaman ini kini berfokus pada pencatatan data penyidikan. Selain tanggal,
