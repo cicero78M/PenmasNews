@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 
 /** Utility helpers for consistent date handling */
 object DateUtils {
-    const val DATE_FORMAT = "yyyy-MM-dd"
+    const val DATE_FORMAT = "dd/MM/yyyy"
     const val DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
     private val dateTimeFormatter: DateTimeFormatter =
