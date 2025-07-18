@@ -54,7 +54,8 @@ class LoginActivity : AppCompatActivity() {
                             result.userId ?: ""
                         )
                     } else {
-                        Toast.makeText(this, result.message ?: getString(R.string.error_login), Toast.LENGTH_SHORT).show()
+                        val msg = result.raw ?: result.message ?: getString(R.string.error_login)
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                     }
                 }
             }.start()
