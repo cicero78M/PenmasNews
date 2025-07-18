@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.model.ChangeLogEntry
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
+import com.example.penmasnews.util.DateUtils
 
 class LogListAdapter(private val items: List<ChangeLogEntry>) :
     RecyclerView.Adapter<LogListAdapter.ViewHolder>() {
@@ -28,9 +25,7 @@ class LogListAdapter(private val items: List<ChangeLogEntry>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val entry = items[position]
-        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        df.timeZone = TimeZone.getTimeZone("Asia/Jakarta")
-        val text = "${df.format(Date(entry.timestamp * 1000))} - ${entry.user} - ${entry.status} - ${entry.changes}"
-        holder.text.text = text
+        val formatted = DateUtils.formatTimestamp(entry.timestamp)
+        holder.text.text = "$formatted - ${entry.user} - ${entry.status} - ${entry.changes}"
     }
 }
