@@ -45,6 +45,7 @@ Dokumen ini memetakan rancangan halaman pada aplikasi Penmas News beserta alur p
 ## 8. Analitik & Umpan Balik
 - Dashboard metrik performa artikel dan umpan balik pembaca.
 - Rekomendasi topik baru dapat langsung ditambahkan ke **Kalender Editorial**.
+- Lihat rincian desain pada [dokumen khusus](analytics_dashboard.md).
 
 ### Alur Utama Pengguna
 1. Pengguna membuka **Beranda**.

@@ -51,3 +51,4 @@ catatan, dan masukan teks, disediakan kolom untuk mengisi:
 - [Kalender Editorial & Ide](docs/editorial_calendar.md)
 - [Desain Halaman & Relasi Fitur](docs/ui_overview.md)
 - [Panduan Format Tanggal](docs/timestamp_usage.md)
+- [Halaman Analitik](docs/analytics_dashboard.md)
