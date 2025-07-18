@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
+import com.example.penmasnews.util.DateUtils
 
 class EditorialCalendarAdapter(
     private val items: MutableList<EditorialEvent>,
@@ -40,8 +41,8 @@ class EditorialCalendarAdapter(
         holder.titleText.text = "Topik : ${item.topic}"
         holder.notesText.text = "Penugasan: ${item.assignee}"
         holder.statusText.text = "Status : ${item.status}"
-        holder.createdText.text = "Created_at : ${item.createdAt}"
-        holder.updatedText.text = "Last_update : ${item.lastUpdate}"
+        holder.createdText.text = "Created_at : ${DateUtils.formatDateTime(item.createdAt)}"
+        holder.updatedText.text = "Last_update : ${DateUtils.formatDateTime(item.lastUpdate)}"
         holder.userText.text = item.username
 
         holder.itemView.setBackgroundResource(

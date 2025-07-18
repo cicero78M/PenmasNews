@@ -25,4 +25,21 @@ object DateUtils {
         val zoned = Instant.ofEpochSecond(epochSeconds).atZone(ZoneId.of("Asia/Jakarta"))
         return dateTimeFormatter.format(zoned)
     }
+
+    /**
+     * Normalize a date string to [DATETIME_FORMAT]. Accepts either the same
+     * format or an ISO-8601 string returned by the backend.
+     */
+    fun formatDateTime(raw: String): String {
+        return try {
+            if (raw.contains('T')) {
+                val instant = Instant.parse(raw)
+                dateTimeFormatter.format(instant.atZone(ZoneId.of("Asia/Jakarta")))
+            } else {
+                LocalDateTime.parse(raw, dateTimeFormatter).format(dateTimeFormatter)
+            }
+        } catch (_: Exception) {
+            raw
+        }
+    }
 }

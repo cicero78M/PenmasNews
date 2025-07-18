@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
+import com.example.penmasnews.util.DateUtils
 
 /**
  * Adapter for displaying approved events ready to publish.
@@ -40,8 +41,8 @@ class CmsIntegrationAdapter(
         holder.titleText.text = item.topic
         holder.notesText.text = item.assignee
         holder.statusText.text = item.status
-        holder.createdText.text = item.createdAt
-        holder.updatedText.text = item.lastUpdate
+        holder.createdText.text = DateUtils.formatDateTime(item.createdAt)
+        holder.updatedText.text = DateUtils.formatDateTime(item.lastUpdate)
         holder.userText.text = item.username
         holder.itemView.setBackgroundResource(
             if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd

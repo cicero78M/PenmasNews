@@ -23,11 +23,23 @@ class AssetGridAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val bitmap = BitmapFactory.decodeFile(items[position])
-        if (bitmap != null) {
-            holder.image.setImageBitmap(bitmap)
+        val path = items[position]
+        if (path.startsWith("http")) {
+            Thread {
+                try {
+                    val bmp = BitmapFactory.decodeStream(java.net.URL(path).openStream())
+                    holder.image.post { holder.image.setImageBitmap(bmp) }
+                } catch (_: Exception) {
+                    holder.image.post { holder.image.setImageResource(android.R.drawable.ic_menu_gallery) }
+                }
+            }.start()
         } else {
-            holder.image.setImageResource(android.R.drawable.ic_menu_gallery)
+            val bitmap = BitmapFactory.decodeFile(path)
+            if (bitmap != null) {
+                holder.image.setImageBitmap(bitmap)
+            } else {
+                holder.image.setImageResource(android.R.drawable.ic_menu_gallery)
+            }
         }
     }
 
