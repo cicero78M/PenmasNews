@@ -32,12 +32,12 @@ Modul ini menampilkan kalender harian, mingguan, atau bulanan yang memuat:
 2. **Penulisan & Riset** – reporter mengerjakan draf dengan dukungan AI untuk riset cepat.
 3. **Review & Revisi** – editor menilai dan memberi masukan hingga siap terbit.
 4. **Persiapan Multimedia** – unggah aset dan lampirkan ke artikel.
-5. **Persetujuan & Publikasi** – konten diterbitkan ke CMS dan kanal sosial.
+5. **Persetujuan & Publikasi** – konten diterbitkan ke Blogspot melalui tombol publikasi di kalender.
 6. **Analisis & Optimasi** – memantau performa serta rekomendasi topik lanjutan.
 
 ## Tampilan ListView
 
-Daftar agenda menggunakan gaya bingkai serupa dengan halaman **Integrasi CMS**.
+Daftar agenda menggunakan gaya bingkai serupa agar konsisten dengan modul lain.
 Setiap baris memiliki garis tepi halus dan warna selang-seling sehingga lebih
 mudah dipindai. Seluruh daftar juga dilingkupi frame agar konsisten secara
 visual.
