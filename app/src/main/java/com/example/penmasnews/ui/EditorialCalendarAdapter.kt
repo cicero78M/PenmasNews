@@ -36,12 +36,12 @@ class EditorialCalendarAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.dateText.text = item.date
-        holder.titleText.text = item.topic
-        holder.notesText.text = item.assignee
-        holder.statusText.text = item.status
-        holder.createdText.text = item.createdAt
-        holder.updatedText.text = item.updatedAt
+        holder.dateText.text = "Penjadwalan : ${item.date}"
+        holder.titleText.text = "Topik : ${item.topic}"
+        holder.notesText.text = "Penugasan: ${item.assignee}"
+        holder.statusText.text = "Status : ${item.status}"
+        holder.createdText.text = "Created_at : ${item.createdAt}"
+        holder.updatedText.text = "Updated_at : ${item.updatedAt}"
         holder.userText.text = item.username
 
         holder.itemView.setBackgroundResource(

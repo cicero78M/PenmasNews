@@ -4,8 +4,6 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.AutoCompleteTextView
-import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
@@ -29,13 +27,9 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val topicEdit = findViewById<EditText>(R.id.editTopic)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
-        val statusEdit = findViewById<AutoCompleteTextView>(R.id.editStatus)
+        val statusEdit = findViewById<EditText>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
 
-        val statusList = resources.getStringArray(R.array.status_array)
-        statusEdit.setAdapter(
-            ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, statusList)
-        )
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
@@ -80,10 +74,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
             val status = statusEdit.text.toString()
-            if (status !in statusList) {
-                Snackbar.make(addButton, R.string.error_invalid_status, Snackbar.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
 
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
             val creator = authPrefs.getString("username", "") ?: ""
