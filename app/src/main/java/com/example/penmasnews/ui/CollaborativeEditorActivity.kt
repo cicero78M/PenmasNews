@@ -38,9 +38,18 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
 
         val passedEvent = intent.getSerializableExtra("event") as? EditorialEvent
-        val eventsPrefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
-        val events = EventStorage.loadEvents(this)
-        val eventIndex = passedEvent?.let { evt -> events.indexOfFirst { it.id == evt.id } } ?: intent.getIntExtra("index", -1)
+
+        // Load events list in background for later updates
+        val events = mutableListOf<EditorialEvent>()
+        var eventIndex = -1
+        Thread {
+            val loaded = EventStorage.loadEvents(this)
+            val idx = passedEvent?.let { evt -> loaded.indexOfFirst { it.id == evt.id } } ?: -1
+            runOnUiThread {
+                events.addAll(loaded)
+                eventIndex = idx
+            }
+        }.start()
 
         val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
         val token = authPrefs.getString("token", null)
@@ -74,9 +83,10 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
-            val oldEvent = if (eventIndex in events.indices) events[eventIndex] else null
+            val oldEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent
 
-            if (eventIndex in events.indices) {
+            val eventId = if (eventIndex in events.indices) events[eventIndex].id else passedEvent?.id ?: 0
+            if (eventId != 0) {
                 val updated = EditorialEvent(
                     currentEvent?.date ?: "",
                     titleEdit.text.toString(),
@@ -85,14 +95,17 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     narrativeEdit.text.toString(),
                     currentEvent?.summary ?: "",
                     imagePath ?: "",
-                    events[eventIndex].id,
+                    eventId,
                     currentEvent?.createdAt ?: "",
                     DateUtils.now(),
                     currentEvent?.username ?: ""
                 )
-                if (EventStorage.updateEvent(this, updated)) {
-                    events[eventIndex] = updated
-                }
+                Thread {
+                    val success = EventStorage.updateEvent(this, updated)
+                    if (success && eventIndex in events.indices) {
+                        events[eventIndex] = updated
+                    }
+                }.start()
             }
 
             val oldTitle = oldEvent?.topic ?: ""
@@ -126,12 +139,15 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         requestButton.setOnClickListener {
             val newStatus = "review"
             statusEdit.setText(newStatus)
-            if (eventIndex in events.indices) {
-                val event = events[eventIndex]
-                val updated = event.copy(status = newStatus)
-                if (EventStorage.updateEvent(this, updated)) {
-                    events[eventIndex] = updated
-                }
+            if (eventIndex in events.indices || (passedEvent?.id ?: 0) != 0) {
+                val baseEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent!!
+                val updated = baseEvent.copy(status = newStatus)
+                Thread {
+                    val success = EventStorage.updateEvent(this, updated)
+                    if (success && eventIndex in events.indices) {
+                        events[eventIndex] = updated
+                    }
+                }.start()
             }
             Snackbar.make(requestButton, R.string.status_changed_review, Snackbar.LENGTH_SHORT).show()
             startActivity(Intent(this, ApprovalListActivity::class.java))
