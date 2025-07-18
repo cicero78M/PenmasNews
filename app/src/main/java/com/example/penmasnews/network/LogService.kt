@@ -31,7 +31,7 @@ object LogService {
                     val epoch = runCatching { Instant.parse(obj.optString("logged_at")).epochSecond }.getOrDefault(0L)
                     list.add(
                         ChangeLogEntry(
-                            obj.optString("user_id"),
+                            obj.optString("username"),
                             obj.optString("status"),
                             obj.optString("changes"),
                             epoch

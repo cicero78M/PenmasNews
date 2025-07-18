@@ -99,7 +99,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                     // log creation of new calendar event to backend
                     val token = authPrefs.getString("token", null)
-                    val userId = authPrefs.getString("userId", "0") ?: "0"
+                    val username = authPrefs.getString("username", "unknown") ?: "unknown"
                     val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
                     val createdId = created?.id ?: 0
                     if (token != null && createdId != 0) {
@@ -107,7 +107,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                             LogService.addLog(
                                 token,
                                 createdId,
-                                ChangeLogEntry(userId, event.status, changesDesc, System.currentTimeMillis() / 1000L)
+                                ChangeLogEntry(username, event.status, changesDesc, System.currentTimeMillis() / 1000L)
                             )
                         }.start()
                     }

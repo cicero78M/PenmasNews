@@ -124,8 +124,8 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val changesDesc = if (changed.isEmpty()) "no change" else changed.joinToString(", ")
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
             val token = authPrefs.getString("token", null)
-            val userId = authPrefs.getString("userId", "0") ?: "0"
-            val entry = ChangeLogEntry(userId, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
+            val username = authPrefs.getString("username", "unknown") ?: "unknown"
+            val entry = ChangeLogEntry(username, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
             val evId = currentEvent?.id ?: 0
             if (token != null && evId != 0) {
                 Thread {
