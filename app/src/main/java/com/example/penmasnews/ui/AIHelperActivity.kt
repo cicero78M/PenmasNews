@@ -27,7 +27,7 @@ import org.json.JSONObject
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import java.util.Calendar
-import java.time.LocalDateTime
+import com.example.penmasnews.util.DateUtils
 
 class AIHelperActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
@@ -404,15 +404,15 @@ class AIHelperActivity : AppCompatActivity() {
                 summaryOutput.text.toString(),
                 selectedImagePath ?: "",
                 0,
-                LocalDateTime.now().toString(),
-                LocalDateTime.now().toString(),
+                DateUtils.now(),
+                DateUtils.now(),
                 creator
             )
             if (index >= 0 && index < events.size) {
                 event = event.copy(
                     id = events[index].id,
                     createdAt = events[index].createdAt,
-                    updatedAt = LocalDateTime.now().toString(),
+                    updatedAt = DateUtils.now(),
                     username = events[index].username
                 )
                 if (EventStorage.updateEvent(this, event)) {

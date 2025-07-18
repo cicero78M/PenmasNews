@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
 import java.util.Calendar
-import java.time.LocalDateTime
+import com.example.penmasnews.util.DateUtils
 
 class EditorialCalendarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,8 +96,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 "",
                 "",
                 0,
-                LocalDateTime.now().toString(),
-                LocalDateTime.now().toString(),
+                DateUtils.now(),
+                DateUtils.now(),
                 creator
             )
             Thread {

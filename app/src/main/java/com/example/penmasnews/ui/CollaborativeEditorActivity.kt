@@ -15,10 +15,7 @@ import com.example.penmasnews.model.ChangeLogDatabase
 import com.example.penmasnews.ui.ApprovalListActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.time.LocalDateTime
+import com.example.penmasnews.util.DateUtils
 
 class CollaborativeEditorActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
@@ -79,7 +76,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     imagePath ?: "",
                     events[eventIndex].id,
                     currentEvent?.createdAt ?: "",
-                    LocalDateTime.now().toString(),
+                    DateUtils.now(),
                     currentEvent?.username ?: ""
                 )
                 if (EventStorage.updateEvent(this, updated)) {
@@ -139,11 +136,9 @@ class CollaborativeEditorActivity : AppCompatActivity() {
     }
 
     private fun displayLogs(logs: List<ChangeLogEntry>) {
-        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        df.timeZone = java.util.TimeZone.getTimeZone("Asia/Jakarta")
         logText.text = logs.joinToString("\n") {
-            val date = Date(it.timestamp * 1000)
-            "${df.format(date)} - ${it.user} - ${it.status} - ${it.changes}"
+            val ts = DateUtils.formatTimestamp(it.timestamp)
+            "$ts - ${it.user} - ${it.status} - ${it.changes}"
         }
     }
 }
