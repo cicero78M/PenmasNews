@@ -11,6 +11,9 @@ import com.example.penmasnews.network.ApprovalService
 import com.example.penmasnews.network.EventService
 
 class ApprovalListActivity : AppCompatActivity() {
+    private val items = mutableListOf<ApprovalItem>()
+    private lateinit var adapter: ApprovalListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_approval_list)
@@ -18,8 +21,6 @@ class ApprovalListActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewApproval)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val items = mutableListOf<ApprovalItem>()
-        lateinit var adapter: ApprovalListAdapter
         adapter = ApprovalListAdapter(items) { item ->
             val intent = Intent(this, ApprovalDetailActivity::class.java)
             intent.putExtra("event", item.event)
