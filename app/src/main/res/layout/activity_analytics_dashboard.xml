@@ -72,6 +72,20 @@
             android:layout_marginTop="4dp"
             style="@style/ListFrame" />
 
+        <TextView
+            android:text="@string/label_word_cloud"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
+        <com.example.penmasnews.ui.WordCloudView
+            android:id="@+id/wordCloud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            style="@style/ListFrame" />
+
         <!-- Removed scheduling note fields and save button -->
     </LinearLayout>
 </ScrollView>

@@ -18,6 +18,7 @@
     <string name="desc_analytics_dashboard">Dashboard metrik performa artikel dan umpan balik pembaca.\nRekomendasi topik baru dapat langsung ditambahkan ke Kalender Editorial.</string>
     <string name="label_site_metrics">Statistik Situs</string>
     <string name="label_trending_topics">Topik Tren</string>
+    <string name="label_word_cloud">Word Cloud</string>
     <string name="label_page_views">Tampilan Halaman</string>
     <string name="label_unique_visitors">Pengunjung Unik</string>
     <string name="label_bounce_rate">Bounce Rate</string>
