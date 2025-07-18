@@ -41,7 +41,7 @@ class CmsIntegrationAdapter(
         holder.notesText.text = item.assignee
         holder.statusText.text = item.status
         holder.createdText.text = item.createdAt
-        holder.updatedText.text = item.updatedAt
+        holder.updatedText.text = item.lastUpdate
         holder.userText.text = item.username
         holder.itemView.setBackgroundResource(
             if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd

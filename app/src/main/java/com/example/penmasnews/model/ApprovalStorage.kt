@@ -25,8 +25,9 @@ object ApprovalStorage {
                     obj.optString("imagePath"),
                     obj.optInt("id"),
                     obj.optString("createdAt"),
-                    obj.optString("updatedAt"),
-                    obj.optString("username")
+                    obj.optString("lastUpdate"),
+                    obj.optString("username"),
+                    obj.optString("updatedBy")
                 )
             )
         }
@@ -46,8 +47,9 @@ object ApprovalStorage {
             obj.put("imagePath", item.imagePath)
             obj.put("id", item.id)
             obj.put("createdAt", item.createdAt)
-            obj.put("updatedAt", item.updatedAt)
+            obj.put("lastUpdate", item.lastUpdate)
             obj.put("username", item.username)
+            obj.put("updatedBy", item.updatedBy)
             array.put(obj)
         }
         prefs.edit().putString("events", array.toString()).apply()

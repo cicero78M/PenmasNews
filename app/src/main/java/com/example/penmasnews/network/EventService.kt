@@ -28,6 +28,11 @@ object EventService {
                 val list = mutableListOf<EditorialEvent>()
                 for (i in 0 until array.length()) {
                     val obj = array.getJSONObject(i)
+                    val lastUpdate = if (obj.has("last_update")) {
+                        obj.optString("last_update")
+                    } else {
+                        obj.optString("last_updated")
+                    }
                     list.add(
                         EditorialEvent(
                             obj.optString("event_date"),
@@ -39,8 +44,9 @@ object EventService {
                             obj.optString("image_path"),
                             obj.optInt("event_id"),
                             obj.optString("created_at"),
-                            obj.optString("updated_at"),
-                            obj.optString("username")
+                            lastUpdate,
+                            obj.optString("username"),
+                            obj.optString("updated_by")
                         )
                     )
                 }
@@ -71,6 +77,11 @@ object EventService {
                 val body = resp.body?.string() ?: return null
                 if (!resp.isSuccessful) return null
                 val json = JSONObject(body).optJSONObject("data") ?: return null
+                val lastUpdate = if (json.has("last_update")) {
+                    json.optString("last_update")
+                } else {
+                    json.optString("last_updated")
+                }
                 EditorialEvent(
                     json.optString("event_date"),
                     json.optString("topic"),
@@ -81,8 +92,9 @@ object EventService {
                     json.optString("image_path"),
                     json.optInt("event_id"),
                     json.optString("created_at"),
-                    json.optString("updated_at"),
-                    json.optString("username")
+                    lastUpdate,
+                    json.optString("username"),
+                    json.optString("updated_by")
                 )
             }
         } catch (_: Exception) {
