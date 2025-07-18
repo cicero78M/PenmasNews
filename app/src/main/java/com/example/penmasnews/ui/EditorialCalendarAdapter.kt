@@ -17,6 +17,7 @@ class EditorialCalendarAdapter(
     private val onViewLogs: ((EditorialEvent, Int) -> Unit)? = null,
     private val onAiAssist: ((EditorialEvent, Int) -> Unit)? = null,
     private val onDelete: ((EditorialEvent, Int) -> Unit)? = null,
+    private val onPublish: ((EditorialEvent, Int) -> Unit)? = null,
 ) : RecyclerView.Adapter<EditorialCalendarAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -53,26 +54,37 @@ class EditorialCalendarAdapter(
         )
 
         holder.actionButton.setOnClickListener {
-            AlertDialog.Builder(holder.itemView.context)
-                .setTitle(R.string.dialog_actions)
-                .setItems(arrayOf(
-                    holder.itemView.context.getString(R.string.action_open),
-                    holder.itemView.context.getString(R.string.action_view_logs),
-                    holder.itemView.context.getString(R.string.action_ai_assist),
-                    holder.itemView.context.getString(R.string.action_delete)
-                )) { _, which ->
-                    when (which) {
-                        0 -> onOpen?.invoke(item, position)
-                        1 -> onViewLogs?.invoke(item, position)
-                        2 -> onAiAssist?.invoke(item, position)
-                        3 -> {
-                            val removed = items.removeAt(position)
-                            notifyItemRemoved(position)
-                            onDelete?.invoke(removed, position)
+            if (item.status == "approved") {
+                AlertDialog.Builder(holder.itemView.context)
+                    .setTitle(R.string.dialog_actions)
+                    .setItems(arrayOf(
+                        holder.itemView.context.getString(R.string.action_publish_blogspot)
+                    )) { _, _ ->
+                        onPublish?.invoke(item, position)
+                    }
+                    .show()
+            } else {
+                AlertDialog.Builder(holder.itemView.context)
+                    .setTitle(R.string.dialog_actions)
+                    .setItems(arrayOf(
+                        holder.itemView.context.getString(R.string.action_open),
+                        holder.itemView.context.getString(R.string.action_view_logs),
+                        holder.itemView.context.getString(R.string.action_ai_assist),
+                        holder.itemView.context.getString(R.string.action_delete)
+                    )) { _, which ->
+                        when (which) {
+                            0 -> onOpen?.invoke(item, position)
+                            1 -> onViewLogs?.invoke(item, position)
+                            2 -> onAiAssist?.invoke(item, position)
+                            3 -> {
+                                val removed = items.removeAt(position)
+                                notifyItemRemoved(position)
+                                onDelete?.invoke(removed, position)
+                            }
                         }
                     }
-                }
-                .show()
+                    .show()
+            }
         }
     }
 
