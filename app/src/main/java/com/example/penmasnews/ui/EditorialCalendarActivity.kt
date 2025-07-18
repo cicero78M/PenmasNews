@@ -8,6 +8,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.network.LogService
+import com.example.penmasnews.feature.CMSIntegration
+import com.example.penmasnews.network.EventService
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +63,27 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 if (item.id != 0) {
                     Thread { EventStorage.deleteEvent(this, item.id) }.start()
                 }
+            },
+            onPublish = { event, _ ->
+                val cms = CMSIntegration()
+                Thread {
+                    val success = cms.publishToBlogspot(event)
+                    val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
+                    val token = prefsAuth.getString("token", null)
+                    val user = prefsAuth.getString("username", "") ?: ""
+                    if (success && token != null) {
+                        val updated = event.copy(
+                            status = "published",
+                            lastUpdate = DateUtils.now(),
+                            updatedBy = user
+                        )
+                        EventService.updateEvent(token, event.id, updated)
+                    }
+                    runOnUiThread {
+                        val msg = if (success) "Dipublikasikan" else "Gagal publish"
+                        android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }.start()
             }
         )
         recyclerView.adapter = adapter

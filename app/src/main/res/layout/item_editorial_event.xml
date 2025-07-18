@@ -17,56 +17,64 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textCreated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textUpdatedBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@color/approval_text" />
 
     <TextView
         android:id="@+id/textUpdated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@color/approval_text" />
 
     </LinearLayout>
 

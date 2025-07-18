@@ -49,9 +49,9 @@ class CmsIntegrationAdapter(
         holder.itemView.setBackgroundResource(
             if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd
         )
-        holder.actionButton.setOnClickListener {
-            onPublish(item)
-        }
+        val listener = View.OnClickListener { onPublish(item) }
+        holder.actionButton.setOnClickListener(listener)
+        holder.itemView.setOnClickListener(listener)
     }
 
     override fun getItemCount(): Int = items.size
