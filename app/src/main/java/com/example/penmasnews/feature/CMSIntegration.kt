@@ -21,20 +21,41 @@ class CMSIntegration(
      * Publish the provided event as a blog post.
      * Returns true if the request succeeded.
      */
-    fun publishToBlogspot(event: EditorialEvent): Boolean {
-        if (apiKey.isBlank() || blogId.isBlank()) return false
-        val url = "https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/?key=$apiKey"
+    fun publishToBlogspot(event: EditorialEvent, token: String? = null): Boolean {
+        if (blogId.isBlank()) return false
+
+        val baseUrl = "https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/"
+        val url = if (token.isNullOrBlank()) "$baseUrl?key=$apiKey" else baseUrl
+
         val obj = JSONObject()
         obj.put("kind", "blogger#post")
         obj.put("title", event.topic)
-        obj.put("content", if (event.content.isNotBlank()) event.content else event.summary)
+
+        val contentBuilder = StringBuilder()
+        if (event.imagePath.isNotBlank()) {
+            contentBuilder.append("<img src=\"")
+            contentBuilder.append(event.imagePath)
+            contentBuilder.append("\"/>")
+        }
+        contentBuilder.append(
+            if (event.content.isNotBlank()) event.content else event.summary
+        )
+        obj.put("content", contentBuilder.toString())
+
         val body = obj.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-        val request = Request.Builder()
+
+        val builder = Request.Builder()
             .url(url)
             .post(body)
-            .build()
-        client.newCall(request).execute().use { resp ->
-            return resp.isSuccessful
+        if (!token.isNullOrBlank()) {
+            builder.header("Authorization", "Bearer $token")
+        }
+
+        val request = builder.build()
+        return try {
+            client.newCall(request).execute().use { it.isSuccessful }
+        } catch (_: Exception) {
+            false
         }
     }
 }
