@@ -23,7 +23,9 @@ repository, build and run it using Android Studio with the SDK installed.
 
 Open the project in Android Studio to edit and run on a device or emulator.
 
-Create a `.env` file in the project root to supply your API keys:
+Create a `.env` file in the project root to supply your API keys.  These
+credentials are used when signing in with Google OAuth2 in order to publish
+approved articles to Blogspot:
 
 ```
 OPENAI_API_KEY=sk-...
