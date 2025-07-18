@@ -202,7 +202,9 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 pendingPublish?.let { publishEvent(it, account!!) }
                 pendingPublish = null
             } else {
-                Toast.makeText(this, "Login gagal", Toast.LENGTH_SHORT).show()
+                val raw = task.exception?.message ?: task.exception?.toString()
+                val msg = "Login gagal" + if (raw != null) ": $raw" else ""
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             }
         }
     }
