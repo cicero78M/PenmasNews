@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.penmasnews.R
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.util.DateUtils
 
@@ -12,12 +13,12 @@ class LogListAdapter(private val items: List<ChangeLogEntry>) :
     RecyclerView.Adapter<LogListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val text: TextView = view.findViewById(android.R.id.text1)
+        val text: TextView = view.findViewById(R.id.textLog)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(android.R.layout.simple_list_item_1, parent, false)
+            .inflate(R.layout.item_log_entry, parent, false)
         return ViewHolder(view)
     }
 

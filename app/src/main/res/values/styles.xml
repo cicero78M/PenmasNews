@@ -2,5 +2,10 @@
     <style name="ListFrame">
         <item name="android:background">@drawable/list_border</item>
         <item name="android:padding">4dp</item>
+</style>
+
+    <style name="TerminalListFrame">
+        <item name="android:background">@drawable/terminal_list_background</item>
+        <item name="android:padding">4dp</item>
     </style>
 </resources>
