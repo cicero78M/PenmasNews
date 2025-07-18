@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogStorage
+import com.example.penmasnews.model.ChangeLogDatabase
 
 class ApprovalListAdapter(
     private val items: MutableList<EditorialEvent>,
@@ -38,11 +38,10 @@ class ApprovalListAdapter(
             item.status = "disetujui"
             notifyItemChanged(position)
             val context = holder.itemView.context
-            val logPrefs = context.getSharedPreferences(ChangeLogStorage.PREFS_NAME, android.content.Context.MODE_PRIVATE)
-            val logs = ChangeLogStorage.loadLogs(logPrefs)
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            logs.add(
+            ChangeLogDatabase.addLog(
+                context,
                 ChangeLogEntry(
                     user,
                     item.status,
@@ -50,7 +49,6 @@ class ApprovalListAdapter(
                     System.currentTimeMillis() / 1000L
                 )
             )
-            ChangeLogStorage.saveLogs(logPrefs, logs)
             onStatusChanged?.invoke(item)
         }
 
@@ -58,11 +56,10 @@ class ApprovalListAdapter(
             item.status = "revisi"
             notifyItemChanged(position)
             val context = holder.itemView.context
-            val logPrefs = context.getSharedPreferences(ChangeLogStorage.PREFS_NAME, android.content.Context.MODE_PRIVATE)
-            val logs = ChangeLogStorage.loadLogs(logPrefs)
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            logs.add(
+            ChangeLogDatabase.addLog(
+                context,
                 ChangeLogEntry(
                     user,
                     item.status,
@@ -70,7 +67,6 @@ class ApprovalListAdapter(
                     System.currentTimeMillis() / 1000L
                 )
             )
-            ChangeLogStorage.saveLogs(logPrefs, logs)
             onStatusChanged?.invoke(item)
         }
     }
