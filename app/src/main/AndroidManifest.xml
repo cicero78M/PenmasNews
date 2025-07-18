@@ -24,6 +24,7 @@
         <activity android:name=".ui.LogDataActivity" />
         <activity android:name=".ui.EventLogActivity" />
         <activity android:name=".ui.ApprovalListActivity" />
+        <activity android:name=".ui.ApprovalDetailActivity" />
         <activity android:name=".ui.SignupActivity" />
     </application>
 

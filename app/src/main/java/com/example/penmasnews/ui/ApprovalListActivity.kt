@@ -1,6 +1,7 @@
 package com.example.penmasnews.ui
 
 import android.os.Bundle
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,6 @@ import com.example.penmasnews.R
 import com.example.penmasnews.model.*
 import com.example.penmasnews.network.ApprovalService
 import com.example.penmasnews.network.EventService
-import com.example.penmasnews.util.DateUtils
 
 class ApprovalListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,27 +20,11 @@ class ApprovalListActivity : AppCompatActivity() {
 
         val items = mutableListOf<ApprovalItem>()
         lateinit var adapter: ApprovalListAdapter
-        adapter = ApprovalListAdapter(items) { item, action ->
-            val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
-            val token = authPrefs.getString("token", null)
-            val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            val updatedEvent = item.event.copy(
-                status = action,
-                lastUpdate = DateUtils.now(),
-                updatedBy = user
-            )
-            val requestId = item.request.requestId
-            if (token != null) {
-                Thread {
-                    EventService.updateEvent(token, updatedEvent.id, updatedEvent)
-                    ApprovalService.updateApproval(token, requestId, action)
-                }.start()
-            }
-            val pos = items.indexOf(item)
-            if (pos != -1) {
-                items.removeAt(pos)
-                adapter.notifyItemRemoved(pos)
-            }
+        adapter = ApprovalListAdapter(items) { item ->
+            val intent = Intent(this, ApprovalDetailActivity::class.java)
+            intent.putExtra("event", item.event)
+            intent.putExtra("request", item.request)
+            startActivityForResult(intent, 100)
         }
         recyclerView.adapter = adapter
 
@@ -61,5 +45,17 @@ class ApprovalListActivity : AppCompatActivity() {
                 }
             }
         }.start()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            val requestId = data.getIntExtra("requestId", -1)
+            val index = items.indexOfFirst { it.request.requestId == requestId }
+            if (index != -1) {
+                items.removeAt(index)
+                findViewById<RecyclerView>(R.id.recyclerViewApproval).adapter?.notifyItemRemoved(index)
+            }
+        }
     }
 }
