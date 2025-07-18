@@ -202,8 +202,15 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 pendingPublish?.let { publishEvent(it, account!!) }
                 pendingPublish = null
             } else {
-                val raw = task.exception?.message ?: task.exception?.toString()
-                val msg = "Login gagal" + if (raw != null) ": $raw" else ""
+                val ex = task.exception
+                val detail = if (ex is com.google.android.gms.common.api.ApiException) {
+                    val code = ex.statusCode
+                    val label = com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.getStatusCodeString(code)
+                    "$code $label: ${ex.message}"
+                } else {
+                    ex?.message ?: ex?.toString()
+                }
+                val msg = "Login gagal" + if (!detail.isNullOrEmpty()) ": $detail" else ""
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             }
         }
