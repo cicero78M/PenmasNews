@@ -150,7 +150,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                 val updated = baseEvent.copy(
                     status = newStatus,
                     lastUpdate = DateUtils.now(),
-                    updatedBy = getSharedPreferences("auth", MODE_PRIVATE).getString("username", baseEvent.updatedBy)
+                    updatedBy = getSharedPreferences("auth", MODE_PRIVATE).getString("username", baseEvent.updatedBy) ?: baseEvent.updatedBy
                 )
                 Thread {
                     val success = EventStorage.updateEvent(this, updated)
