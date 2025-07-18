@@ -1,9 +1,12 @@
 package com.example.penmasnews.util
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 /** Utility helpers for consistent date handling */
 object DateUtils {
@@ -38,6 +41,19 @@ object DateUtils {
             } else {
                 LocalDateTime.parse(raw, dateTimeFormatter).format(dateTimeFormatter)
             }
+        } catch (_: Exception) {
+            raw
+        }
+    }
+
+    /**
+     * Convert a date in [DATE_FORMAT] to "EEEE, dd/MM/yyyy" localized in Indonesian.
+     */
+    fun formatDayDate(raw: String): String {
+        return try {
+            val localDate = LocalDate.parse(raw, DateTimeFormatter.ofPattern(DATE_FORMAT))
+            val day = localDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale("id", "ID"))
+            "$day, ${localDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT))}"
         } catch (_: Exception) {
             raw
         }

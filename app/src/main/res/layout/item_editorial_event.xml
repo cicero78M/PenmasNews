@@ -41,6 +41,13 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/textUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp" />
+
+    <TextView
         android:id="@+id/textCreated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,14 +55,14 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/textUpdated"
+        android:id="@+id/textUpdatedBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/textUser"
+        android:id="@+id/textUpdated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
