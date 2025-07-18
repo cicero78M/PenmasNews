@@ -31,7 +31,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val topicEdit = findViewById<EditText>(R.id.editTopic)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
-        val statusEdit = findViewById<EditText>(R.id.editStatus)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
 
 
@@ -75,7 +74,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         addButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
-            val status = statusEdit.text.toString()
+            val status = "ide"
 
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
             val creator = authPrefs.getString("username", "") ?: ""
@@ -116,7 +115,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
                     dateEdit.text.clear()
                     topicEdit.text.clear()
                     assigneeEdit.text.clear()
-                    statusEdit.text.clear()
                 }
             }.start()
         }

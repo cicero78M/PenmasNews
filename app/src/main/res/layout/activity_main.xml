@@ -30,21 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/feature_editorial_calendar" />
-
-        <Button
-            android:id="@+id/buttonCollaborative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/feature_collaborative_writing"
-            android:layout_marginTop="8dp" />
-
-        <Button
-            android:id="@+id/buttonAIHelper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/feature_ai_assistance"
-            android:layout_marginTop="8dp" />
-
         <Button
             android:id="@+id/buttonAssetManager"
             android:layout_width="match_parent"

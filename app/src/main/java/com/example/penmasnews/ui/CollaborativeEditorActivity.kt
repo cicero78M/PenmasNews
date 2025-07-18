@@ -30,7 +30,6 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         val titleEdit = findViewById<EditText>(R.id.editTitle)
         val narrativeEdit = findViewById<EditText>(R.id.editNarrative)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
-        val statusEdit = findViewById<EditText>(R.id.editStatus)
         imageView = findViewById(R.id.imageCollab)
         logText = findViewById(R.id.textLogs)
         val saveButton = findViewById<Button>(R.id.buttonSave)
@@ -79,7 +78,6 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         titleEdit.setText(currentEvent?.topic ?: "")
         narrativeEdit.setText(currentEvent?.content ?: "")
         assigneeEdit.setText(currentEvent?.assignee ?: "")
-        statusEdit.setText(currentEvent?.status ?: "")
 
         saveButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
@@ -91,7 +89,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     currentEvent?.date ?: "",
                     titleEdit.text.toString(),
                     assignee,
-                    statusEdit.text.toString(),
+                    "dalam penulisan",
                     narrativeEdit.text.toString(),
                     currentEvent?.summary ?: "",
                     imagePath ?: "",
@@ -111,21 +109,19 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val oldTitle = oldEvent?.topic ?: ""
             val oldContent = oldEvent?.content ?: ""
             val oldAssignee = oldEvent?.assignee ?: ""
-            val oldStatus = oldEvent?.status ?: ""
             val oldImage = oldEvent?.imagePath ?: ""
 
             val changed = mutableListOf<String>()
             if (oldTitle != titleEdit.text.toString()) changed.add("title")
             if (oldContent != narrativeEdit.text.toString()) changed.add("content")
             if (oldAssignee != assigneeEdit.text.toString()) changed.add("assignee")
-            if (oldStatus != statusEdit.text.toString()) changed.add("status")
             if (oldImage != (imagePath ?: "")) changed.add("image")
 
             val changesDesc = if (changed.isEmpty()) "no change" else changed.joinToString(", ")
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
             val token = authPrefs.getString("token", null)
             val username = authPrefs.getString("username", "unknown") ?: "unknown"
-            val entry = ChangeLogEntry(username, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
+            val entry = ChangeLogEntry(username, "dalam penulisan", changesDesc, System.currentTimeMillis() / 1000L)
             val evId = currentEvent?.id ?: 0
             if (token != null && evId != 0) {
                 Thread {
@@ -137,8 +133,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         }
 
         requestButton.setOnClickListener {
-            val newStatus = "review"
-            statusEdit.setText(newStatus)
+            val newStatus = "meminta persetujuan"
             if (eventIndex in events.indices || (passedEvent?.id ?: 0) != 0) {
                 val baseEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent!!
                 val updated = baseEvent.copy(status = newStatus)

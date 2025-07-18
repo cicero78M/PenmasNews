@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.penmasnews.ui.AIHelperActivity
 import com.example.penmasnews.ui.AnalyticsDashboardActivity
 import com.example.penmasnews.ui.AssetManagerActivity
 import com.example.penmasnews.ui.CMSIntegrationActivity
-import com.example.penmasnews.ui.CollaborativeEditorActivity
 import com.example.penmasnews.ui.EditorialCalendarActivity
 import com.example.penmasnews.ui.ApprovalListActivity
 import com.example.penmasnews.ui.LogDataActivity
@@ -28,13 +26,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, EditorialCalendarActivity::class.java))
         }
 
-        findViewById<Button>(R.id.buttonCollaborative).setOnClickListener {
-            startActivity(Intent(this, CollaborativeEditorActivity::class.java))
-        }
-
-        findViewById<Button>(R.id.buttonAIHelper).setOnClickListener {
-            startActivity(Intent(this, AIHelperActivity::class.java))
-        }
 
         findViewById<Button>(R.id.buttonAssetManager).setOnClickListener {
             startActivity(Intent(this, AssetManagerActivity::class.java))

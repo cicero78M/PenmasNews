@@ -35,7 +35,7 @@ class ApprovalListAdapter(
         holder.statusText.text = item.status
 
         holder.approveButton.setOnClickListener {
-            item.status = "disetujui"
+            item.status = "approved"
             notifyItemChanged(position)
             val context = holder.itemView.context
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
@@ -53,7 +53,7 @@ class ApprovalListAdapter(
         }
 
         holder.rejectButton.setOnClickListener {
-            item.status = "revisi"
+            item.status = "rejected"
             notifyItemChanged(position)
             val context = holder.itemView.context
             val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
