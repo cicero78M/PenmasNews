@@ -17,6 +17,10 @@ import java.util.Calendar
 import com.example.penmasnews.util.DateUtils
 
 class EditorialCalendarActivity : AppCompatActivity() {
+
+    private val events = mutableListOf<EditorialEvent>()
+    private lateinit var adapter: EditorialCalendarAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editorial_calendar)
@@ -33,10 +37,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
 
-        // load events on a background thread to avoid NetworkOnMainThreadException
-        val events = mutableListOf<EditorialEvent>()
-
-        val adapter = EditorialCalendarAdapter(
+        // adapter backed by [events]
+        adapter = EditorialCalendarAdapter(
             events,
             onOpen = { item, _ ->
                 val intent = android.content.Intent(this, CollaborativeEditorActivity::class.java)
@@ -119,6 +121,19 @@ class EditorialCalendarActivity : AppCompatActivity() {
             }.start()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh events whenever returning to this screen
+        Thread {
+            val loaded = EventStorage.loadEvents(this)
+            runOnUiThread {
+                events.clear()
+                events.addAll(loaded)
+                adapter.notifyDataSetChanged()
+            }
+        }.start()
     }
 
     private fun showDatePicker(target: EditText) {
