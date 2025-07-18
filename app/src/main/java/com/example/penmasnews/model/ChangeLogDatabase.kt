@@ -57,7 +57,7 @@ object ChangeLogDatabase {
         val db = getHelper(context).readableDatabase
         val cursor = db.query(TABLE_NAME,
             arrayOf("user", "status", "changes", "timestamp"),
-            null, null, null, null, "timestamp ASC")
+            null, null, null, null, "timestamp DESC")
         cursor.use { c ->
             while (c.moveToNext()) {
                 list.add(
