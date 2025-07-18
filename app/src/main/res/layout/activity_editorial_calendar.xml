@@ -75,6 +75,13 @@
             android:text="@string/action_add"
             android:layout_marginTop="8dp" />
 
+        <Button
+            android:id="@+id/buttonDebugLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_view_debug_log"
+            android:layout_marginTop="8dp" />
+
         <!-- Buttons for clearing and saving removed as actions handled per item -->
     </LinearLayout>
 </ScrollView>

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.example.penmasnews.BuildConfig
+import com.example.penmasnews.util.DebugLogger
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -35,23 +36,28 @@ object BloggerAuth {
     }
 
     fun signIn(activity: Activity) {
+        DebugLogger.log(activity, "Launching Google sign in")
         val signInIntent: Intent = getClient(activity).signInIntent
         activity.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     fun signOut(activity: Activity) {
+        DebugLogger.log(activity, "Signing out of Google")
         getClient(activity).signOut()
     }
 
     fun getAuthToken(activity: Activity, account: GoogleSignInAccount): String? {
         val googleAccount = account.account ?: return null
         return try {
-            GoogleAuthUtil.getToken(
+            val token = GoogleAuthUtil.getToken(
                 activity,
                 googleAccount,
                 "oauth2:https://www.googleapis.com/auth/blogger"
             )
-        } catch (_: Exception) {
+            DebugLogger.log(activity, "Retrieved token length: ${'$'}{token.length}")
+            token
+        } catch (e: Exception) {
+            DebugLogger.log(activity, "Token retrieval failed: ${'$'}{e.message}")
             null
         }
     }

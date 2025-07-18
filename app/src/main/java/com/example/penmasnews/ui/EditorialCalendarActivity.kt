@@ -12,6 +12,7 @@ import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.network.LogService
 import com.example.penmasnews.feature.CMSIntegration
 import com.example.penmasnews.feature.BloggerAuth
+import com.example.penmasnews.util.DebugLogger
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.example.penmasnews.network.EventService
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val topicEdit = findViewById<EditText>(R.id.editTopic)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
+        val debugButton = findViewById<Button>(R.id.buttonDebugLog)
 
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
@@ -72,9 +74,15 @@ class EditorialCalendarActivity : AppCompatActivity() {
             onPublish = { event, _ ->
                 val account = BloggerAuth.getSignedInAccount(this)
                 if (account == null) {
+                    DebugLogger.log(this, "No signed in account. Starting sign in")
+                    if (com.example.penmasnews.BuildConfig.BLOGGER_CLIENT_ID.isBlank()) {
+                        Toast.makeText(this, "Blogger CLIENT_ID belum diatur", Toast.LENGTH_LONG).show()
+                        DebugLogger.log(this, "BLOGGER_CLIENT_ID is blank")
+                    }
                     pendingPublish = event
                     BloggerAuth.signIn(this)
                 } else {
+                    DebugLogger.log(this, "Using existing account ${'$'}{account.email}")
                     publishEvent(event, account)
                 }
             }
@@ -140,6 +148,15 @@ class EditorialCalendarActivity : AppCompatActivity() {
             }.start()
         }
 
+        debugButton.setOnClickListener {
+            val logText = DebugLogger.readLog(this)
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Debug Log")
+                .setMessage(if (logText.isNotBlank()) logText else "(empty)")
+                .setPositiveButton(android.R.string.ok, null)
+                .show()
+        }
+
     }
 
     override fun onResume() {
@@ -171,9 +188,11 @@ class EditorialCalendarActivity : AppCompatActivity() {
     }
 
     private fun publishEvent(event: EditorialEvent, account: com.google.android.gms.auth.api.signin.GoogleSignInAccount) {
+        DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' as ${'$'}{account.email}")
         val cms = CMSIntegration()
         Thread {
             val accessToken = BloggerAuth.getAuthToken(this, account)
+            DebugLogger.log(this, "Obtained auth token: ${'$'}{accessToken != null}")
             val success = cms.publishToBlogspot(event, accessToken)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
             val token = prefsAuth.getString("token", null)
@@ -188,6 +207,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
             }
             runOnUiThread {
                 val msg = if (success) "Dipublikasikan" else "Gagal publish"
+                DebugLogger.log(this, "Publish result: ${'$'}msg")
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
         }.start()
@@ -199,11 +219,13 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             if (task.isSuccessful) {
                 val account = task.result
+                DebugLogger.log(this, "Sign in success as ${'$'}{account?.email}")
                 pendingPublish?.let { publishEvent(it, account!!) }
                 pendingPublish = null
             } else {
                 val raw = task.exception?.message ?: task.exception?.toString()
                 val msg = "Login gagal" + if (raw != null) ": $raw" else ""
+                DebugLogger.log(this, "Sign in failed: ${'$'}raw")
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             }
         }
