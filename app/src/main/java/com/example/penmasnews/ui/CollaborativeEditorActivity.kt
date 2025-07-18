@@ -13,7 +13,7 @@ import java.io.File
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogStorage
+import com.example.penmasnews.model.ChangeLogDatabase
 import com.example.penmasnews.ui.ApprovalListActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
@@ -57,8 +57,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         val events = EventStorage.loadEvents(this)
         val eventIndex = passedEvent?.let { evt -> events.indexOfFirst { it.id == evt.id } } ?: intent.getIntExtra("index", -1)
 
-        val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
-        val changeLogs = ChangeLogStorage.loadLogs(logPrefs)
+        val changeLogs = ChangeLogDatabase.getLogs(this)
         displayLogs(changeLogs)
 
         val currentEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent
@@ -121,9 +120,8 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
             val entry = ChangeLogEntry(user, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
-            changeLogs.add(entry)
-            ChangeLogStorage.saveLogs(logPrefs, changeLogs)
-            displayLogs(changeLogs)
+            ChangeLogDatabase.addLog(this, entry)
+            displayLogs(ChangeLogDatabase.getLogs(this))
         }
 
         requestButton.setOnClickListener {

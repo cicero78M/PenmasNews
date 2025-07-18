@@ -73,5 +73,12 @@
             android:text="@string/feature_analytics"
             android:layout_marginTop="8dp" />
 
+        <Button
+            android:id="@+id/buttonLogData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feature_log_data"
+            android:layout_marginTop="8dp" />
+
     </LinearLayout>
 </ScrollView>

@@ -16,7 +16,7 @@ import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogStorage
+import com.example.penmasnews.model.ChangeLogDatabase
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -425,12 +425,11 @@ class AIHelperActivity : AppCompatActivity() {
                     events.add(created)
                 }
             }
-            // log save of AI generated content
-            val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
-            val logs = ChangeLogStorage.loadLogs(logPrefs)
+            // log save of AI generated content into database
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
             val changesDesc = listOf("ai_generated", "date", "title").joinToString(", ")
-            logs.add(
+            ChangeLogDatabase.addLog(
+                this,
                 ChangeLogEntry(
                     user,
                     event.status,
@@ -438,7 +437,6 @@ class AIHelperActivity : AppCompatActivity() {
                     System.currentTimeMillis() / 1000L
                 )
             )
-            ChangeLogStorage.saveLogs(logPrefs, logs)
             dateEdit.text.clear()
             inputEdit.text.clear()
             dasarEdit.text.clear()

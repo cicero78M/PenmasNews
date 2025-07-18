@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogStorage
+import com.example.penmasnews.model.ChangeLogDatabase
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -108,11 +108,10 @@ class EditorialCalendarActivity : AppCompatActivity() {
                     events.addAll(loaded)
                     adapter.notifyDataSetChanged()
                     // log creation of new calendar event
-                    val logPrefs = getSharedPreferences(ChangeLogStorage.PREFS_NAME, MODE_PRIVATE)
-                    val logs = ChangeLogStorage.loadLogs(logPrefs)
                     val user = authPrefs.getString("username", "unknown") ?: "unknown"
                     val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
-                    logs.add(
+                    ChangeLogDatabase.addLog(
+                        this@EditorialCalendarActivity,
                         ChangeLogEntry(
                             user,
                             event.status,
@@ -120,7 +119,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
                             System.currentTimeMillis() / 1000L
                         )
                     )
-                    ChangeLogStorage.saveLogs(logPrefs, logs)
                     dateEdit.text.clear()
                     topicEdit.text.clear()
                     assigneeEdit.text.clear()

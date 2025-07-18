@@ -12,6 +12,7 @@ import com.example.penmasnews.ui.CMSIntegrationActivity
 import com.example.penmasnews.ui.CollaborativeEditorActivity
 import com.example.penmasnews.ui.EditorialCalendarActivity
 import com.example.penmasnews.ui.ApprovalListActivity
+import com.example.penmasnews.ui.LogDataActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.buttonAnalytics).setOnClickListener {
             startActivity(Intent(this, AnalyticsDashboardActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.buttonLogData).setOnClickListener {
+            startActivity(Intent(this, LogDataActivity::class.java))
         }
     }
 }
