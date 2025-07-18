@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogDatabase
+import com.example.penmasnews.network.LogService
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -107,18 +107,20 @@ class EditorialCalendarActivity : AppCompatActivity() {
                     events.clear()
                     events.addAll(loaded)
                     adapter.notifyDataSetChanged()
-                    // log creation of new calendar event
-                    val user = authPrefs.getString("username", "unknown") ?: "unknown"
+                    // log creation of new calendar event to backend
+                    val token = authPrefs.getString("token", null)
+                    val userId = authPrefs.getString("userId", "0") ?: "0"
                     val changesDesc = listOf("date", "topic", "assignee", "status").joinToString(", ")
-                    ChangeLogDatabase.addLog(
-                        this@EditorialCalendarActivity,
-                        ChangeLogEntry(
-                            user,
-                            event.status,
-                            changesDesc,
-                            System.currentTimeMillis() / 1000L
-                        )
-                    )
+                    val createdId = created?.id ?: 0
+                    if (token != null && createdId != 0) {
+                        Thread {
+                            LogService.addLog(
+                                token,
+                                createdId,
+                                ChangeLogEntry(userId, event.status, changesDesc, System.currentTimeMillis() / 1000L)
+                            )
+                        }.start()
+                    }
                     dateEdit.text.clear()
                     topicEdit.text.clear()
                     assigneeEdit.text.clear()
@@ -134,8 +136,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
         DatePickerDialog(
             this,
             { _, year, month, day ->
-                // Format using YYYY-MM-DD to match backend expectations
-                val result = String.format("%04d-%02d-%02d", year, month + 1, day)
+                // Backend now returns dd/MM/yyyy so keep the same for input
+                val result = String.format("%02d/%02d/%04d", day, month + 1, year)
                 target.setText(result)
             },
             cal.get(Calendar.YEAR),

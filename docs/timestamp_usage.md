@@ -2,7 +2,7 @@
 
 Aplikasi menggunakan dua format tanggal agar konsisten antara input dan output:
 
-* `yyyy-MM-dd` untuk kolom **event_date** pada backend dan isian tanggal di UI.
+* `dd/MM/yyyy` untuk kolom **event_date** pada backend dan isian tanggal di UI.
 * `yyyy-MM-dd HH:mm:ss` untuk informasi `createdAt`, `updatedAt`, dan pencatatan log.
 
 Utility `DateUtils` menyediakan helper `DateUtils.now()` untuk mendapatkan waktu

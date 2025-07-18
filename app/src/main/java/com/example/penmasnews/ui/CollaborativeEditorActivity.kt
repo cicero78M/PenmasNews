@@ -11,7 +11,7 @@ import java.io.File
 import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogDatabase
+import com.example.penmasnews.network.LogService
 import com.example.penmasnews.ui.ApprovalListActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
@@ -42,8 +42,19 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         val events = EventStorage.loadEvents(this)
         val eventIndex = passedEvent?.let { evt -> events.indexOfFirst { it.id == evt.id } } ?: intent.getIntExtra("index", -1)
 
-        val changeLogs = ChangeLogDatabase.getLogs(this)
-        displayLogs(changeLogs)
+        val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
+        val token = authPrefs.getString("token", null)
+        val changeLogs = mutableListOf<ChangeLogEntry>()
+        val currentId = passedEvent?.id ?: -1
+        if (token != null && currentId != -1) {
+            Thread {
+                val logs = LogService.fetchLogs(token, currentId)
+                changeLogs.addAll(logs)
+                runOnUiThread { displayLogs(changeLogs) }
+            }.start()
+        } else {
+            displayLogs(changeLogs)
+        }
 
         val currentEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent
         imagePath = currentEvent?.imagePath
@@ -99,10 +110,17 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
             val changesDesc = if (changed.isEmpty()) "no change" else changed.joinToString(", ")
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
-            val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            val entry = ChangeLogEntry(user, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
-            ChangeLogDatabase.addLog(this, entry)
-            displayLogs(ChangeLogDatabase.getLogs(this))
+            val token = authPrefs.getString("token", null)
+            val userId = authPrefs.getString("userId", "0") ?: "0"
+            val entry = ChangeLogEntry(userId, statusEdit.text.toString(), changesDesc, System.currentTimeMillis() / 1000L)
+            val evId = currentEvent?.id ?: 0
+            if (token != null && evId != 0) {
+                Thread {
+                    LogService.addLog(token, evId, entry)
+                    val logs = LogService.fetchLogs(token, evId)
+                    runOnUiThread { displayLogs(logs) }
+                }.start()
+            }
         }
 
         requestButton.setOnClickListener {
