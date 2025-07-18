@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
+import com.example.penmasnews.network.AnalyticsService
 import com.example.penmasnews.ui.TrendingTopicAdapter
+import com.example.penmasnews.ui.WordCloudView
 
 class AnalyticsDashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +19,7 @@ class AnalyticsDashboardActivity : AppCompatActivity() {
         val visitorsText = findViewById<TextView>(R.id.textVisitors)
         val bounceText = findViewById<TextView>(R.id.textBounce)
         val trendingList = findViewById<RecyclerView>(R.id.recyclerViewTrending)
+        val wordCloud = findViewById<WordCloudView>(R.id.wordCloud)
 
         // Placeholder angka metrik, seharusnya diambil dari layanan analitik
         val pageViews = 12345
@@ -26,12 +29,15 @@ class AnalyticsDashboardActivity : AppCompatActivity() {
         visitorsText.text = getString(R.string.label_unique_visitors) + ": $uniqueVisitors"
         bounceText.text = getString(R.string.label_bounce_rate) + ": $bounceRate%"
 
-        val trending = listOf(
-            "Pencanangan Zona Integritas",
-            "Operasi Pengamanan Mudik",
-            "Penangkapan Kasus Narkoba"
-        )
         trendingList.layoutManager = LinearLayoutManager(this)
-        trendingList.adapter = TrendingTopicAdapter(trending)
+
+        Thread {
+            val freq = AnalyticsService.fetchWordFrequency()
+            val topics = freq.keys.take(10).toList()
+            runOnUiThread {
+                trendingList.adapter = TrendingTopicAdapter(topics)
+                wordCloud.setWords(freq)
+            }
+        }.start()
     }
 }
