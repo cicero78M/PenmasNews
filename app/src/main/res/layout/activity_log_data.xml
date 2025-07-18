@@ -6,6 +6,7 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/textHeader"
         android:text="@string/feature_log_data"
         android:textSize="20sp"
         android:layout_width="wrap_content"

@@ -41,3 +41,6 @@ Daftar agenda menggunakan gaya bingkai serupa dengan halaman **Integrasi CMS**.
 Setiap baris memiliki garis tepi halus dan warna selang-seling sehingga lebih
 mudah dipindai. Seluruh daftar juga dilingkupi frame agar konsisten secara
 visual.
+
+Setiap item kini menyediakan opsi **Lihat Log** untuk menampilkan riwayat
+perubahan pada agenda yang dipilih.

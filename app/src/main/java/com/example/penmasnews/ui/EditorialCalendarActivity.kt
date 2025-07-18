@@ -44,6 +44,11 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 intent.putExtra("event", item)
                 startActivity(intent)
             },
+            onViewLogs = { event, _ ->
+                val intent = android.content.Intent(this, EventLogActivity::class.java)
+                intent.putExtra("eventId", event.id)
+                startActivity(intent)
+            },
             onAiAssist = { event, index ->
                 val intent = android.content.Intent(this, AIHelperActivity::class.java)
                 intent.putExtra("index", index)
