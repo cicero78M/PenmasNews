@@ -1,39 +1,37 @@
 package com.example.penmasnews.ui
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
-import com.example.penmasnews.model.ChangeLogDatabase
-import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.network.LogService
 
-class LogDataActivity : AppCompatActivity() {
+class EventLogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_data)
 
+        val header = findViewById<TextView>(R.id.textHeader)
+        header.text = getString(R.string.label_change_log)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewLogs)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val allLogs = mutableListOf<ChangeLogEntry>()
-        allLogs.addAll(ChangeLogDatabase.getLogs(this))
-        val adapter = LogListAdapter(allLogs)
+        val logs = mutableListOf<ChangeLogEntry>()
+        val adapter = LogListAdapter(logs)
         recyclerView.adapter = adapter
 
+        val eventId = intent.getIntExtra("eventId", 0)
         val token = getSharedPreferences("auth", MODE_PRIVATE).getString("token", null)
-        if (token != null) {
+        if (token != null && eventId != 0) {
             Thread {
-                val events = EventStorage.loadEvents(this)
-                val remoteLogs = mutableListOf<ChangeLogEntry>()
-                for (event in events) {
-                    remoteLogs.addAll(LogService.fetchLogs(token, event.id))
-                }
+                val fetched = LogService.fetchLogs(token, eventId)
                 runOnUiThread {
-                    allLogs.addAll(remoteLogs)
-                    allLogs.sortByDescending { it.timestamp }
+                    logs.addAll(fetched)
+                    logs.sortByDescending { it.timestamp }
                     adapter.notifyDataSetChanged()
                 }
             }.start()

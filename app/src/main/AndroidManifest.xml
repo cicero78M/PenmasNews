@@ -22,6 +22,7 @@
         <activity android:name=".ui.CMSIntegrationActivity" />
         <activity android:name=".ui.AnalyticsDashboardActivity" />
         <activity android:name=".ui.LogDataActivity" />
+        <activity android:name=".ui.EventLogActivity" />
         <activity android:name=".ui.ApprovalListActivity" />
         <activity android:name=".ui.SignupActivity" />
     </application>
