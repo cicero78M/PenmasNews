@@ -3,43 +3,52 @@ package com.example.penmasnews.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
 import com.example.penmasnews.model.ApprovalItem
+import com.example.penmasnews.util.DateUtils
 
 class ApprovalListAdapter(
     private val items: MutableList<ApprovalItem>,
-    private val onAction: ((ApprovalItem, String) -> Unit)? = null,
+    private val onOpen: ((ApprovalItem) -> Unit)? = null,
 ) : RecyclerView.Adapter<ApprovalListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val dateText: TextView = view.findViewById(R.id.textDate)
         val titleText: TextView = view.findViewById(R.id.textTitle)
-        val requesterText: TextView = view.findViewById(R.id.textRequester)
+        val notesText: TextView = view.findViewById(R.id.textNotes)
         val statusText: TextView = view.findViewById(R.id.textStatus)
-        val approveButton: Button = view.findViewById(R.id.buttonApprove)
-        val rejectButton: Button = view.findViewById(R.id.buttonReject)
+        val createdByText: TextView = view.findViewById(R.id.textUser)
+        val createdText: TextView = view.findViewById(R.id.textCreated)
+        val updatedByText: TextView = view.findViewById(R.id.textUpdatedBy)
+        val updatedText: TextView = view.findViewById(R.id.textUpdated)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_approval_request, parent, false)
+            .inflate(R.layout.item_approval_event, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.titleText.text = item.event.topic
-        holder.requesterText.text = item.request.requestedBy
+        val event = item.event
+        holder.dateText.text = DateUtils.formatDayDate(event.date)
+        holder.titleText.text = event.topic
+        holder.notesText.text = event.assignee
         holder.statusText.text = item.request.status
+        holder.createdByText.text = event.username
+        holder.createdText.text = DateUtils.formatDateTime(event.createdAt)
+        holder.updatedByText.text = event.updatedBy
+        holder.updatedText.text = DateUtils.formatDateTime(event.lastUpdate)
 
-        holder.approveButton.setOnClickListener {
-            onAction?.invoke(item, "approved")
-        }
+        holder.itemView.setBackgroundResource(
+            if (position % 2 == 0) R.color.zebra_even else R.color.zebra_odd
+        )
 
-        holder.rejectButton.setOnClickListener {
-            onAction?.invoke(item, "rejected")
+        holder.itemView.setOnClickListener {
+            onOpen?.invoke(item)
         }
     }
 
