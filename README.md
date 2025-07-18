@@ -23,12 +23,13 @@ repository, build and run it using Android Studio with the SDK installed.
 
 Open the project in Android Studio to edit and run on a device or emulator.
 
-Create a `.env` file in the project root to supply your API keys:
+Create a `.env` file in the project root to supply your API keys and OAuth client ID:
 
 ```
 OPENAI_API_KEY=sk-...
-BLOGGER_API_KEY=your-blogger-key
+BLOGGER_API_KEY=your-blogger-key  # optional
 BLOGGER_BLOG_ID=your-blog-id
+BLOGGER_CLIENT_ID=your-client-id
 ```
 An example file `.env.example` is provided.
 
