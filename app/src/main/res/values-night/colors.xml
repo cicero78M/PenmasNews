@@ -1,0 +1,4 @@
+<resources>
+    <color name="zebra_even">#424242</color>
+    <color name="zebra_odd">#303030</color>
+</resources>
