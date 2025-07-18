@@ -69,6 +69,7 @@
     <string name="error_signup">Pendaftaran gagal</string>
     <string name="signup_success">Pendaftaran berhasil</string>
     <string name="hello_actor">Halo, %1$s</string>
+    <string name="label_remember_login">Simpan login</string>
 
     <string name="label_role">Role</string>
     <string-array name="role_array">
