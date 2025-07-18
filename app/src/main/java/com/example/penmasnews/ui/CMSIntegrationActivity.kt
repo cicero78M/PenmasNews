@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.example.penmasnews.R
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.feature.CMSIntegration
+import com.example.penmasnews.network.EventService
+import com.example.penmasnews.util.DateUtils
 
 class CMSIntegrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +25,16 @@ class CMSIntegrationActivity : AppCompatActivity() {
         val adapter = CmsIntegrationAdapter(events) { event ->
             Thread {
                 val success = cms.publishToBlogspot(event)
+                val token = getSharedPreferences("auth", MODE_PRIVATE).getString("token", null)
+                val user = getSharedPreferences("auth", MODE_PRIVATE).getString("username", "") ?: ""
+                if (success && token != null) {
+                    val updated = event.copy(
+                        status = "published",
+                        lastUpdate = DateUtils.now(),
+                        updatedBy = user
+                    )
+                    EventService.updateEvent(token, event.id, updated)
+                }
                 runOnUiThread {
                     val msg = if (success) "Dipublikasikan" else "Gagal publish"
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()

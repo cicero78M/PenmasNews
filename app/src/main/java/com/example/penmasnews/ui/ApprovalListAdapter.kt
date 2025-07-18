@@ -7,17 +7,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penmasnews.R
-import com.example.penmasnews.model.EditorialEvent
-import com.example.penmasnews.model.ChangeLogEntry
-import com.example.penmasnews.model.ChangeLogDatabase
+import com.example.penmasnews.model.ApprovalItem
 
 class ApprovalListAdapter(
-    private val items: MutableList<EditorialEvent>,
-    private val onStatusChanged: ((EditorialEvent) -> Unit)? = null,
+    private val items: MutableList<ApprovalItem>,
+    private val onAction: ((ApprovalItem, String) -> Unit)? = null,
 ) : RecyclerView.Adapter<ApprovalListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleText: TextView = view.findViewById(R.id.textTitle)
+        val requesterText: TextView = view.findViewById(R.id.textRequester)
         val statusText: TextView = view.findViewById(R.id.textStatus)
         val approveButton: Button = view.findViewById(R.id.buttonApprove)
         val rejectButton: Button = view.findViewById(R.id.buttonReject)
@@ -31,53 +30,16 @@ class ApprovalListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.titleText.text = item.topic
-        holder.statusText.text = item.status
+        holder.titleText.text = item.event.topic
+        holder.requesterText.text = item.request.requestedBy
+        holder.statusText.text = item.request.status
 
         holder.approveButton.setOnClickListener {
-            val context = holder.itemView.context
-            val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
-            val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            val updatedItem = item.copy(
-                status = "approved",
-                lastUpdate = com.example.penmasnews.util.DateUtils.now(),
-                updatedBy = user
-            )
-            items[position] = updatedItem
-            notifyItemChanged(position)
-            ChangeLogDatabase.addLog(
-                context,
-                ChangeLogEntry(
-                    user,
-                    updatedItem.status,
-                    "workflow approve",
-                    System.currentTimeMillis() / 1000L
-                )
-            )
-            onStatusChanged?.invoke(updatedItem)
+            onAction?.invoke(item, "approved")
         }
 
         holder.rejectButton.setOnClickListener {
-            val context = holder.itemView.context
-            val authPrefs = context.getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
-            val user = authPrefs.getString("username", "unknown") ?: "unknown"
-            val updatedItem = item.copy(
-                status = "rejected",
-                lastUpdate = com.example.penmasnews.util.DateUtils.now(),
-                updatedBy = user
-            )
-            items[position] = updatedItem
-            notifyItemChanged(position)
-            ChangeLogDatabase.addLog(
-                context,
-                ChangeLogEntry(
-                    user,
-                    updatedItem.status,
-                    "workflow reject",
-                    System.currentTimeMillis() / 1000L
-                )
-            )
-            onStatusChanged?.invoke(updatedItem)
+            onAction?.invoke(item, "rejected")
         }
     }
 

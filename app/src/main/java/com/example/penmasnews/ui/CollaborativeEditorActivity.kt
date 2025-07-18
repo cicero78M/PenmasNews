@@ -12,6 +12,7 @@ import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.network.LogService
+import com.example.penmasnews.network.ApprovalService
 import com.example.penmasnews.ui.ApprovalListActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
@@ -145,16 +146,24 @@ class CollaborativeEditorActivity : AppCompatActivity() {
 
         requestButton.setOnClickListener {
             val newStatus = "meminta persetujuan"
-            if (eventIndex in events.indices || (passedEvent?.id ?: 0) != 0) {
+            val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
+            val token = authPrefs.getString("token", null)
+            var evId = passedEvent?.id ?: 0
+            if (eventIndex in events.indices) evId = events[eventIndex].id
+
+            if (evId != 0) {
                 val baseEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent!!
                 val updated = baseEvent.copy(
                     status = newStatus,
                     lastUpdate = DateUtils.now(),
-                    updatedBy = getSharedPreferences("auth", MODE_PRIVATE).getString("username", baseEvent.updatedBy) ?: baseEvent.updatedBy
+                    updatedBy = authPrefs.getString("username", baseEvent.updatedBy) ?: baseEvent.updatedBy
                 )
                 Thread {
-                    val success = EventStorage.updateEvent(this, updated)
-                    if (success && eventIndex in events.indices) {
+                    EventStorage.updateEvent(this, updated)
+                    if (token != null) {
+                        ApprovalService.createApproval(token, evId)
+                    }
+                    if (eventIndex in events.indices) {
                         events[eventIndex] = updated
                     }
                 }.start()
