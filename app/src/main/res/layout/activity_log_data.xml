@@ -17,5 +17,5 @@
         android:id="@+id/recyclerViewLogs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/ListFrame" />
+        style="@style/TerminalListFrame" />
 </LinearLayout>
