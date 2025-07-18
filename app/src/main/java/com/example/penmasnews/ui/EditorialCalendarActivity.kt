@@ -4,11 +4,15 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import android.content.Intent
 import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.network.LogService
 import com.example.penmasnews.feature.CMSIntegration
+import com.example.penmasnews.feature.BloggerAuth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.example.penmasnews.network.EventService
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +26,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
     private val events = mutableListOf<EditorialEvent>()
     private lateinit var adapter: EditorialCalendarAdapter
+    private var pendingPublish: EditorialEvent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,25 +70,13 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 }
             },
             onPublish = { event, _ ->
-                val cms = CMSIntegration()
-                Thread {
-                    val success = cms.publishToBlogspot(event)
-                    val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
-                    val token = prefsAuth.getString("token", null)
-                    val user = prefsAuth.getString("username", "") ?: ""
-                    if (success && token != null) {
-                        val updated = event.copy(
-                            status = "published",
-                            lastUpdate = DateUtils.now(),
-                            updatedBy = user
-                        )
-                        EventService.updateEvent(token, event.id, updated)
-                    }
-                    runOnUiThread {
-                        val msg = if (success) "Dipublikasikan" else "Gagal publish"
-                        android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show()
-                    }
-                }.start()
+                val account = BloggerAuth.getSignedInAccount(this)
+                if (account == null) {
+                    pendingPublish = event
+                    BloggerAuth.signIn(this)
+                } else {
+                    publishEvent(event, account)
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -175,6 +168,43 @@ class EditorialCalendarActivity : AppCompatActivity() {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    private fun publishEvent(event: EditorialEvent, account: com.google.android.gms.auth.api.signin.GoogleSignInAccount) {
+        val cms = CMSIntegration()
+        Thread {
+            val accessToken = BloggerAuth.getAuthToken(this, account)
+            val success = cms.publishToBlogspot(event, accessToken)
+            val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
+            val token = prefsAuth.getString("token", null)
+            val user = prefsAuth.getString("username", "") ?: ""
+            if (success && token != null) {
+                val updated = event.copy(
+                    status = "published",
+                    lastUpdate = DateUtils.now(),
+                    updatedBy = user
+                )
+                EventService.updateEvent(token, event.id, updated)
+            }
+            runOnUiThread {
+                val msg = if (success) "Dipublikasikan" else "Gagal publish"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+        }.start()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == BloggerAuth.RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            if (task.isSuccessful) {
+                val account = task.result
+                pendingPublish?.let { publishEvent(it, account!!) }
+                pendingPublish = null
+            } else {
+                Toast.makeText(this, "Login gagal", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     // persistence handled by EventStorage
