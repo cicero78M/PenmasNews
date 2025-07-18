@@ -2,6 +2,7 @@ package com.example.penmasnews.network
 
 import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.EditorialEvent
+import com.example.penmasnews.network.UserService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -33,6 +34,12 @@ object EventService {
                     } else {
                         obj.optString("last_updated")
                     }
+                    val rawUpdated = obj.optString("updated_by")
+                    val updatedBy = if (rawUpdated.isNotBlank()) {
+                        UserService.fetchUsername(token, rawUpdated) ?: rawUpdated
+                    } else {
+                        rawUpdated
+                    }
                     list.add(
                         EditorialEvent(
                             obj.optString("event_date"),
@@ -46,7 +53,7 @@ object EventService {
                             obj.optString("created_at"),
                             lastUpdate,
                             obj.optString("username"),
-                            obj.optString("updated_by")
+                            updatedBy
                         )
                     )
                 }
@@ -84,6 +91,12 @@ object EventService {
                 } else {
                     json.optString("last_updated")
                 }
+                val updatedRaw = json.optString("updated_by")
+                val updatedBy = if (updatedRaw.isNotBlank()) {
+                    UserService.fetchUsername(token, updatedRaw) ?: updatedRaw
+                } else {
+                    updatedRaw
+                }
                 EditorialEvent(
                     json.optString("event_date"),
                     json.optString("topic"),
@@ -96,7 +109,7 @@ object EventService {
                     json.optString("created_at"),
                     lastUpdate,
                     json.optString("username"),
-                    json.optString("updated_by")
+                    updatedBy
                 )
             }
         } catch (_: Exception) {
