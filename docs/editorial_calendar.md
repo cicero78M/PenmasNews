@@ -37,6 +37,7 @@ Modul ini menampilkan kalender harian, mingguan, atau bulanan yang memuat:
 
 ## Tampilan ListView
 
-Daftar agenda ditampilkan menggunakan gaya bingkai yang sama seperti halaman
-**Integrasi CMS**. Setiap baris memiliki garis tepi halus dan seluruh daftar
-dilingkupi frame serupa untuk konsistensi visual.
+Daftar agenda menggunakan gaya bingkai serupa dengan halaman **Integrasi CMS**.
+Setiap baris memiliki garis tepi halus dan warna selang-seling sehingga lebih
+mudah dipindai. Seluruh daftar juga dilingkupi frame agar konsisten secara
+visual.
