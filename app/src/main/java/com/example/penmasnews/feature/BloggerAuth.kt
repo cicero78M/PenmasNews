@@ -44,10 +44,11 @@ object BloggerAuth {
     }
 
     fun getAuthToken(activity: Activity, account: GoogleSignInAccount): String? {
+        val googleAccount = account.account ?: return null
         return try {
             GoogleAuthUtil.getToken(
                 activity,
-                account.account,
+                googleAccount,
                 "oauth2:https://www.googleapis.com/auth/blogger"
             )
         } catch (_: Exception) {
