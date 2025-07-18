@@ -3,6 +3,7 @@ package com.example.penmasnews.feature
 import android.app.Activity
 import android.content.Intent
 import com.google.android.gms.auth.GoogleAuthUtil
+import com.example.penmasnews.BuildConfig
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,11 +16,16 @@ object BloggerAuth {
 
     fun getClient(activity: Activity): GoogleSignInClient {
         if (client == null) {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            val builder = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestScopes(Scope("https://www.googleapis.com/auth/blogger"))
-                .build()
-            client = GoogleSignIn.getClient(activity, gso)
+
+            val clientId = BuildConfig.BLOGGER_CLIENT_ID
+            if (clientId.isNotBlank()) {
+                builder.requestIdToken(clientId)
+            }
+
+            client = GoogleSignIn.getClient(activity, builder.build())
         }
         return client!!
     }
