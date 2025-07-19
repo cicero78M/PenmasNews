@@ -37,6 +37,38 @@ object WordpressAuth {
         })
     }
 
+    /**
+     * Perform a blocking login request. Useful for workflow automation when the
+     * token is needed synchronously.
+     */
+    fun loginBlocking(context: Context, baseUrl: String, user: String, pass: String): String? {
+        val normalized = UrlUtils.ensureHttpScheme(baseUrl)
+        val url = normalized.trimEnd('/') + "/wp-json/jwt-auth/v1/token"
+        val form = FormBody.Builder()
+            .add("username", user)
+            .add("password", pass)
+            .build()
+        val request = Request.Builder().url(url).post(form).build()
+        return try {
+            OkHttpClient().newCall(request).execute().use { response ->
+                val bodyStr = response.body?.string()
+                DebugLogger.log(context, "WordPress login sync response: ${'$'}{bodyStr ?: "null"}")
+                val token = try {
+                    JSONObject(bodyStr ?: "{}").getString("token")
+                } catch (_: Exception) {
+                    null
+                }
+                if (token != null) {
+                    CMSPrefs.saveWordpressToken(context, token)
+                }
+                token
+            }
+        } catch (e: Exception) {
+            DebugLogger.log(context, "WordPress sync login failed: ${'$'}{e.message}")
+            null
+        }
+    }
+
     fun verifyAppPassword(context: Context, baseUrl: String, user: String, appPass: String, callback: (Boolean) -> Unit) {
         val normalized = UrlUtils.ensureHttpScheme(baseUrl)
         val url = normalized.trimEnd('/') + "/wp-json/wp/v2/users/me"
