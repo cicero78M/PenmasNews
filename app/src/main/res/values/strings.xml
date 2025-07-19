@@ -100,4 +100,7 @@
     <string name="label_wp_app_password">Application Password</string>
     <string name="message_login_success">Login berhasil</string>
     <string name="message_login_failed">Login gagal</string>
+    <string name="action_view_in_browser">Buka di Web</string>
+    <string name="message_no_html_log">Tidak ada tautan HTML pada log</string>
+    <string name="message_log_copied">Log telah disalin</string>
 </resources>
