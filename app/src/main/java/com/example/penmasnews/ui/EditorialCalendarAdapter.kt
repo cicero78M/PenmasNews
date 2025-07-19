@@ -18,6 +18,7 @@ class EditorialCalendarAdapter(
     private val onAiAssist: ((EditorialEvent, Int) -> Unit)? = null,
     private val onDelete: ((EditorialEvent, Int) -> Unit)? = null,
     private val onPublish: ((EditorialEvent, Int) -> Unit)? = null,
+    private val onPublishWordpress: ((EditorialEvent, Int) -> Unit)? = null,
 ) : RecyclerView.Adapter<EditorialCalendarAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -57,10 +58,16 @@ class EditorialCalendarAdapter(
             if (item.status == "approved") {
                 AlertDialog.Builder(holder.itemView.context)
                     .setTitle(R.string.dialog_actions)
-                    .setItems(arrayOf(
-                        holder.itemView.context.getString(R.string.action_publish_blogspot)
-                    )) { _, _ ->
-                        onPublish?.invoke(item, position)
+                    .setItems(
+                        arrayOf(
+                            holder.itemView.context.getString(R.string.action_publish_blogspot),
+                            holder.itemView.context.getString(R.string.action_publish_wordpress)
+                        )
+                    ) { _, which ->
+                        when (which) {
+                            0 -> onPublish?.invoke(item, position)
+                            1 -> onPublishWordpress?.invoke(item, position)
+                        }
                     }
                     .show()
             } else {

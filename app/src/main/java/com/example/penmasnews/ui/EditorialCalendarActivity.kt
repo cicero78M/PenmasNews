@@ -86,6 +86,9 @@ class EditorialCalendarActivity : AppCompatActivity() {
                         }
                     }
                 }
+            },
+            onPublishWordpress = { event, _ ->
+                publishEventWordpress(event)
             }
         )
         recyclerView.adapter = adapter
@@ -207,6 +210,30 @@ class EditorialCalendarActivity : AppCompatActivity() {
             runOnUiThread {
                 val msg = if (success) "Dipublikasikan" else "Gagal publish"
                 DebugLogger.log(this, "Publish result: ${'$'}msg")
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+        }.start()
+    }
+
+    private fun publishEventWordpress(event: EditorialEvent) {
+        DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' via WordPress API")
+        val cms = CMSIntegration()
+        Thread {
+            val success = cms.publishToWordpress(event)
+            val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
+            val authToken = prefsAuth.getString("token", null)
+            val user = prefsAuth.getString("username", "") ?: ""
+            if (success && authToken != null) {
+                val updated = event.copy(
+                    status = "published",
+                    lastUpdate = DateUtils.now(),
+                    updatedBy = user
+                )
+                EventService.updateEvent(authToken, event.id, updated)
+            }
+            runOnUiThread {
+                val msg = if (success) "Dipublikasikan" else "Gagal publish"
+                DebugLogger.log(this, "WordPress publish result: ${'$'}msg")
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
         }.start()
