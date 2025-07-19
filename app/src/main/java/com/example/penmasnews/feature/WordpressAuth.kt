@@ -3,13 +3,15 @@ package com.example.penmasnews.feature
 import android.content.Context
 import com.example.penmasnews.model.CMSPrefs
 import com.example.penmasnews.util.DebugLogger
+import com.example.penmasnews.util.UrlUtils
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
 object WordpressAuth {
     fun login(context: Context, baseUrl: String, user: String, pass: String, callback: (String?) -> Unit) {
-        val url = baseUrl.trimEnd('/') + "/wp-json/jwt-auth/v1/token"
+        val normalized = UrlUtils.ensureHttpScheme(baseUrl)
+        val url = normalized.trimEnd('/') + "/wp-json/jwt-auth/v1/token"
         val form = FormBody.Builder()
             .add("username", user)
             .add("password", pass)

@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Credentials
 import okhttp3.RequestBody.Companion.toRequestBody
+import com.example.penmasnews.util.UrlUtils
 import org.json.JSONObject
 
 /**
@@ -30,7 +31,9 @@ class CMSIntegration(
     private val wpAppPass: String
 
     init {
-        wpBaseUrl = CMSPrefs.getWordpressBaseUrl(ctx) ?: defaultWpBaseUrl
+        wpBaseUrl = UrlUtils.ensureHttpScheme(
+            CMSPrefs.getWordpressBaseUrl(ctx) ?: defaultWpBaseUrl
+        )
         wpUser = CMSPrefs.getWordpressUser(ctx) ?: defaultWpUser
         wpAppPass = CMSPrefs.getWordpressAppPass(ctx) ?: defaultWpAppPass
     }
@@ -88,7 +91,8 @@ class CMSIntegration(
     fun publishToWordpress(event: EditorialEvent): PublishResult {
         if (wpBaseUrl.isBlank()) return PublishResult(false, null)
 
-        val url = wpBaseUrl.trimEnd('/') + "/wp-json/wp/v2/posts"
+        val base = UrlUtils.ensureHttpScheme(wpBaseUrl)
+        val url = base.trimEnd('/') + "/wp-json/wp/v2/posts"
 
         val obj = JSONObject()
         obj.put("title", event.topic)
