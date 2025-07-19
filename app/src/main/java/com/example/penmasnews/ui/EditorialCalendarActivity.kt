@@ -13,7 +13,6 @@ import com.example.penmasnews.network.LogService
 import com.example.penmasnews.feature.CMSIntegration
 import com.example.penmasnews.feature.BloggerAuth
 import com.example.penmasnews.util.DebugLogger
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.example.penmasnews.network.EventService
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,18 +71,20 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 }
             },
             onPublish = { event, _ ->
-                val account = BloggerAuth.getSignedInAccount(this)
-                if (account == null) {
-                    DebugLogger.log(this, "No signed in account. Starting sign in")
-                    if (com.example.penmasnews.BuildConfig.BLOGGER_CLIENT_ID.isBlank()) {
-                        Toast.makeText(this, "Blogger CLIENT_ID belum diatur", Toast.LENGTH_LONG).show()
-                        DebugLogger.log(this, "BLOGGER_CLIENT_ID is blank")
+                if (com.example.penmasnews.BuildConfig.BLOGGER_CLIENT_ID.isBlank()) {
+                    Toast.makeText(this, "Blogger CLIENT_ID belum diatur", Toast.LENGTH_LONG).show()
+                    DebugLogger.log(this, "BLOGGER_CLIENT_ID is blank")
+                    return@EditorialCalendarAdapter
+                }
+                pendingPublish = event
+                BloggerAuth.startLogin(this) { token ->
+                    runOnUiThread {
+                        if (token != null) {
+                            publishEvent(event, token)
+                        } else {
+                            Toast.makeText(this, "Login gagal", Toast.LENGTH_LONG).show()
+                        }
                     }
-                    pendingPublish = event
-                    BloggerAuth.signIn(this)
-                } else {
-                    DebugLogger.log(this, "Using existing account ${'$'}{account.email}")
-                    publishEvent(event, account)
                 }
             }
         )
@@ -187,23 +188,21 @@ class EditorialCalendarActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun publishEvent(event: EditorialEvent, account: com.google.android.gms.auth.api.signin.GoogleSignInAccount) {
-        DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' as ${'$'}{account.email}")
+    private fun publishEvent(event: EditorialEvent, token: String) {
+        DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' via Blogger API")
         val cms = CMSIntegration()
         Thread {
-            val accessToken = BloggerAuth.getAuthToken(this, account)
-            DebugLogger.log(this, "Obtained auth token: ${'$'}{accessToken != null}")
-            val success = cms.publishToBlogspot(event, accessToken)
+            val success = cms.publishToBlogspot(event, token)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
-            val token = prefsAuth.getString("token", null)
+            val authToken = prefsAuth.getString("token", null)
             val user = prefsAuth.getString("username", "") ?: ""
-            if (success && token != null) {
+            if (success && authToken != null) {
                 val updated = event.copy(
                     status = "published",
                     lastUpdate = DateUtils.now(),
                     updatedBy = user
                 )
-                EventService.updateEvent(token, event.id, updated)
+                EventService.updateEvent(authToken, event.id, updated)
             }
             runOnUiThread {
                 val msg = if (success) "Dipublikasikan" else "Gagal publish"
@@ -216,17 +215,15 @@ class EditorialCalendarActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BloggerAuth.RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            if (task.isSuccessful) {
-                val account = task.result
-                DebugLogger.log(this, "Sign in success as ${'$'}{account?.email}")
-                pendingPublish?.let { publishEvent(it, account!!) }
+            BloggerAuth.handleAuthResponse(this, data) { token ->
+                pendingPublish?.let { event ->
+                    if (token != null) {
+                        publishEvent(event, token)
+                    } else {
+                        Toast.makeText(this, "Login gagal", Toast.LENGTH_LONG).show()
+                    }
+                }
                 pendingPublish = null
-            } else {
-                val raw = task.exception?.message ?: task.exception?.toString()
-                val msg = "Login gagal" + if (raw != null) ": $raw" else ""
-                DebugLogger.log(this, "Sign in failed: ${'$'}raw")
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             }
         }
     }
