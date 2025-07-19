@@ -30,6 +30,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
     private val events = mutableListOf<EditorialEvent>()
     private lateinit var adapter: EditorialCalendarAdapter
     private var pendingPublish: EditorialEvent? = null
+    private val RC_WP_LOGIN = 9002
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +97,16 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 }
             },
             onPublishWordpress = { event, _ ->
-                publishEventWordpress(event)
+                val token = com.example.penmasnews.model.CMSPrefs.getWordpressToken(this)
+                if (token != null) {
+                    publishEventWordpress(event)
+                } else {
+                    pendingPublish = event
+                    startActivityForResult(
+                        android.content.Intent(this, WordpressLoginActivity::class.java),
+                        RC_WP_LOGIN
+                    )
+                }
             }
         )
         recyclerView.adapter = adapter
@@ -267,6 +277,9 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 }
                 pendingPublish = null
             }
+        } else if (requestCode == RC_WP_LOGIN && resultCode == RESULT_OK) {
+            pendingPublish?.let { publishEventWordpress(it) }
+            pendingPublish = null
         }
     }
 

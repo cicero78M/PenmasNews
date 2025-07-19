@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import com.example.penmasnews.model.CMSPrefs
+import com.example.penmasnews.feature.WordpressAuth
 
 class WordpressLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +27,18 @@ class WordpressLoginActivity : AppCompatActivity() {
             val base = editBase.text.toString()
             val user = editUser.text.toString()
             val pass = editPass.text.toString()
-            CMSPrefs.saveWordpressCredentials(this, base, user, pass)
-            Toast.makeText(this, R.string.message_login_success, Toast.LENGTH_LONG).show()
-            finish()
+            WordpressAuth.login(this, base, user, pass) { token ->
+                runOnUiThread {
+                    if (token != null) {
+                        CMSPrefs.saveWordpressCredentials(this, base, user, "")
+                        Toast.makeText(this, R.string.message_login_success, Toast.LENGTH_LONG).show()
+                        setResult(RESULT_OK)
+                        finish()
+                    } else {
+                        Toast.makeText(this, R.string.message_login_failed, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
     }
 }

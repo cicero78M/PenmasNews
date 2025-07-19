@@ -23,15 +23,16 @@ class CMSIntegration(
     private val defaultWpAppPass: String = BuildConfig.WORDPRESS_APP_PASS,
 ) {
     private val client = OkHttpClient()
+    private val ctx: Context = context
 
     private val wpBaseUrl: String
     private val wpUser: String
     private val wpAppPass: String
 
     init {
-        wpBaseUrl = CMSPrefs.getWordpressBaseUrl(context) ?: defaultWpBaseUrl
-        wpUser = CMSPrefs.getWordpressUser(context) ?: defaultWpUser
-        wpAppPass = CMSPrefs.getWordpressAppPass(context) ?: defaultWpAppPass
+        wpBaseUrl = CMSPrefs.getWordpressBaseUrl(ctx) ?: defaultWpBaseUrl
+        wpUser = CMSPrefs.getWordpressUser(ctx) ?: defaultWpUser
+        wpAppPass = CMSPrefs.getWordpressAppPass(ctx) ?: defaultWpAppPass
     }
 
     data class PublishResult(val success: Boolean, val raw: String?)
@@ -85,7 +86,7 @@ class CMSIntegration(
      * Returns the success state and raw response of the call.
      */
     fun publishToWordpress(event: EditorialEvent): PublishResult {
-        if (wpBaseUrl.isBlank() || wpUser.isBlank() || wpAppPass.isBlank()) return PublishResult(false, null)
+        if (wpBaseUrl.isBlank()) return PublishResult(false, null)
 
         val url = wpBaseUrl.trimEnd('/') + "/wp-json/wp/v2/posts"
 
@@ -96,12 +97,19 @@ class CMSIntegration(
 
         val body = obj.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
 
-        val credential = Credentials.basic(wpUser, wpAppPass)
-        val request = Request.Builder()
+        val builder = Request.Builder()
             .url(url)
             .post(body)
-            .header("Authorization", credential)
-            .build()
+
+        val token = CMSPrefs.getWordpressToken(ctx)
+        if (!token.isNullOrBlank()) {
+            builder.header("Authorization", "Bearer ${'$'}token")
+        } else if (wpUser.isNotBlank() && wpAppPass.isNotBlank()) {
+            val credential = Credentials.basic(wpUser, wpAppPass)
+            builder.header("Authorization", credential)
+        }
+
+        val request = builder.build()
 
         return try {
             client.newCall(request).execute().use { resp ->
