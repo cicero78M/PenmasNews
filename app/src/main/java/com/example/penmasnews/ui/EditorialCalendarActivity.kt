@@ -39,7 +39,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
         val topicEdit = findViewById<EditText>(R.id.editTopic)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
-        val debugButton = findViewById<Button>(R.id.buttonDebugLog)
 
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
@@ -149,14 +148,6 @@ class EditorialCalendarActivity : AppCompatActivity() {
             }.start()
         }
 
-        debugButton.setOnClickListener {
-            val logText = DebugLogger.readLog(this)
-            androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Debug Log")
-                .setMessage(if (logText.isNotBlank()) logText else "(empty)")
-                .setPositiveButton(android.R.string.ok, null)
-                .show()
-        }
 
     }
 
