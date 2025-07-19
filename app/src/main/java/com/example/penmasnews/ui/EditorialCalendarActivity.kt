@@ -78,13 +78,19 @@ class EditorialCalendarActivity : AppCompatActivity() {
                     DebugLogger.log(this, "BLOGGER_CLIENT_ID is blank")
                     return@EditorialCalendarAdapter
                 }
-                pendingPublish = event
-                BloggerAuth.startLogin(this) { token ->
-                    runOnUiThread {
-                        if (token != null) {
-                            publishEvent(event, token)
-                        } else {
-                            Toast.makeText(this, "Login gagal", Toast.LENGTH_LONG).show()
+                val stored = com.example.penmasnews.model.CMSPrefs.getBloggerToken(this)
+                if (stored != null) {
+                    publishEvent(event, stored)
+                } else {
+                    pendingPublish = event
+                    BloggerAuth.startLogin(this) { token ->
+                        runOnUiThread {
+                            if (token != null) {
+                                com.example.penmasnews.model.CMSPrefs.saveBloggerToken(this, token)
+                                publishEvent(event, token)
+                            } else {
+                                Toast.makeText(this, "Login gagal", Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
                 }
@@ -187,7 +193,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
     private fun publishEvent(event: EditorialEvent, token: String) {
         DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' via Blogger API")
-        val cms = CMSIntegration()
+        val cms = CMSIntegration(this)
         Thread {
             val result = cms.publishToBlogspot(event, token)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
@@ -218,7 +224,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
     private fun publishEventWordpress(event: EditorialEvent) {
         DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' via WordPress API")
-        val cms = CMSIntegration()
+        val cms = CMSIntegration(this)
         Thread {
             val result = cms.publishToWordpress(event)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
@@ -253,6 +259,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
             BloggerAuth.handleAuthResponse(this, data) { token ->
                 pendingPublish?.let { event ->
                     if (token != null) {
+                        com.example.penmasnews.model.CMSPrefs.saveBloggerToken(this, token)
                         publishEvent(event, token)
                     } else {
                         Toast.makeText(this, "Login gagal", Toast.LENGTH_LONG).show()

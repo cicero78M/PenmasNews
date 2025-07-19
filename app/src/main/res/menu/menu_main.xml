@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_login_blogger"
+        android:title="@string/action_login_blogger"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/menu_login_wordpress"
+        android:title="@string/action_login_wordpress"
+        android:showAsAction="never" />
+</menu>

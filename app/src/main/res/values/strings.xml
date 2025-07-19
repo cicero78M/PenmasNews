@@ -93,4 +93,11 @@
     <string name="error_invalid_assignee">Penugasan harus dipilih dari daftar</string>
     <string name="error_invalid_status">Status harus dipilih dari daftar</string>
     <string name="status_changed_review">Status diubah menjadi meminta persetujuan</string>
+    <string name="action_login_blogger">Login Blogger</string>
+    <string name="action_login_wordpress">Login WordPress</string>
+    <string name="label_wp_base_url">WordPress Base URL</string>
+    <string name="label_wp_username">WordPress Username</string>
+    <string name="label_wp_app_password">Application Password</string>
+    <string name="message_login_success">Login berhasil</string>
+    <string name="message_login_failed">Login gagal</string>
 </resources>

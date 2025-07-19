@@ -24,6 +24,7 @@
         <activity android:name=".ui.EventLogActivity" />
         <activity android:name=".ui.ApprovalListActivity" />
         <activity android:name=".ui.ApprovalDetailActivity" />
+        <activity android:name=".ui.WordpressLoginActivity" />
         <activity android:name=".ui.SignupActivity" />
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
