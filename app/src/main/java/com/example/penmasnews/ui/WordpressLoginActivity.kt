@@ -28,10 +28,10 @@ class WordpressLoginActivity : AppCompatActivity() {
             val base = UrlUtils.ensureHttpScheme(editBase.text.toString())
             val user = editUser.text.toString()
             val pass = editPass.text.toString()
-            WordpressAuth.login(this, base, user, pass) { token ->
+            WordpressAuth.verifyAppPassword(this, base, user, pass) { ok ->
                 runOnUiThread {
-                    if (token != null) {
-                        CMSPrefs.saveWordpressCredentials(this, base, user, "")
+                    if (ok) {
+                        CMSPrefs.saveWordpressCredentials(this, base, user, pass)
                         Toast.makeText(this, R.string.message_login_success, Toast.LENGTH_LONG).show()
                         setResult(RESULT_OK)
                         finish()

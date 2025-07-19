@@ -35,4 +35,25 @@ object WordpressAuth {
             }
         })
     }
+
+    fun verifyAppPassword(context: Context, baseUrl: String, user: String, appPass: String, callback: (Boolean) -> Unit) {
+        val normalized = UrlUtils.ensureHttpScheme(baseUrl)
+        val url = normalized.trimEnd('/') + "/wp-json/wp/v2/users/me"
+        val credential = Credentials.basic(user, appPass)
+        val request = Request.Builder()
+            .url(url)
+            .header("Authorization", credential)
+            .get()
+            .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                DebugLogger.log(context, "WordPress verify failed: ${'$'}{e.message}")
+                callback(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callback(response.isSuccessful)
+            }
+        })
+    }
 }
