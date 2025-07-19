@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Spinner
 import android.content.Intent
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -40,7 +41,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val dateEdit = findViewById<EditText>(R.id.editDate)
-        val topicEdit = findViewById<EditText>(R.id.editTopic)
+        val topicSpinner = findViewById<android.widget.Spinner>(R.id.spinnerTopic)
+        val notesEdit = findViewById<EditText>(R.id.editNotes)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
 
@@ -131,11 +133,11 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val creator = authPrefs.getString("username", "") ?: ""
             val event = EditorialEvent(
                 dateEdit.text.toString(),
-                topicEdit.text.toString(),
+                topicSpinner.selectedItem.toString(),
                 assignee,
                 status,
                 "",
-                "",
+                notesEdit.text.toString(),
                 "",
                 0,
                 DateUtils.now(),
@@ -164,7 +166,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
                         }.start()
                     }
                     dateEdit.text.clear()
-                    topicEdit.text.clear()
+                    notesEdit.text.clear()
+                    topicSpinner.setSelection(0)
                     assigneeEdit.text.clear()
                 }
             }.start()
