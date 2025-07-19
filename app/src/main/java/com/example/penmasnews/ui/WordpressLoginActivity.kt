@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.penmasnews.R
 import com.example.penmasnews.model.CMSPrefs
 import com.example.penmasnews.feature.WordpressAuth
+import com.example.penmasnews.util.UrlUtils
 
 class WordpressLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class WordpressLoginActivity : AppCompatActivity() {
         CMSPrefs.getWordpressAppPass(this)?.let { editPass.setText(it) }
 
         button.setOnClickListener {
-            val base = editBase.text.toString()
+            val base = UrlUtils.ensureHttpScheme(editBase.text.toString())
             val user = editUser.text.toString()
             val pass = editPass.text.toString()
             WordpressAuth.login(this, base, user, pass) { token ->
