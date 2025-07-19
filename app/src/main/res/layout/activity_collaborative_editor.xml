@@ -83,12 +83,25 @@
             android:orientation="horizontal"
             android:layout_marginTop="8dp">
 
-            <Button
-                android:id="@+id/buttonSave"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/action_update" />
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/buttonSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_update" />
+
+                <ProgressBar
+                    android:id="@+id/progressUpload"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
 
             <Button
                 android:id="@+id/buttonRequestApproval"

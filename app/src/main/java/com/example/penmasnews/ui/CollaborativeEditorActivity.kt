@@ -34,6 +34,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         imageView = findViewById(R.id.imageCollab)
         logText = findViewById(R.id.textLogs)
         val saveButton = findViewById<Button>(R.id.buttonSave)
+        val progressUpload = findViewById<android.widget.ProgressBar>(R.id.progressUpload)
         val requestButton = findViewById<Button>(R.id.buttonRequestApproval)
 
 
@@ -96,6 +97,11 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val oldEvent = if (eventIndex in events.indices) events[eventIndex] else passedEvent
 
             val eventId = if (eventIndex in events.indices) events[eventIndex].id else passedEvent?.id ?: 0
+            val isNewImage = oldEvent?.imagePath != imagePath && !(imagePath ?: "").startsWith("http")
+            if (isNewImage) {
+                progressUpload.visibility = android.view.View.VISIBLE
+                saveButton.isEnabled = false
+            }
             if (eventId != 0) {
                 val updated = EditorialEvent(
                     currentEvent?.date ?: "",
@@ -112,10 +118,19 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                 )
                 Thread {
                     val success = EventStorage.updateEvent(this, updated)
-                    if (success && eventIndex in events.indices) {
-                        events[eventIndex] = updated
+                    runOnUiThread {
+                        if (isNewImage) {
+                            progressUpload.visibility = android.view.View.GONE
+                            saveButton.isEnabled = true
+                        }
+                        if (success && eventIndex in events.indices) {
+                            events[eventIndex] = updated
+                        }
                     }
                 }.start()
+            } else if (isNewImage) {
+                progressUpload.visibility = android.view.View.GONE
+                saveButton.isEnabled = true
             }
 
             val oldTitle = oldEvent?.topic ?: ""
