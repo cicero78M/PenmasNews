@@ -19,13 +19,13 @@ object WordpressAuth {
         val request = Request.Builder().url(url).post(form).build()
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                DebugLogger.log(context, "WordPress login failed: ${'$'}{e.message}")
+                DebugLogger.log(context, "WordPress login failed: ${e.message}")
                 callback(null)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val bodyStr = response.body?.string()
-                DebugLogger.log(context, "WordPress login response: ${'$'}{bodyStr ?: "null"}")
+                DebugLogger.log(context, "WordPress login response: ${bodyStr ?: "null"}")
                 val token = try {
                     JSONObject(bodyStr ?: "{}").getString("token")
                 } catch (_: Exception) { null }
