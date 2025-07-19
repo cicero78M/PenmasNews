@@ -25,6 +25,7 @@ object WordpressAuth {
 
             override fun onResponse(call: Call, response: Response) {
                 val bodyStr = response.body?.string()
+                DebugLogger.log(context, "WordPress login response: ${'$'}{bodyStr ?: "null"}")
                 val token = try {
                     JSONObject(bodyStr ?: "{}").getString("token")
                 } catch (_: Exception) { null }
@@ -52,6 +53,8 @@ object WordpressAuth {
             }
 
             override fun onResponse(call: Call, response: Response) {
+                val bodyStr = response.body?.string()
+                DebugLogger.log(context, "WordPress verify response: ${'$'}{bodyStr ?: "null"}")
                 callback(response.isSuccessful)
             }
         })
