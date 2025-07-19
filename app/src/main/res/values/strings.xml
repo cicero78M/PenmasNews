@@ -54,6 +54,7 @@
     <string name="hint_generated_summary">Ringkasan Hasil AI</string>
     <string name="action_request_approval">Approval</string>
     <string name="action_publish_blogspot">Kirim ke Blogspot</string>
+    <string name="action_publish_wordpress">Kirim ke WordPress</string>
     <string name="label_news_type">Jenis Konten</string>
     <string-array name="news_type_array">
         <item>Pers Release</item>

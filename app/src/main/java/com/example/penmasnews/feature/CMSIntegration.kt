@@ -5,6 +5,7 @@ import com.example.penmasnews.model.EditorialEvent
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Credentials
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
@@ -14,6 +15,9 @@ import org.json.JSONObject
 class CMSIntegration(
     private val apiKey: String = BuildConfig.BLOGGER_API_KEY,
     private val blogId: String = BuildConfig.BLOGGER_BLOG_ID,
+    private val wpBaseUrl: String = BuildConfig.WORDPRESS_BASE_URL,
+    private val wpUser: String = BuildConfig.WORDPRESS_USER,
+    private val wpAppPass: String = BuildConfig.WORDPRESS_APP_PASS,
 ) {
     private val client = OkHttpClient()
 
@@ -52,6 +56,36 @@ class CMSIntegration(
         }
 
         val request = builder.build()
+        return try {
+            client.newCall(request).execute().use { it.isSuccessful }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Publish the provided event using the WordPress REST API.
+     * Returns true when the API call is successful.
+     */
+    fun publishToWordpress(event: EditorialEvent): Boolean {
+        if (wpBaseUrl.isBlank() || wpUser.isBlank() || wpAppPass.isBlank()) return false
+
+        val url = wpBaseUrl.trimEnd('/') + "/wp-json/wp/v2/posts"
+
+        val obj = JSONObject()
+        obj.put("title", event.topic)
+        obj.put("status", "publish")
+        obj.put("content", if (event.content.isNotBlank()) event.content else event.summary)
+
+        val body = obj.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+
+        val credential = Credentials.basic(wpUser, wpAppPass)
+        val request = Request.Builder()
+            .url(url)
+            .post(body)
+            .header("Authorization", credential)
+            .build()
+
         return try {
             client.newCall(request).execute().use { it.isSuccessful }
         } catch (_: Exception) {
