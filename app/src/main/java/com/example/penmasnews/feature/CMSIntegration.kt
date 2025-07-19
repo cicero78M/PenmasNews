@@ -1,7 +1,9 @@
 package com.example.penmasnews.feature
 
+import android.content.Context
 import com.example.penmasnews.BuildConfig
 import com.example.penmasnews.model.EditorialEvent
+import com.example.penmasnews.model.CMSPrefs
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -13,13 +15,24 @@ import org.json.JSONObject
  * Helper class for publishing approved content to Blogspot via Blogger API.
  */
 class CMSIntegration(
+    context: Context,
     private val apiKey: String = BuildConfig.BLOGGER_API_KEY,
     private val blogId: String = BuildConfig.BLOGGER_BLOG_ID,
-    private val wpBaseUrl: String = BuildConfig.WORDPRESS_BASE_URL,
-    private val wpUser: String = BuildConfig.WORDPRESS_USER,
-    private val wpAppPass: String = BuildConfig.WORDPRESS_APP_PASS,
+    private val defaultWpBaseUrl: String = BuildConfig.WORDPRESS_BASE_URL,
+    private val defaultWpUser: String = BuildConfig.WORDPRESS_USER,
+    private val defaultWpAppPass: String = BuildConfig.WORDPRESS_APP_PASS,
 ) {
     private val client = OkHttpClient()
+
+    private val wpBaseUrl: String
+    private val wpUser: String
+    private val wpAppPass: String
+
+    init {
+        wpBaseUrl = CMSPrefs.getWordpressBaseUrl(context) ?: defaultWpBaseUrl
+        wpUser = CMSPrefs.getWordpressUser(context) ?: defaultWpUser
+        wpAppPass = CMSPrefs.getWordpressAppPass(context) ?: defaultWpAppPass
+    }
 
     data class PublishResult(val success: Boolean, val raw: String?)
 

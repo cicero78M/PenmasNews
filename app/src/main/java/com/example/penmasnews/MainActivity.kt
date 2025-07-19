@@ -4,12 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.example.penmasnews.ui.AnalyticsDashboardActivity
 import com.example.penmasnews.ui.AssetManagerActivity
 import com.example.penmasnews.ui.EditorialCalendarActivity
 import com.example.penmasnews.ui.ApprovalListActivity
 import com.example.penmasnews.ui.LogDataActivity
+import com.example.penmasnews.ui.WordpressLoginActivity
+import com.example.penmasnews.feature.BloggerAuth
+import com.example.penmasnews.model.CMSPrefs
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +45,39 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.buttonLogData).setOnClickListener {
             startActivity(Intent(this, LogDataActivity::class.java))
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_login_blogger -> {
+                BloggerAuth.startLogin(this) { }
+                true
+            }
+            R.id.menu_login_wordpress -> {
+                startActivity(Intent(this, WordpressLoginActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == BloggerAuth.RC_SIGN_IN) {
+            BloggerAuth.handleAuthResponse(this, data) { token ->
+                if (token != null) {
+                    CMSPrefs.saveBloggerToken(this, token)
+                    Toast.makeText(this, R.string.message_login_success, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, R.string.message_login_failed, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 }
