@@ -6,6 +6,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import android.content.Intent
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import com.google.android.material.snackbar.Snackbar
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
@@ -202,7 +205,13 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 val fallback = if (result.success) "Dipublikasikan" else "Gagal publish"
                 val msg = result.raw ?: fallback
                 DebugLogger.log(this, "Publish result: ${'$'}msg")
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("publish_response", msg))
+                Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_copy) {
+                        clipboard.setPrimaryClip(ClipData.newPlainText("publish_response", msg))
+                    }
+                    .show()
             }
         }.start()
     }
@@ -227,7 +236,13 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 val fallback = if (result.success) "Dipublikasikan" else "Gagal publish"
                 val msg = result.raw ?: fallback
                 DebugLogger.log(this, "WordPress publish result: ${'$'}msg")
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("publish_response", msg))
+                Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_copy) {
+                        clipboard.setPrimaryClip(ClipData.newPlainText("publish_response", msg))
+                    }
+                    .show()
             }
         }.start()
     }

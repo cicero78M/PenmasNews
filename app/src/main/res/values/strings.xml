@@ -47,6 +47,7 @@
     <string name="action_view_logs">Lihat Log</string>
     <string name="action_paste">Tempel</string>
     <string name="action_clear">Bersihkan</string>
+    <string name="action_copy">Salin</string>
     <string name="dialog_actions">Tindakan</string>
     <string name="action_delete">Hapus List</string>
     <string name="hint_suggested_title">Saran Judul Berita</string>
