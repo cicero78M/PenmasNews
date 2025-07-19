@@ -43,14 +43,22 @@
                 android:clickable="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/spinnerTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/news_type_array"
+            android:prompt="@string/label_news_type"
+            android:layout_marginTop="8dp" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_topic"
+            android:hint="@string/hint_notes"
             android:layout_marginTop="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTopic"
+                android:id="@+id/editNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
