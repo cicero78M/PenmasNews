@@ -55,3 +55,4 @@ catatan, dan masukan teks, disediakan kolom untuk mengisi:
 - [Desain Halaman & Relasi Fitur](docs/ui_overview.md)
 - [Panduan Format Tanggal](docs/timestamp_usage.md)
 - [Halaman Analitik](docs/analytics_dashboard.md)
+- [Manajemen Login WordPress](docs/wordpress_session.md)

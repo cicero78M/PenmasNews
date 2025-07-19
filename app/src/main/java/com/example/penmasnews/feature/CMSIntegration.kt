@@ -10,6 +10,7 @@ import okhttp3.Request
 import okhttp3.Credentials
 import okhttp3.RequestBody.Companion.toRequestBody
 import com.example.penmasnews.util.UrlUtils
+import com.example.penmasnews.feature.WordpressAuth
 import org.json.JSONObject
 
 /**
@@ -105,7 +106,10 @@ class CMSIntegration(
             .url(url)
             .post(body)
 
-        val token = CMSPrefs.getWordpressToken(ctx)
+        var token = CMSPrefs.getWordpressToken(ctx)
+        if (token.isNullOrBlank() && wpUser.isNotBlank() && wpAppPass.isNotBlank()) {
+            token = WordpressAuth.loginBlocking(ctx, wpBaseUrl, wpUser, wpAppPass)
+        }
         if (!token.isNullOrBlank()) {
             builder.header("Authorization", "Bearer ${'$'}token")
         } else if (wpUser.isNotBlank() && wpAppPass.isNotBlank()) {
