@@ -33,4 +33,15 @@ object CMSPrefs {
 
     fun getWordpressAppPass(context: Context): String? =
         prefs(context).getString("wp_app_pass", null)
+
+    fun saveWordpressToken(context: Context, token: String) {
+        prefs(context).edit().putString("wp_token", token).apply()
+    }
+
+    fun getWordpressToken(context: Context): String? =
+        prefs(context).getString("wp_token", null)
+
+    fun clearWordpressToken(context: Context) {
+        prefs(context).edit().remove("wp_token").apply()
+    }
 }
