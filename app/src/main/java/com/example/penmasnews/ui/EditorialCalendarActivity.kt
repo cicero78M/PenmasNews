@@ -186,11 +186,11 @@ class EditorialCalendarActivity : AppCompatActivity() {
         DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' via Blogger API")
         val cms = CMSIntegration()
         Thread {
-            val success = cms.publishToBlogspot(event, token)
+            val result = cms.publishToBlogspot(event, token)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
             val authToken = prefsAuth.getString("token", null)
             val user = prefsAuth.getString("username", "") ?: ""
-            if (success && authToken != null) {
+            if (result.success && authToken != null) {
                 val updated = event.copy(
                     status = "published",
                     lastUpdate = DateUtils.now(),
@@ -199,7 +199,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 EventService.updateEvent(authToken, event.id, updated)
             }
             runOnUiThread {
-                val msg = if (success) "Dipublikasikan" else "Gagal publish"
+                val fallback = if (result.success) "Dipublikasikan" else "Gagal publish"
+                val msg = result.raw ?: fallback
                 DebugLogger.log(this, "Publish result: ${'$'}msg")
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
@@ -210,11 +211,11 @@ class EditorialCalendarActivity : AppCompatActivity() {
         DebugLogger.log(this, "Publishing event '${'$'}{event.topic}' via WordPress API")
         val cms = CMSIntegration()
         Thread {
-            val success = cms.publishToWordpress(event)
+            val result = cms.publishToWordpress(event)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
             val authToken = prefsAuth.getString("token", null)
             val user = prefsAuth.getString("username", "") ?: ""
-            if (success && authToken != null) {
+            if (result.success && authToken != null) {
                 val updated = event.copy(
                     status = "published",
                     lastUpdate = DateUtils.now(),
@@ -223,7 +224,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 EventService.updateEvent(authToken, event.id, updated)
             }
             runOnUiThread {
-                val msg = if (success) "Dipublikasikan" else "Gagal publish"
+                val fallback = if (result.success) "Dipublikasikan" else "Gagal publish"
+                val msg = result.raw ?: fallback
                 DebugLogger.log(this, "WordPress publish result: ${'$'}msg")
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }

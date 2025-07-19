@@ -21,12 +21,14 @@ class CMSIntegration(
 ) {
     private val client = OkHttpClient()
 
+    data class PublishResult(val success: Boolean, val raw: String?)
+
     /**
      * Publish the provided event as a blog post.
-     * Returns true if the request succeeded.
+     * Returns the API call success state along with the raw response.
      */
-    fun publishToBlogspot(event: EditorialEvent, token: String? = null): Boolean {
-        if (blogId.isBlank()) return false
+    fun publishToBlogspot(event: EditorialEvent, token: String? = null): PublishResult {
+        if (blogId.isBlank()) return PublishResult(false, null)
 
         val baseUrl = "https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/"
         val url = if (token.isNullOrBlank()) "$baseUrl?key=$apiKey" else baseUrl
@@ -57,18 +59,20 @@ class CMSIntegration(
 
         val request = builder.build()
         return try {
-            client.newCall(request).execute().use { it.isSuccessful }
+            client.newCall(request).execute().use { resp ->
+                PublishResult(resp.isSuccessful, resp.body?.string())
+            }
         } catch (_: Exception) {
-            false
+            PublishResult(false, null)
         }
     }
 
     /**
      * Publish the provided event using the WordPress REST API.
-     * Returns true when the API call is successful.
+     * Returns the success state and raw response of the call.
      */
-    fun publishToWordpress(event: EditorialEvent): Boolean {
-        if (wpBaseUrl.isBlank() || wpUser.isBlank() || wpAppPass.isBlank()) return false
+    fun publishToWordpress(event: EditorialEvent): PublishResult {
+        if (wpBaseUrl.isBlank() || wpUser.isBlank() || wpAppPass.isBlank()) return PublishResult(false, null)
 
         val url = wpBaseUrl.trimEnd('/') + "/wp-json/wp/v2/posts"
 
@@ -87,9 +91,11 @@ class CMSIntegration(
             .build()
 
         return try {
-            client.newCall(request).execute().use { it.isSuccessful }
+            client.newCall(request).execute().use { resp ->
+                PublishResult(resp.isSuccessful, resp.body?.string())
+            }
         } catch (_: Exception) {
-            false
+            PublishResult(false, null)
         }
     }
 }
