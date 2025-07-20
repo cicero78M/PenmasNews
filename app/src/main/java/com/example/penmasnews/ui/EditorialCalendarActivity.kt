@@ -151,6 +151,13 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 val created = EventStorage.addEvent(this, event)
                 val loaded = EventStorage.loadEvents(this)
                 runOnUiThread {
+                    if (created == null) {
+                        Toast.makeText(
+                            this,
+                            "API_BASE_URL tidak dikonfigurasi",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                     events.clear()
                     events.addAll(loaded)
                     adapter.notifyDataSetChanged()
