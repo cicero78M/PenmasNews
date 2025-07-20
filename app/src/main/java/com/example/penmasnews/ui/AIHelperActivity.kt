@@ -17,6 +17,8 @@ import com.example.penmasnews.model.EditorialEvent
 import com.example.penmasnews.model.EventStorage
 import com.example.penmasnews.model.ChangeLogEntry
 import com.example.penmasnews.model.ChangeLogDatabase
+import com.example.penmasnews.model.PressReleaseDatabase
+import com.example.penmasnews.model.PressReleaseData
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -114,9 +116,13 @@ class AIHelperActivity : AppCompatActivity() {
         val titleOutput = findViewById<EditText>(R.id.editSuggestedTitle)
         val narrativeOutput = findViewById<EditText>(R.id.editGeneratedNarrative)
         val summaryOutput = findViewById<EditText>(R.id.editGeneratedSummary)
+        val tagOutput = findViewById<EditText>(R.id.editGeneratedTag)
+        val categoryOutput = findViewById<EditText>(R.id.editGeneratedCategory)
         val layoutSuggestedTitle = findViewById<android.view.View>(R.id.layoutSuggestedTitle)
         val layoutGeneratedNarrative = findViewById<android.view.View>(R.id.layoutGeneratedNarrative)
         val layoutGeneratedSummary = findViewById<android.view.View>(R.id.layoutGeneratedSummary)
+        val layoutGeneratedTag = findViewById<android.view.View>(R.id.layoutGeneratedTag)
+        val layoutGeneratedCategory = findViewById<android.view.View>(R.id.layoutGeneratedCategory)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
         val prefs = getSharedPreferences(EventStorage.PREFS_NAME, MODE_PRIVATE)
@@ -305,7 +311,8 @@ class AIHelperActivity : AppCompatActivity() {
 
                 Berikan saran judul berita baru dengan label 'Judul Baru:' sebelum
                 narasi. label 'Narasi:' untuk isi berita dan berikan ringkasan singkat dengan
-                diawali label 'Ringkasan:'.
+                diawali label 'Ringkasan:'. Sertakan pula daftar tag kata kunci dengan
+                label 'Tag:' serta kategori berita dengan label 'Kategori:' di akhir.
 
                
             """.trimIndent() else """
@@ -330,6 +337,7 @@ class AIHelperActivity : AppCompatActivity() {
                 Pastikan narasi bersifat faktual, objektif, serta tersusun secara runtut dan mudah dipahami pembaca.
 
                 Tulis judul baru dengan label 'Judul Baru:' kemudian 'Narasi:' dan 'Ringkasan:'.
+                Tambahkan baris 'Tag:' berisi kata kunci dan 'Kategori:' yang sesuai di bagian akhir.
 
                 Catatan: ${notesEdit.text}
             """.trimIndent()
@@ -367,7 +375,10 @@ class AIHelperActivity : AppCompatActivity() {
                         .substringAfter("**Narasi:**")
                         .substringBefore("**Ringkasan:**")
                         .trim()
-                    val summary = afterTitle.substringAfter("**Ringkasan:**").trim()
+                    val afterNarrative = afterTitle.substringAfter("**Ringkasan:**")
+                    val summary = afterNarrative.substringBefore("**Tag:**").trim()
+                    val tag = afterNarrative.substringAfter("**Tag:**").substringBefore("**Kategori:**").trim()
+                    val category = afterNarrative.substringAfter("**Kategori:**").trim()
 
                     runOnUiThread {
                         progressGenerate.visibility = android.view.View.GONE
@@ -375,9 +386,13 @@ class AIHelperActivity : AppCompatActivity() {
                         titleOutput.setText(title)
                         narrativeOutput.setText(narrative)
                         summaryOutput.setText(summary)
+                        tagOutput.setText(tag)
+                        categoryOutput.setText(category)
                         layoutSuggestedTitle.visibility = android.view.View.VISIBLE
                         layoutGeneratedNarrative.visibility = android.view.View.VISIBLE
                         layoutGeneratedSummary.visibility = android.view.View.VISIBLE
+                        layoutGeneratedTag.visibility = android.view.View.VISIBLE
+                        layoutGeneratedCategory.visibility = android.view.View.VISIBLE
                         saveButton.visibility = android.view.View.VISIBLE
                     }
                 } catch (e: Exception) {
@@ -403,6 +418,8 @@ class AIHelperActivity : AppCompatActivity() {
                 narrativeOutput.text.toString(),
                 summaryOutput.text.toString(),
                 selectedImagePath ?: "",
+                tagOutput.text.toString(),
+                categoryOutput.text.toString(),
                 0,
                 DateUtils.now(),
                 DateUtils.now(),
@@ -426,6 +443,24 @@ class AIHelperActivity : AppCompatActivity() {
                     event = created
                     events.add(created)
                 }
+            }
+            if (isPressRelease) {
+                PressReleaseDatabase.save(
+                    this,
+                    PressReleaseData(
+                        event.id,
+                        inputEdit.text.toString(),
+                        dasarEdit.text.toString(),
+                        tersangkaEdit.text.toString(),
+                        tkpEdit.text.toString(),
+                        kronologiEdit.text.toString(),
+                        modusEdit.text.toString(),
+                        barangBuktiEdit.text.toString(),
+                        pasalEdit.text.toString(),
+                        ancamanEdit.text.toString(),
+                        notesEdit.text.toString()
+                    )
+                )
             }
             // log save of AI generated content into database
             val user = authPrefs.getString("username", "unknown") ?: "unknown"
@@ -455,9 +490,13 @@ class AIHelperActivity : AppCompatActivity() {
             titleOutput.setText("")
             narrativeOutput.setText("")
             summaryOutput.setText("")
+            tagOutput.setText("")
+            categoryOutput.setText("")
             layoutSuggestedTitle.visibility = android.view.View.GONE
             layoutGeneratedNarrative.visibility = android.view.View.GONE
             layoutGeneratedSummary.visibility = android.view.View.GONE
+            layoutGeneratedTag.visibility = android.view.View.GONE
+            layoutGeneratedCategory.visibility = android.view.View.GONE
             generateButton.visibility = android.view.View.GONE
             saveButton.visibility = android.view.View.GONE
             val intent = android.content.Intent(this, EditorialCalendarActivity::class.java)

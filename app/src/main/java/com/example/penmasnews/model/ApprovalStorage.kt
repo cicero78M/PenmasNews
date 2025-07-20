@@ -23,6 +23,8 @@ object ApprovalStorage {
                     obj.optString("content"),
                     obj.optString("summary"),
                     obj.optString("imagePath"),
+                    obj.optString("tag"),
+                    obj.optString("category"),
                     obj.optInt("id"),
                     obj.optString("createdAt"),
                     obj.optString("lastUpdate"),
@@ -45,6 +47,8 @@ object ApprovalStorage {
             obj.put("content", item.content)
             obj.put("summary", item.summary)
             obj.put("imagePath", item.imagePath)
+            obj.put("tag", item.tag)
+            obj.put("category", item.category)
             obj.put("id", item.id)
             obj.put("createdAt", item.createdAt)
             obj.put("lastUpdate", item.lastUpdate)

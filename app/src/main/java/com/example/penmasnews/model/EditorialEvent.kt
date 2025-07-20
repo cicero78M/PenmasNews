@@ -13,6 +13,8 @@ data class EditorialEvent(
     val content: String = "",
     val summary: String = "",
     val imagePath: String = "",
+    val tag: String = "",
+    val category: String = "",
     val id: Int = 0,
     val createdAt: String = "",
     val lastUpdate: String = "",
