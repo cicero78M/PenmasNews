@@ -30,8 +30,12 @@ OPENAI_API_KEY=sk-...
 BLOGGER_API_KEY=your-blogger-key  # optional
 BLOGGER_BLOG_ID=your-blog-id
 BLOGGER_CLIENT_ID=your-client-id
+API_BASE_URL=http://localhost:3000
 ```
 An example file `.env.example` is provided.
+
+`API_BASE_URL` controls which backend instance the app uses. The default
+`http://localhost:3000` works when running the included Node.js server.
 
 If OAuth login fails after choosing an account, ensure `BLOGGER_CLIENT_ID` matches the OAuth 2.0 client configured for your Android package and SHA1. Runtime logs can be inspected via Android Studio's Logcat.
 

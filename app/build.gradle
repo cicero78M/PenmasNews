@@ -8,14 +8,19 @@ def envFile = rootProject.file('.env')
 if (envFile.exists()) {
     envFile.withInputStream { envProps.load(it) }
 }
-def openAiKey = envProps.getProperty('OPENAI_API_KEY', '')
-def bloggerKey = envProps.getProperty('BLOGGER_API_KEY', '')
-def bloggerBlogId = envProps.getProperty('BLOGGER_BLOG_ID', '')
-def bloggerClientId = envProps.getProperty('BLOGGER_CLIENT_ID', '')
-def wpBaseUrl = envProps.getProperty('WORDPRESS_BASE_URL', '')
-def wpUser = envProps.getProperty('WORDPRESS_USER', '')
-def wpAppPass = envProps.getProperty('WORDPRESS_APP_PASS', '')
-def apiBaseUrl = envProps.getProperty('API_BASE_URL', '') ?: envProps.getProperty('BACKEND_BASE_URL', '')
+
+def env = { name ->
+    System.getenv(name) ?: envProps.getProperty(name, '')
+}
+
+def openAiKey = env('OPENAI_API_KEY')
+def bloggerKey = env('BLOGGER_API_KEY')
+def bloggerBlogId = env('BLOGGER_BLOG_ID')
+def bloggerClientId = env('BLOGGER_CLIENT_ID')
+def wpBaseUrl = env('WORDPRESS_BASE_URL')
+def wpUser = env('WORDPRESS_USER')
+def wpAppPass = env('WORDPRESS_APP_PASS')
+def apiBaseUrl = env('API_BASE_URL') ?: env('BACKEND_BASE_URL') ?: 'http://localhost:3000'
 
 android {
     namespace 'com.example.penmasnews'
