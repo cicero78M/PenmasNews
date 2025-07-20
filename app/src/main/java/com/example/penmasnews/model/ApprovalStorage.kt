@@ -18,6 +18,7 @@ object ApprovalStorage {
                 EditorialEvent(
                     obj.optString("date"),
                     obj.optString("topic"),
+                    obj.optString("title"),
                     obj.optString("assignee"),
                     obj.optString("status"),
                     obj.optString("content"),
@@ -42,6 +43,7 @@ object ApprovalStorage {
             val obj = JSONObject()
             obj.put("date", item.date)
             obj.put("topic", item.topic)
+            obj.put("title", item.title)
             obj.put("assignee", item.assignee)
             obj.put("status", item.status)
             obj.put("content", item.content)

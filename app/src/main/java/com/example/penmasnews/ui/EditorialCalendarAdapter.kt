@@ -24,6 +24,7 @@ class EditorialCalendarAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dateText: TextView = view.findViewById(R.id.textDate)
         val titleText: TextView = view.findViewById(R.id.textTitle)
+        val newsTitleText: TextView = view.findViewById(R.id.textNewsTitle)
         val notesText: TextView = view.findViewById(R.id.textNotes)
         val statusText: TextView = view.findViewById(R.id.textStatus)
         val createdByText: TextView = view.findViewById(R.id.textUser)
@@ -43,6 +44,7 @@ class EditorialCalendarAdapter(
         val item = items[position]
         holder.dateText.text = "Penjadwalan : ${DateUtils.formatDayDate(item.date)}"
         holder.titleText.text = "Topik : ${item.topic}"
+        holder.newsTitleText.text = "Judul : ${item.title}"
         holder.notesText.text = "Penugasan : ${item.assignee}"
         holder.statusText.text = "Status: ${item.status}"
         holder.createdByText.text = "Created by : ${item.username}"

@@ -46,6 +46,7 @@ object EventService {
                         EditorialEvent(
                             obj.optString("event_date"),
                             obj.optString("topic"),
+                            obj.optString("news_title"),
                             obj.optString("assignee"),
                             obj.optString("status"),
                             obj.optString("content"),
@@ -75,6 +76,7 @@ object EventService {
         val obj = JSONObject()
         obj.put("event_date", event.date)
         obj.put("topic", event.topic)
+        obj.put("news_title", event.title)
         obj.put("assignee", event.assignee)
         obj.put("status", event.status)
         obj.put("content", event.content)
@@ -108,6 +110,7 @@ object EventService {
                 EditorialEvent(
                     json.optString("event_date"),
                     json.optString("topic"),
+                    json.optString("news_title"),
                     json.optString("assignee"),
                     json.optString("status"),
                     json.optString("content"),
@@ -134,6 +137,7 @@ object EventService {
         val obj = JSONObject()
         obj.put("event_date", event.date)
         obj.put("topic", event.topic)
+        obj.put("news_title", event.title)
         obj.put("assignee", event.assignee)
         obj.put("status", event.status)
         obj.put("content", event.content)

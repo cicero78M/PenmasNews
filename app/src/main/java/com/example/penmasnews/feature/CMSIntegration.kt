@@ -53,7 +53,7 @@ class CMSIntegration(
 
         val obj = JSONObject()
         obj.put("kind", "blogger#post")
-        obj.put("title", event.topic)
+        obj.put("title", event.title)
 
         val contentBuilder = StringBuilder()
         if (event.imagePath.isNotBlank()) {
@@ -96,7 +96,7 @@ class CMSIntegration(
         val url = base.trimEnd('/') + "/wp-json/wp/v2/posts"
 
         val obj = JSONObject()
-        obj.put("title", event.topic)
+        obj.put("title", event.title)
         obj.put("status", "publish")
         obj.put("content", if (event.content.isNotBlank()) event.content else event.summary)
 
