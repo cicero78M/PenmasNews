@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper
 
 /** SQLite storage for press release specific fields */
 object PressReleaseDatabase {
-    private const val DB_NAME = "press_release.db"
+    private const val DB_NAME = "press_release_detail.db"
     private const val DB_VERSION = 1
-    private const val TABLE_NAME = "press_release"
+    private const val TABLE_NAME = "press_release_detail"
 
     private class Helper(context: Context) :
         SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
