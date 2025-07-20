@@ -139,9 +139,12 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 notesEdit.text.toString(),
                 "",
                 "",
+                "",
+                "",
                 0,
                 DateUtils.now(),
                 DateUtils.now(),
+                creator,
                 creator
             )
             Thread {

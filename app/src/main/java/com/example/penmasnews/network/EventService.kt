@@ -49,6 +49,8 @@ object EventService {
                             obj.optString("content"),
                             obj.optString("summary"),
                             obj.optString("image_path"),
+                            obj.optString("tag"),
+                            obj.optString("kategori"),
                             obj.optInt("event_id"),
                             obj.optString("created_at"),
                             lastUpdate,
@@ -74,6 +76,8 @@ object EventService {
         obj.put("content", event.content)
         obj.put("summary", event.summary)
         obj.put("image_path", event.imagePath)
+        obj.put("tag", event.tag)
+        obj.put("kategori", event.category)
         obj.put("created_at", event.createdAt)
         obj.put("last_update", event.lastUpdate)
         val request = Request.Builder()
@@ -105,6 +109,8 @@ object EventService {
                     json.optString("content"),
                     json.optString("summary"),
                     json.optString("image_path"),
+                    json.optString("tag"),
+                    json.optString("kategori"),
                     json.optInt("event_id"),
                     json.optString("created_at"),
                     lastUpdate,
@@ -127,6 +133,8 @@ object EventService {
         obj.put("content", event.content)
         obj.put("summary", event.summary)
         obj.put("image_path", event.imagePath)
+        obj.put("tag", event.tag)
+        obj.put("kategori", event.category)
         obj.put("last_update", event.lastUpdate)
         obj.put("updated_by", event.updatedBy)
         val request = Request.Builder()

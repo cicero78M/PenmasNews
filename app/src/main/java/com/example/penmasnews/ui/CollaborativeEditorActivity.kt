@@ -31,6 +31,8 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         val titleEdit = findViewById<EditText>(R.id.editTitle)
         val narrativeEdit = findViewById<EditText>(R.id.editNarrative)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
+        val tagEdit = findViewById<EditText>(R.id.editTag)
+        val categoryEdit = findViewById<EditText>(R.id.editCategory)
         imageView = findViewById(R.id.imageCollab)
         logText = findViewById(R.id.textLogs)
         val saveButton = findViewById<Button>(R.id.buttonSave)
@@ -91,6 +93,8 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         titleEdit.setText(currentEvent?.topic ?: "")
         narrativeEdit.setText(currentEvent?.content ?: "")
         assigneeEdit.setText(currentEvent?.assignee ?: "")
+        tagEdit.setText(currentEvent?.tag ?: "")
+        categoryEdit.setText(currentEvent?.category ?: "")
 
         saveButton.setOnClickListener {
             val assignee = assigneeEdit.text.toString()
@@ -111,10 +115,13 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     narrativeEdit.text.toString(),
                     currentEvent?.summary ?: "",
                     imagePath ?: "",
+                    tagEdit.text.toString(),
+                    categoryEdit.text.toString(),
                     eventId,
                     currentEvent?.createdAt ?: "",
                     DateUtils.now(),
-                    currentEvent?.username ?: ""
+                    currentEvent?.username ?: "",
+                    authPrefs.getString("username", currentEvent?.updatedBy ?: "") ?: currentEvent?.updatedBy ?: ""
                 )
                 Thread {
                     val success = EventStorage.updateEvent(this, updated)
@@ -137,12 +144,16 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             val oldContent = oldEvent?.content ?: ""
             val oldAssignee = oldEvent?.assignee ?: ""
             val oldImage = oldEvent?.imagePath ?: ""
+            val oldTag = oldEvent?.tag ?: ""
+            val oldCategory = oldEvent?.category ?: ""
 
             val changed = mutableListOf<String>()
             if (oldTitle != titleEdit.text.toString()) changed.add("title")
             if (oldContent != narrativeEdit.text.toString()) changed.add("content")
             if (oldAssignee != assigneeEdit.text.toString()) changed.add("assignee")
             if (oldImage != (imagePath ?: "")) changed.add("image")
+            if (oldTag != tagEdit.text.toString()) changed.add("tag")
+            if (oldCategory != categoryEdit.text.toString()) changed.add("category")
 
             val changesDesc = if (changed.isEmpty()) "no change" else changed.joinToString(", ")
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
