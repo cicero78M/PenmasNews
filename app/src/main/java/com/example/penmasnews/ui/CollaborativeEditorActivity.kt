@@ -29,6 +29,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_collaborative_editor)
 
         val titleEdit = findViewById<EditText>(R.id.editTitle)
+        val topicText = findViewById<TextView>(R.id.textTopic)
         val narrativeEdit = findViewById<EditText>(R.id.editNarrative)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val tagEdit = findViewById<EditText>(R.id.editTag)
@@ -90,7 +91,8 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_IMAGE)
         }
 
-        titleEdit.setText(currentEvent?.topic ?: "")
+        topicText.text = "Topik: ${currentEvent?.topic ?: ""}"
+        titleEdit.setText(currentEvent?.title ?: "")
         narrativeEdit.setText(currentEvent?.content ?: "")
         assigneeEdit.setText(currentEvent?.assignee ?: "")
         tagEdit.setText(currentEvent?.tag ?: "")
@@ -109,6 +111,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
             if (eventId != 0) {
                 val updated = EditorialEvent(
                     currentEvent?.date ?: "",
+                    currentEvent?.topic ?: "",
                     titleEdit.text.toString(),
                     assignee,
                     "dalam penulisan",

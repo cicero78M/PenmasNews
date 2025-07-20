@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.ImageView
+import android.widget.TextView
 import android.content.Intent
 import java.io.File
 import android.text.Editable
@@ -53,6 +54,7 @@ class AIHelperActivity : AppCompatActivity() {
         val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
         val typeSpinner = findViewById<android.widget.Spinner>(R.id.spinnerType)
         imageView = findViewById(R.id.imageAttachment)
+        val topicText = findViewById<TextView>(R.id.textTopic)
 
         val pasteDasar = findViewById<ImageButton>(R.id.buttonPasteDasar)
         val clearDasar = findViewById<ImageButton>(R.id.buttonClearDasar)
@@ -75,8 +77,10 @@ class AIHelperActivity : AppCompatActivity() {
 
         val index = intent.getIntExtra("index", -1)
         val extrasDate = intent.getStringExtra("date")
+        val extrasTopic = intent.getStringExtra("topic")
         val extrasTitle = intent.getStringExtra("title")
         extrasDate?.let { dateEdit.setText(it) }
+        extrasTopic?.let { topicText.text = "Topik: $it" }
         extrasTitle?.let { inputEdit.setText(it) }
 
         imageView.setOnClickListener {
@@ -412,6 +416,7 @@ class AIHelperActivity : AppCompatActivity() {
             val creator = authPrefs.getString("username", "") ?: ""
             var event = EditorialEvent(
                 dateEdit.text.toString(),
+                extrasTopic ?: "",
                 titleOutput.text.toString(),
                 "editor",
                 "dalam penulisan",

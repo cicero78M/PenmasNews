@@ -42,6 +42,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
 
         val dateEdit = findViewById<EditText>(R.id.editDate)
         val topicSpinner = findViewById<android.widget.Spinner>(R.id.spinnerTopic)
+        val titleEdit = findViewById<EditText>(R.id.editNewsTitle)
         val notesEdit = findViewById<EditText>(R.id.editNotes)
         val assigneeEdit = findViewById<EditText>(R.id.editAssignee)
         val addButton = findViewById<Button>(R.id.buttonAddEvent)
@@ -66,7 +67,8 @@ class EditorialCalendarActivity : AppCompatActivity() {
                 val intent = android.content.Intent(this, AIHelperActivity::class.java)
                 intent.putExtra("index", index)
                 intent.putExtra("date", event.date)
-                intent.putExtra("title", event.topic)
+                intent.putExtra("topic", event.topic)
+                intent.putExtra("title", event.title)
                 intent.putExtra("assignee", event.assignee)
                 startActivity(intent)
             },
@@ -134,6 +136,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicSpinner.selectedItem.toString(),
+                titleEdit.text.toString(),
                 assignee,
                 status,
                 notesEdit.text.toString(),
@@ -176,6 +179,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
                         }.start()
                     }
                     dateEdit.text.clear()
+                    titleEdit.text.clear()
                     notesEdit.text.clear()
                     topicSpinner.setSelection(0)
                     assigneeEdit.text.clear()

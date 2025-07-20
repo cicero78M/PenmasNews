@@ -27,7 +27,7 @@ class ApprovalDetailActivity : AppCompatActivity() {
         val buttonReject = findViewById<Button>(R.id.buttonReject)
 
         textDate.text = event?.date
-        textTitle.text = event?.topic
+        textTitle.text = event?.title
         textAssignee.text = event?.assignee
         textContent.text = event?.content
 

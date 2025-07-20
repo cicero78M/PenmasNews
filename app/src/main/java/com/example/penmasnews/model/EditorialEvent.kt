@@ -8,6 +8,7 @@ import java.io.Serializable
 data class EditorialEvent(
     val date: String,
     val topic: String,
+    val title: String,
     val assignee: String,
     var status: String,
     val content: String = "",

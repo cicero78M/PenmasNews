@@ -35,7 +35,7 @@ class ApprovalListAdapter(
         val item = items[position]
         val event = item.event
         holder.dateText.text = DateUtils.formatDayDate(event.date)
-        holder.titleText.text = event.topic
+        holder.titleText.text = event.title
         holder.notesText.text = event.assignee
         holder.statusText.text = item.request.status
         holder.createdByText.text = event.username
