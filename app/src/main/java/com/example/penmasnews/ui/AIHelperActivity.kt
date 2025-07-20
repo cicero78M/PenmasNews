@@ -82,6 +82,8 @@ class AIHelperActivity : AppCompatActivity() {
         extrasTopic?.let { topicText.text = "Topik: $it" }
         extrasTitle?.let { inputEdit.setText(it) }
 
+        val isPressReleaseTopic = extrasTopic?.equals("Pers Release", ignoreCase = true) == true
+
         imageView.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
@@ -155,6 +157,7 @@ class AIHelperActivity : AppCompatActivity() {
         )
 
         val pressFields = allViews
+        val onlineFields = listOf(layoutNotes)
 
         val pressText = listOf(
             inputEdit,
@@ -168,6 +171,7 @@ class AIHelperActivity : AppCompatActivity() {
             ancamanEdit,
             notesEdit,
         )
+        val onlineText = listOf(notesEdit)
 
         val pressFocus = listOf<android.view.View>(
             inputEdit,
@@ -181,11 +185,12 @@ class AIHelperActivity : AppCompatActivity() {
             ancamanEdit,
             notesEdit,
         )
+        val onlineFocus = listOf<android.view.View>(notesEdit)
 
-        var fields = pressFields
-        var textFields = pressText
-        var focusFields = pressFocus
-        var isPressRelease = true
+        var isPressRelease = isPressReleaseTopic
+        var fields = if (isPressRelease) pressFields else onlineFields
+        var textFields = if (isPressRelease) pressText else onlineText
+        var focusFields = if (isPressRelease) pressFocus else onlineFocus
         var currentIndex = 0
 
         fun checkReady() {
@@ -198,6 +203,12 @@ class AIHelperActivity : AppCompatActivity() {
         }
         currentIndex = 0
         addColumnButton.visibility = android.view.View.VISIBLE
+        if (!isPressRelease) {
+            fields[0].visibility = android.view.View.VISIBLE
+            focusFields[0].requestFocus()
+            currentIndex = 1
+            addColumnButton.visibility = android.view.View.GONE
+        }
         textFields.forEach { field ->
             field.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) { checkReady() }
