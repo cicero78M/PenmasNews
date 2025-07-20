@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS editorial_event (
   image_path TEXT,
   tag TEXT,
   kategori TEXT,
-  created_by TEXT REFERENCES penmas_user(username),
-  updated_by TEXT REFERENCES penmas_user(username),
+  created_by TEXT REFERENCES penmas_user(user_id),
+  updated_by TEXT REFERENCES penmas_user(user_id),
   created_at TIMESTAMP DEFAULT NOW(),
   last_update TIMESTAMP DEFAULT NOW()
 );
