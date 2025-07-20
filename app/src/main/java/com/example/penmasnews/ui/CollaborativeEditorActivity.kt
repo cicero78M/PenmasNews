@@ -124,7 +124,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                     currentEvent?.createdAt ?: "",
                     DateUtils.now(),
                     currentEvent?.username ?: "",
-                    authPrefs.getString("username", currentEvent?.updatedBy ?: "") ?: currentEvent?.updatedBy ?: ""
+                    authPrefs.getString("userId", currentEvent?.updatedBy ?: "") ?: currentEvent?.updatedBy ?: ""
                 )
                 Thread {
                     val success = EventStorage.updateEvent(this, updated)
@@ -185,7 +185,7 @@ class CollaborativeEditorActivity : AppCompatActivity() {
                 val updated = baseEvent.copy(
                     status = newStatus,
                     lastUpdate = DateUtils.now(),
-                    updatedBy = authPrefs.getString("username", baseEvent.updatedBy) ?: baseEvent.updatedBy
+                    updatedBy = authPrefs.getString("userId", baseEvent.updatedBy) ?: baseEvent.updatedBy
                 )
                 Thread {
                     EventStorage.updateEvent(this, updated)

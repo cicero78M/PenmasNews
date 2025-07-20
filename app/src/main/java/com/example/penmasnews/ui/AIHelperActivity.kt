@@ -52,7 +52,6 @@ class AIHelperActivity : AppCompatActivity() {
         val barangBuktiEdit = findViewById<EditText>(R.id.editBarangBukti)
         val pasalEdit = findViewById<EditText>(R.id.editPasal)
         val ancamanEdit = findViewById<EditText>(R.id.editAncaman)
-        val typeSpinner = findViewById<android.widget.Spinner>(R.id.spinnerType)
         imageView = findViewById(R.id.imageAttachment)
         val topicText = findViewById<TextView>(R.id.textTopic)
 
@@ -144,7 +143,6 @@ class AIHelperActivity : AppCompatActivity() {
 
         val allViews = listOf(
             layoutInput,
-            typeSpinner,
             layoutDasar,
             layoutTersangka,
             layoutTKP,
@@ -156,19 +154,7 @@ class AIHelperActivity : AppCompatActivity() {
             layoutNotes,
         )
 
-        val pressFields = listOf(
-            layoutInput,
-            typeSpinner,
-            layoutDasar,
-            layoutTersangka,
-            layoutTKP,
-            layoutKronologi,
-            layoutModus,
-            layoutBarangBukti,
-            layoutPasal,
-            layoutAncaman,
-            layoutNotes,
-        )
+        val pressFields = allViews
 
         val pressText = listOf(
             inputEdit,
@@ -185,7 +171,6 @@ class AIHelperActivity : AppCompatActivity() {
 
         val pressFocus = listOf<android.view.View>(
             inputEdit,
-            typeSpinner,
             dasarEdit,
             tersangkaEdit,
             tkpEdit,
@@ -194,23 +179,6 @@ class AIHelperActivity : AppCompatActivity() {
             barangBuktiEdit,
             pasalEdit,
             ancamanEdit,
-            notesEdit,
-        )
-
-        val onlineFields = listOf(
-            layoutInput,
-            typeSpinner,
-            layoutNotes,
-        )
-
-        val onlineText = listOf(
-            inputEdit,
-            notesEdit,
-        )
-
-        val onlineFocus = listOf<android.view.View>(
-            inputEdit,
-            typeSpinner,
             notesEdit,
         )
 
@@ -225,29 +193,11 @@ class AIHelperActivity : AppCompatActivity() {
             generateButton.visibility = if (ready) android.view.View.VISIBLE else android.view.View.GONE
         }
 
-        fun updateForType(press: Boolean) {
-            isPressRelease = press
-            fields = if (press) pressFields else onlineFields
-            textFields = if (press) pressText else onlineText
-            focusFields = if (press) pressFocus else onlineFocus
-            allViews.forEach { view ->
-                if (view !in listOf(layoutInput, typeSpinner)) {
-                    view.visibility = android.view.View.GONE
-                }
-            }
-            currentIndex = listOf(layoutInput, typeSpinner).count { it.isShown }
-            addColumnButton.visibility = if (currentIndex < fields.size) android.view.View.VISIBLE else android.view.View.GONE
-            checkReady()
+        allViews.forEach { view ->
+            view.visibility = android.view.View.GONE
         }
-
-        typeSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
-                updateForType(position == 0)
-            }
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
-        }
-
-        updateForType(true)
+        currentIndex = 0
+        addColumnButton.visibility = android.view.View.VISIBLE
         textFields.forEach { field ->
             field.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) { checkReady() }
@@ -413,7 +363,7 @@ class AIHelperActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             val events = EventStorage.loadEvents(this)
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
-            val creator = authPrefs.getString("username", "") ?: ""
+            val creator = authPrefs.getString("userId", "") ?: ""
             var event = EditorialEvent(
                 dateEdit.text.toString(),
                 extrasTopic ?: "",

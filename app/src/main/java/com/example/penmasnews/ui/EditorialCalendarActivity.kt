@@ -132,7 +132,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val status = "ide"
 
             val authPrefs = getSharedPreferences("auth", MODE_PRIVATE)
-            val creator = authPrefs.getString("username", "") ?: ""
+            val creator = authPrefs.getString("userId", "") ?: ""
             val event = EditorialEvent(
                 dateEdit.text.toString(),
                 topicSpinner.selectedItem.toString(),
@@ -225,7 +225,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val result = cms.publishToBlogspot(event, token)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
             val authToken = prefsAuth.getString("token", null)
-            val user = prefsAuth.getString("username", "") ?: ""
+            val user = prefsAuth.getString("userId", "") ?: ""
             if (result.success && authToken != null) {
                 val updated = event.copy(
                     status = "published",
@@ -256,7 +256,7 @@ class EditorialCalendarActivity : AppCompatActivity() {
             val result = cms.publishToWordpress(event)
             val prefsAuth = getSharedPreferences("auth", MODE_PRIVATE)
             val authToken = prefsAuth.getString("token", null)
-            val user = prefsAuth.getString("username", "") ?: ""
+            val user = prefsAuth.getString("userId", "") ?: ""
             if (result.success && authToken != null) {
                 val updated = event.copy(
                     status = "published",
