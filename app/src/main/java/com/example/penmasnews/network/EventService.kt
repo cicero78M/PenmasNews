@@ -15,7 +15,9 @@ object EventService {
     private val jsonType = "application/json; charset=utf-8".toMediaType()
 
     fun fetchEvents(token: String): List<EditorialEvent> {
-        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events"
+        val base = BuildConfig.API_BASE_URL.trimEnd('/')
+        if (base.isBlank()) return emptyList()
+        val url = base + "/api/events"
         val request = Request.Builder()
             .url(url)
             .header("Authorization", "Bearer $token")
@@ -67,7 +69,9 @@ object EventService {
     }
 
     fun createEvent(token: String, event: EditorialEvent): EditorialEvent? {
-        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events"
+        val base = BuildConfig.API_BASE_URL.trimEnd('/')
+        if (base.isBlank()) return null
+        val url = base + "/api/events"
         val obj = JSONObject()
         obj.put("event_date", event.date)
         obj.put("topic", event.topic)
@@ -124,7 +128,9 @@ object EventService {
     }
 
     fun updateEvent(token: String, id: Int, event: EditorialEvent): Boolean {
-        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events/$id"
+        val base = BuildConfig.API_BASE_URL.trimEnd('/')
+        if (base.isBlank()) return false
+        val url = base + "/api/events/$id"
         val obj = JSONObject()
         obj.put("event_date", event.date)
         obj.put("topic", event.topic)
@@ -150,7 +156,9 @@ object EventService {
     }
 
     fun deleteEvent(token: String, id: Int): Boolean {
-        val url = BuildConfig.API_BASE_URL.trimEnd('/') + "/api/events/$id"
+        val base = BuildConfig.API_BASE_URL.trimEnd('/')
+        if (base.isBlank()) return false
+        val url = base + "/api/events/$id"
         val request = Request.Builder()
             .url(url)
             .delete()

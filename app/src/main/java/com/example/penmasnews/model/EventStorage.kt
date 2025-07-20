@@ -2,6 +2,7 @@ package com.example.penmasnews.model
 
 import android.content.Context
 import com.example.penmasnews.network.EventService
+import com.example.penmasnews.BuildConfig
 
 /** Utility object for persisting editorial events in SharedPreferences. */
 object EventStorage {
@@ -10,12 +11,14 @@ object EventStorage {
     fun loadEvents(context: Context): MutableList<EditorialEvent> {
         val auth = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
         val token = auth.getString("token", null) ?: return mutableListOf()
+        if (BuildConfig.API_BASE_URL.isBlank()) return mutableListOf()
         return EventService.fetchEvents(token).toMutableList()
     }
 
     fun addEvent(context: Context, event: EditorialEvent): EditorialEvent? {
         val auth = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
         val token = auth.getString("token", null) ?: return null
+        if (BuildConfig.API_BASE_URL.isBlank()) return null
         return EventService.createEvent(token, event)
     }
 
