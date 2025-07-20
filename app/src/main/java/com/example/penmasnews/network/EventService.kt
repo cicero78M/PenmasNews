@@ -36,6 +36,12 @@ object EventService {
                     } else {
                         obj.optString("last_updated")
                     }
+                    val rawCreator = obj.optString("created_by")
+                    val username = if (rawCreator.isNotBlank()) {
+                        UserService.fetchUsername(token, rawCreator) ?: rawCreator
+                    } else {
+                        rawCreator
+                    }
                     val rawUpdated = obj.optString("updated_by")
                     val updatedBy = if (rawUpdated.isNotBlank()) {
                         UserService.fetchUsername(token, rawUpdated) ?: rawUpdated
@@ -46,7 +52,7 @@ object EventService {
                         EditorialEvent(
                             obj.optString("event_date"),
                             obj.optString("topic"),
-                            obj.optString("news_title"),
+                            obj.optString("judul_berita"),
                             obj.optString("assignee"),
                             obj.optString("status"),
                             obj.optString("content"),
@@ -57,7 +63,7 @@ object EventService {
                             obj.optInt("event_id"),
                             obj.optString("created_at"),
                             lastUpdate,
-                            obj.optString("username"),
+                            username,
                             updatedBy
                         )
                     )
@@ -76,7 +82,7 @@ object EventService {
         val obj = JSONObject()
         obj.put("event_date", event.date)
         obj.put("topic", event.topic)
-        obj.put("news_title", event.title)
+        obj.put("judul_berita", event.title)
         obj.put("assignee", event.assignee)
         obj.put("status", event.status)
         obj.put("content", event.content)
@@ -86,6 +92,8 @@ object EventService {
         obj.put("kategori", event.category)
         obj.put("created_at", event.createdAt)
         obj.put("last_update", event.lastUpdate)
+        obj.put("created_by", event.username)
+        obj.put("updated_by", event.updatedBy)
         val request = Request.Builder()
             .url(url)
             .post(obj.toString().toRequestBody(jsonType))
@@ -110,7 +118,7 @@ object EventService {
                 EditorialEvent(
                     json.optString("event_date"),
                     json.optString("topic"),
-                    json.optString("news_title"),
+                    json.optString("judul_berita"),
                     json.optString("assignee"),
                     json.optString("status"),
                     json.optString("content"),
@@ -121,7 +129,8 @@ object EventService {
                     json.optInt("event_id"),
                     json.optString("created_at"),
                     lastUpdate,
-                    json.optString("username"),
+                    UserService.fetchUsername(token, json.optString("created_by"))
+                        ?: json.optString("created_by"),
                     updatedBy
                 )
             }
@@ -137,7 +146,7 @@ object EventService {
         val obj = JSONObject()
         obj.put("event_date", event.date)
         obj.put("topic", event.topic)
-        obj.put("news_title", event.title)
+        obj.put("judul_berita", event.title)
         obj.put("assignee", event.assignee)
         obj.put("status", event.status)
         obj.put("content", event.content)

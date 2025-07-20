@@ -44,7 +44,7 @@ class ApprovalDetailActivity : AppCompatActivity() {
         if (event == null || request == null) return
         val prefs = getSharedPreferences("auth", MODE_PRIVATE)
         val token = prefs.getString("token", null)
-        val user = prefs.getString("username", "unknown") ?: "unknown"
+        val user = prefs.getString("userId", "unknown") ?: "unknown"
         if (token != null) {
             Thread {
                 val updatedEvent = event.copy(
